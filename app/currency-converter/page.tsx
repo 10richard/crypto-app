@@ -1,3 +1,11 @@
+import Header from "../components/Header";
+import Navbar from "../components/Navbar";
+
 export default function Page() {
-  return <h1>Currency Converter</h1>;
+  return (
+    <>
+      <Header />
+      <Navbar />
+    </>
+  );
 }
