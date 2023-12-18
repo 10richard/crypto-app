@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { getHeaderInfo } from "../api/getHeaderInfo";
+import flashCicle from "@/public/images/header/flash-circle.svg";
+import exchange from "@/public/images/header/exchange.svg";
+import btc from "@/public/images/header/bitcoin.svg";
+import eth from "@/public/images/header/eth.svg";
 
 const Header = () => {
   //Display Amount of coins, exchange, volume, etc. - will have to fetch data from coingecko
@@ -9,8 +13,8 @@ const Header = () => {
   const [totalMarkets, setTotalMarkets] = useState("");
   // const [totalMarketCap, setTotalMarketCap] = useState("");
   // const [totalVolume, setTotalVolume] = useState("");
-  const [btcMarketCapPercent, setBtcMarketCapPercent] = useState("");
-  const [ethMarketCapPercent, setEthMarketCapPercent] = useState("");
+  const [btcMarketCapPercent, setBtcMarketCapPercent] = useState(0);
+  const [ethMarketCapPercent, setEthMarketCapPercent] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,21 +23,47 @@ const Header = () => {
       setTotalMarkets(data.markets);
       // setTotalMarketCap(data.total_market_cap);
       // setTotalVolume(data.total_volume);
-      setBtcMarketCapPercent(data.market_cap_percentage.btc);
-      setEthMarketCapPercent(data.market_cap_percentage.eth);
+      setBtcMarketCapPercent(Math.round(data.market_cap_percentage.btc));
+      setEthMarketCapPercent(Math.round(data.market_cap_percentage.eth));
     };
 
     fetchData();
   }, []);
 
   return (
-    <header className="flex">
-      <div>Active Coins: {activeCoins}</div>
-      <div>Exchange: {totalMarkets}</div>
+    <header className="text-sm flex justify-center gap-10 py-4 bg-[#1E1932]">
+      <div className="flex items-center gap-2">
+        <img src={flashCicle.src} alt="" className="w-[20px]" />
+        <p className="text-[#D1D1D1]">Coins</p>
+        <p>{activeCoins}</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <img src={exchange.src} alt="" className="w-[20px]" />
+        <p className="text-[#D1D1D1]">Exchange</p>
+        <p>{totalMarkets}</p>
+      </div>
       {/* <div>Market Cap: {totalMarketCap}</div> */}
-      {/* <div>Volume: {totalVolume}</div> */}
-      <div>BTC Market Cap: {btcMarketCapPercent}</div>
-      <div>ETH Market Cap: {ethMarketCapPercent}</div>
+      {/* <div>Volume:${totalVolume}B</div> */}
+      <div className="flex items-center gap-2 w-[130px]">
+        <img src={btc.src} alt="" className="w-[25px]" />
+        <p>{btcMarketCapPercent}%</p>
+        <div className="h-[6px] w-full bg-[#787585] rounded-xl overflow-hidden">
+          <div
+            className={`h-full bg-[#F7931A]`}
+            style={{ width: `${btcMarketCapPercent}%` }}
+          ></div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 w-[130px]">
+        <img src={eth.src} alt="" className="w-[45px]" />
+        <p>{ethMarketCapPercent}%</p>
+        <div className="h-[6px] w-full bg-[#787585] rounded-xl overflow-hidden">
+          <div
+            className={`h-full bg-[#849DFF]`}
+            style={{ width: `${ethMarketCapPercent}%` }}
+          ></div>
+        </div>
+      </div>
     </header>
   );
 };
