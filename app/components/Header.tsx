@@ -8,13 +8,12 @@ import btc from "@/public/images/header/bitcoin.svg";
 import eth from "@/public/images/header/eth.svg";
 
 const Header = () => {
-  //Display Amount of coins, exchange, volume, etc. - will have to fetch data from coingecko
-  const [activeCoins, setActiveCoins] = useState("");
-  const [totalMarkets, setTotalMarkets] = useState("");
-  // const [totalMarketCap, setTotalMarketCap] = useState("");
-  // const [totalVolume, setTotalVolume] = useState("");
-  const [btcMarketCapPercent, setBtcMarketCapPercent] = useState(0);
-  const [ethMarketCapPercent, setEthMarketCapPercent] = useState(0);
+  const [activeCoins, setActiveCoins] = useState<number>(0);
+  const [totalMarkets, setTotalMarkets] = useState<number>(0);
+  // const [totalMarketCap, setTotalMarketCap] = useState<number>(0);
+  // const [totalVolume, setTotalVolume] = useState<number>(0);
+  const [btcMarketCapPercent, setBtcMarketCapPercent] = useState<number>(0);
+  const [ethMarketCapPercent, setEthMarketCapPercent] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
