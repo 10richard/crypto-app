@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import PriceChangeContainer from "./PriceChangeContainer";
 
 interface TableRowProps {
   token: TokenInfo;
@@ -33,35 +34,44 @@ const TableRow = ({ token }: TableRowProps) => {
     return Math.round(num * 100) / 100;
   };
 
+  const tokenRank = token.market_cap_rank;
+  const tokenImage = token.image;
+  const tokenName = token.name;
+  const tokenSymbol = token.symbol.toUpperCase();
+  const currentPrice = roundToTenth(token.current_price).toLocaleString(
+    "en-US"
+  );
+  const priceChange1h = roundToTenth(
+    token.price_change_percentage_1h_in_currency
+  );
+  const priceChange24h = roundToTenth(
+    token.price_change_percentage_24h_in_currency
+  );
+  const priceChange7d = roundToTenth(
+    token.price_change_percentage_7d_in_currency
+  );
+
   return (
     <Link href={`/token-info/${token.id}`}>
       <div className="flex items-center gap-5 p-5 bg-[#191926] text-white rounded-xl">
-        <div className="text-[#D1D1D1] w-4">{token.market_cap_rank}</div>
+        <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
         <div className="flex items-center gap-4 w-[208px]">
           <img
-            src={token.image}
-            alt={`Image of ${token.name}`}
+            src={tokenImage}
+            alt={`Image of ${tokenName}`}
             className="w-[32px]"
           />
           <div className="flex flex-wrap gap-1">
-            <p>{token.name}</p>
-            <p>({token.symbol.toUpperCase()})</p>
+            <p>{tokenName}</p>
+            <p>({tokenSymbol})</p>
           </div>
         </div>
-        <div className="w-20">
-          ${roundToTenth(token.current_price).toLocaleString("en-US")}
-        </div>
+        <div className="w-20">${currentPrice}</div>
         {/* If percent change is positive = display up green arrow */}
         {/* If percent change is negative = display down red arrow */}
-        <div className="w-[72px]">
-          {roundToTenth(token.price_change_percentage_1h_in_currency)}%
-        </div>
-        <div className="w-[72px]">
-          {roundToTenth(token.price_change_percentage_24h_in_currency)}%
-        </div>
-        <div className="w-[72px]">
-          {roundToTenth(token.price_change_percentage_7d_in_currency)}%
-        </div>
+        <PriceChangeContainer priceChange={priceChange1h} />
+        <PriceChangeContainer priceChange={priceChange24h} />
+        <PriceChangeContainer priceChange={priceChange7d} />
         <div className="w-[228px]">24h volume / market cap</div>
         <div className="w-[228px]">Circulating / total supply</div>
         <div className="w-[120px]">Graph of last 7d</div>
