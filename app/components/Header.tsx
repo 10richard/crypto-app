@@ -10,7 +10,7 @@ import eth from "@/public/images/header/eth.svg";
 const Header = () => {
   const [activeCoins, setActiveCoins] = useState<number>(0);
   const [totalMarkets, setTotalMarkets] = useState<number>(0);
-  // const [totalMarketCap, setTotalMarketCap] = useState<number>(0);
+  const [marketCapChange, setMarketCapChange] = useState<number>(0);
   // const [totalVolume, setTotalVolume] = useState<number>(0);
   const [btcMarketCapPercent, setBtcMarketCapPercent] = useState<number>(0);
   const [ethMarketCapPercent, setEthMarketCapPercent] = useState<number>(0);
@@ -20,7 +20,7 @@ const Header = () => {
       const data = await getHeaderInfo();
       setActiveCoins(data.active_cryptocurrencies);
       setTotalMarkets(data.markets);
-      // setTotalMarketCap(data.total_market_cap);
+      setMarketCapChange(Math.round(data.market_cap_change_percentage_24h_usd));
       // setTotalVolume(data.total_volume);
       setBtcMarketCapPercent(Math.round(data.market_cap_percentage.btc));
       setEthMarketCapPercent(Math.round(data.market_cap_percentage.eth));
@@ -41,7 +41,7 @@ const Header = () => {
         <p className="text-[#D1D1D1]">Exchange</p>
         <p>{totalMarkets}</p>
       </div>
-      {/* <div>Market Cap: {totalMarketCap}</div> */}
+      <div>Market Cap: {marketCapChange}</div>
       {/* <div>Volume:${totalVolume}B</div> */}
       <div className="flex items-center gap-2 w-[130px]">
         <img src={btc.src} alt="" className="w-[25px]" />
