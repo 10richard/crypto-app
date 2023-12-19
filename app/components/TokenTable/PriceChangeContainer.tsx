@@ -1,3 +1,6 @@
+import greenArrow from "@/public/images/table/green-arrow.svg";
+import redArrow from "@/public/images/table/red-arrow.svg";
+
 interface PriceChangeContainerProps {
   priceChange: number;
 }
@@ -5,12 +8,16 @@ interface PriceChangeContainerProps {
 const PriceChangeContainer = ({ priceChange }: PriceChangeContainerProps) => {
   return (
     <div
-      className={`w-[72px] ${
+      className={`flex gap-1 items-center w-[72px] ${
         priceChange <= 0 ? "text-[#FF0061]" : "text-[#00F5E4]"
       }`}
     >
-      <img src="" alt="" />
-      {priceChange}%
+      <img
+        src={priceChange <= 0 ? redArrow.src : greenArrow.src}
+        alt="Change price arrow"
+        className="w-4"
+      />
+      {Math.abs(priceChange)}%
     </div>
   );
 };
