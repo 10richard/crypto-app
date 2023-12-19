@@ -52,9 +52,9 @@ const TableRow = ({ token }: TableRowProps) => {
   );
 
   return (
-    <Link href={`/token-info/${token.id}`}>
-      <div className="flex items-center gap-5 p-5 bg-[#191926] text-white rounded-xl">
-        <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
+    <div className="flex items-center justify-between p-5 bg-[#191926] text-white rounded-xl">
+      <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
+      <Link href={`/token-info/${token.id}`}>
         <div className="flex items-center gap-4 w-[208px]">
           <img
             src={tokenImage}
@@ -66,17 +66,31 @@ const TableRow = ({ token }: TableRowProps) => {
             <p>({tokenSymbol})</p>
           </div>
         </div>
-        <div className="w-20">${currentPrice}</div>
-        {/* If percent change is positive = display up green arrow */}
-        {/* If percent change is negative = display down red arrow */}
-        <PriceChangeContainer priceChange={priceChange1h} />
-        <PriceChangeContainer priceChange={priceChange24h} />
-        <PriceChangeContainer priceChange={priceChange7d} />
-        <div className="w-[228px]">24h volume / market cap</div>
-        <div className="w-[228px]">Circulating / total supply</div>
-        <div className="w-[120px]">Graph of last 7d</div>
+      </Link>
+      <div className="w-20">${currentPrice}</div>
+      {/* If percent change is positive = display up green arrow */}
+      {/* If percent change is negative = display down red arrow */}
+      <PriceChangeContainer priceChange={priceChange1h} />
+      <PriceChangeContainer priceChange={priceChange24h} />
+      <PriceChangeContainer priceChange={priceChange7d} />
+      {/* <div className="w-[228px]">
+        <div className="justify-between w-full">
+          <p></p>
+          <p></p>
+        </div>
+        <div className="h-[6px] w-full bg-[#5590FF]">
+          <div
+            className="h-full"
+            style={{ width: `${btcMarketCapPercent}%` }}
+          ></div>
+        </div>
+      </div> */}
+      {/*  */}
+      <div className="w-[228px]">
+        {token.circulating_supply / token.total_supply}
       </div>
-    </Link>
+      <div className="w-[120px]">Graph of last 7d</div>
+    </div>
   );
 };
 
