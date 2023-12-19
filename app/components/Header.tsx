@@ -53,8 +53,13 @@ const Header = () => {
         <p className="text-[#D1D1D1]">Exchange</p>
         <p>{totalMarkets}</p>
       </div>
-      <div>Market Cap: {marketCap}</div>
-      <div>Volume:${totalVolume}</div>
+      <div className="flex items-center">
+        <img src="" alt="" />
+        <p>{marketCap}</p>
+      </div>
+      <div className="flex items-center">
+        <p>${totalVolume}</p>
+      </div>
       <div className="flex items-center gap-2 w-[130px]">
         <img src={btc.src} alt="" className="w-[25px]" />
         <p>{btcMarketCapPercent}%</p>
