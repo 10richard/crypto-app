@@ -17,7 +17,7 @@ const TokenTable = () => {
   }, []);
 
   return (
-    <div className="flex justify-center w-full pt-[72px]">
+    <div className="flex justify-center w-full pt-[72px] pb-[38px]">
       {/* Map through avaible coins */}
       {/* Display 10 coins at a time, if user scrolls down --> display another 10 */}
       {/* Structure below: */}
