@@ -33,24 +33,36 @@ const TableRow = ({ token }: TableRowProps) => {
   };
 
   return (
-    <div className="flex bg-white text-black">
-      <div>{token.market_cap_rank}</div>
-      <div className="flex">
+    <div className="flex items-center gap-5 p-5 bg-[#191926] text-white rounded-xl">
+      <div className="text-[#D1D1D1] w-4">{token.market_cap_rank}</div>
+      <div className="flex items-center gap-4 w-[208px]">
         <img
           src={token.image}
           alt={`Image of ${token.name}`}
           className="w-[32px]"
         />
-        <div>{token.name}</div>
-        <div>{token.symbol}</div>
+        <div className="flex flex-wrap gap-1">
+          <p>{token.name}</p>
+          <p>({token.symbol.toUpperCase()})</p>
+        </div>
       </div>
-      <div>${token.current_price}</div>
-      <div>{roundToTenth(token.price_change_percentage_1h_in_currency)}%</div>
-      <div>{roundToTenth(token.price_change_percentage_24h_in_currency)}%</div>
-      <div>{roundToTenth(token.price_change_percentage_7d_in_currency)}%</div>
-      <div>24h volume / market cap</div>
-      <div>Circulating / total supply</div>
-      <div>Graph of last 7d</div>
+      <div className="w-20">
+        ${roundToTenth(token.current_price).toLocaleString("en-US")}
+      </div>
+      {/* If percent change is positive = display up green arrow */}
+      {/* If percent change is negative = display down red arrow */}
+      <div className="w-[72px]">
+        {roundToTenth(token.price_change_percentage_1h_in_currency)}%
+      </div>
+      <div className="w-[72px]">
+        {roundToTenth(token.price_change_percentage_24h_in_currency)}%
+      </div>
+      <div className="w-[72px]">
+        {roundToTenth(token.price_change_percentage_7d_in_currency)}%
+      </div>
+      <div className="w-[228px]">24h volume / market cap</div>
+      <div className="w-[228px]">Circulating / total supply</div>
+      <div className="w-[120px]">Graph of last 7d</div>
     </div>
   );
 };
