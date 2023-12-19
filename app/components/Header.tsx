@@ -42,7 +42,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="text-sm flex justify-center gap-10 py-4 bg-[#1E1932]">
+    <header className="text-sm flex justify-center gap-10 py-4 bg-[#1E1932] mb-6">
       <div className="flex items-center gap-2">
         <img src={flashCicle.src} alt="" className="w-[20px]" />
         <p className="text-[#D1D1D1]">Coins</p>
