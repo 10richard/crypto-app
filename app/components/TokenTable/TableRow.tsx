@@ -1,7 +1,6 @@
 import Link from "next/link";
 import React from "react";
 import PriceChangeContainer from "./PriceChangeContainer";
-import { format } from "path";
 
 interface TableRowProps {
   token: TokenInfo;
