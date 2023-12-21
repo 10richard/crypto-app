@@ -92,17 +92,29 @@ const TableRow = ({ token }: TableRowProps) => {
       <PriceChangeContainer priceChange={priceChange7d} />
       <div className="flex flex-col gap-1 w-[228px]">
         <div className="text-xs flex justify-between">
-          <p>${formatNum(token.total_volume)}</p>
+          <p className="text-[#5E74C9]">${formatNum(token.total_volume)}</p>
           <p>${formatNum(token.market_cap)}</p>
         </div>
-        <div></div>
+        <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
+          <div
+            className={`h-full bg-[#5E74C9]`}
+            style={{ width: `${volumeTurnover}%` }}
+          ></div>
+        </div>
       </div>
       <div className="text-xs flex flex-col gap-1 w-[228px]">
         <div className="flex justify-between">
-          <p>${formatNum(token.circulating_supply)}</p>
+          <p className="text-[#5E74C9]">
+            ${formatNum(token.circulating_supply)}
+          </p>
           <p>${formatNum(token.total_supply)}</p>
         </div>
-        <div></div>
+        <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
+          <div
+            className={`h-full bg-[#5E74C9]`}
+            style={{ width: `${circulatingSupplyRatio}%` }}
+          ></div>
+        </div>
       </div>
       <div className="w-[120px]">Graph of last 7d</div>
     </div>
