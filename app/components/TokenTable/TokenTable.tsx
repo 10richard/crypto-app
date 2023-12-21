@@ -22,7 +22,7 @@ const TokenTable = () => {
       {/* Display 10 coins at a time, if user scrolls down --> display another 10 */}
       {/* Structure below: */}
       <div className="flex flex-col gap-2 max-w-[1296px]">
-        <div className="text-[#D1D1D1] flex justify-between p-5">
+        <div className="text-[#D1D1D1] flex justify-between gap-5 p-5">
           <div className="w-4">#</div>
           <div className="w-[208px]">Name</div>
           <div className="w-20">Price</div>

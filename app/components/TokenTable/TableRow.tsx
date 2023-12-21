@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import PriceChangeContainer from "./PriceChangeContainer";
+import { format } from "path";
 
 interface TableRowProps {
   token: TokenInfo;
@@ -19,6 +20,7 @@ interface TokenInfo {
   price_change_percentage_7d_in_currency: number;
 
   // No 24h volume?
+  total_volume: number;
   market_cap: number;
 
   //   Divided circulating by total
@@ -30,6 +32,18 @@ interface TokenInfo {
 }
 
 const TableRow = ({ token }: TableRowProps) => {
+  const formatNum = (num: number): string => {
+    if (num >= 1_000_000_000_000) {
+      return `${(num / 1_000_000_000_000).toFixed(2)}T`;
+    } else if (num >= 1_000_000_000) {
+      return `${(num / 1_000_000_000).toFixed(2)}B`;
+    } else if (num >= 1_000_000) {
+      return `${(num / 1_000_000).toFixed(2)}M`;
+    } else {
+      return num === null ? "1" : num.toLocaleString();
+    }
+  };
+
   const roundToTenth = (num: number) => {
     return Math.round(num * 100) / 100;
   };
@@ -50,9 +64,12 @@ const TableRow = ({ token }: TableRowProps) => {
   const priceChange7d = roundToTenth(
     token.price_change_percentage_7d_in_currency
   );
+  const volumeTurnover = (token.total_volume / token.market_cap) * 100;
+  const circulatingSupplyRatio =
+    (token.circulating_supply / token.total_supply) * 100;
 
   return (
-    <div className="flex items-center justify-between p-5 bg-[#191926] text-white rounded-xl">
+    <div className="flex items-center justify-between gap-5 p-5 bg-[#191926] text-white rounded-xl">
       <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
       <Link href={`/token-info/${token.id}`}>
         <div className="flex items-center gap-4 w-[208px]">
@@ -73,21 +90,19 @@ const TableRow = ({ token }: TableRowProps) => {
       <PriceChangeContainer priceChange={priceChange1h} />
       <PriceChangeContainer priceChange={priceChange24h} />
       <PriceChangeContainer priceChange={priceChange7d} />
-      {/* <div className="w-[228px]">
-        <div className="justify-between w-full">
-          <p></p>
-          <p></p>
+      <div className="flex flex-col gap-1 w-[228px]">
+        <div className="text-xs flex justify-between">
+          <p>${formatNum(token.total_volume)}</p>
+          <p>${formatNum(token.market_cap)}</p>
         </div>
-        <div className="h-[6px] w-full bg-[#5590FF]">
-          <div
-            className="h-full"
-            style={{ width: `${btcMarketCapPercent}%` }}
-          ></div>
+        <div></div>
+      </div>
+      <div className="text-xs flex flex-col gap-1 w-[228px]">
+        <div className="flex justify-between">
+          <p>${formatNum(token.circulating_supply)}</p>
+          <p>${formatNum(token.total_supply)}</p>
         </div>
-      </div> */}
-      {/*  */}
-      <div className="w-[228px]">
-        {token.circulating_supply / token.total_supply}
+        <div></div>
       </div>
       <div className="w-[120px]">Graph of last 7d</div>
     </div>
