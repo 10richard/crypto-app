@@ -36,7 +36,9 @@ const Header = () => {
       setTotalMarkets(data.markets);
       setMarketCap(formatNum(data.total_market_cap.usd));
       setTotalVolume(formatNum(data.total_volume.usd));
-      setVolumePercent(parseInt(totalVolume) / data.total_market_cap.usd);
+      setVolumePercent(
+        (data.total_volume.usd / data.total_market_cap.usd) * 100
+      );
       setBtcMarketCapPercent(Math.round(data.market_cap_percentage.btc));
       setEthMarketCapPercent(Math.round(data.market_cap_percentage.eth));
     };
@@ -65,9 +67,7 @@ const Header = () => {
         <p>{marketCap}</p>
       </div>
       <div className="flex items-center gap-2">
-        <p>
-          ${totalVolume} {volumePercent}
-        </p>
+        <p>${totalVolume}</p>
         <div className="h-[6px] w-[53px] bg-[#787585] rounded-xl overflow-hidden">
           <div
             className={`h-full bg-white`}
