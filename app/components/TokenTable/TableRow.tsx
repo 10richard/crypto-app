@@ -39,7 +39,7 @@ const TableRow = ({ token }: TableRowProps) => {
     } else if (num >= 1_000_000) {
       return `${(num / 1_000_000).toFixed(2)}M`;
     } else {
-      return num === null ? "1" : num.toLocaleString();
+      return num === null ? "NaN" : num.toLocaleString();
     }
   };
 
