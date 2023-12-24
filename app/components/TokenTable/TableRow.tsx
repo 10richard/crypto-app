@@ -68,7 +68,7 @@ const TableRow = ({ token }: TableRowProps) => {
     (token.circulating_supply / token.total_supply) * 100;
 
   return (
-    <div className="flex items-center justify-between gap-5 p-5 bg-[#191926] text-white rounded-xl">
+    <div className="flex items-center justify-between my-2 gap-5 p-5 bg-[#191926] text-white rounded-xl">
       <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
       <Link href={`/token-info/${token.id}`}>
         <div className="flex items-center gap-4 w-[208px]">
