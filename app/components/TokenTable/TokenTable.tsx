@@ -54,9 +54,6 @@ const TokenTable = () => {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<p className="text-center">Loading...</p>}
-          endMessage={
-            <p className="text-center">You've reached the bottom...</p>
-          }
         >
           {displayTokens.map((t, idx) => (
             <TableRow key={idx} token={t} />
