@@ -3,15 +3,31 @@
 import { getTokenTable } from "../../api/getTokenTable";
 import { useState, useEffect } from "react";
 import TableRow from "./TableRow";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const TokenTable = () => {
   const [tokens, setTokens] = useState([]);
+  const [displayTokens, setDisplayTokens] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const fetchMoreData = () => {
+    if (displayTokens.length >= 50) {
+      setHasMore(false);
+      return;
+    }
+
+    let newLen = displayTokens.length + 10;
+    setTimeout(() => {
+      setDisplayTokens(tokens.slice(0, newLen));
+    }, 500);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       // Function returns array
       const tokens = await getTokenTable();
       setTokens(tokens);
+      setDisplayTokens(tokens.slice(0, 10));
     };
     fetchData();
   }, []);
@@ -33,9 +49,19 @@ const TokenTable = () => {
           <div className="w-[228px]">Circulating / Total Supply</div>
           <div className="w-[120px]">Last 7d</div>
         </div>
-        {tokens.map((t) => (
-          <TableRow token={t} />
-        ))}
+        <InfiniteScroll
+          dataLength={displayTokens.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<p className="text-center">Loading...</p>}
+          endMessage={
+            <p className="text-center">You've reached the bottom...</p>
+          }
+        >
+          {displayTokens.map((t, idx) => (
+            <TableRow key={idx} token={t} />
+          ))}
+        </InfiniteScroll>
       </div>
     </div>
   );
