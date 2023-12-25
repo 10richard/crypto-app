@@ -1,6 +1,11 @@
 import Link from "next/link";
 import React from "react";
 import PriceChangeContainer from "./PriceChangeContainer";
+import { Line } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
+import { CategoryScale, LinearScale, LineElement } from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, LineElement);
 
 interface TableRowProps {
   token: TokenInfo;
@@ -13,21 +18,18 @@ interface TokenInfo {
   symbol: string;
   name: string;
   current_price: number;
-  //   Price change is in percent
   price_change_percentage_1h_in_currency: number;
   price_change_percentage_24h_in_currency: number;
   price_change_percentage_7d_in_currency: number;
-
-  // No 24h volume?
   total_volume: number;
   market_cap: number;
-
-  //   Divided circulating by total
   circulating_supply: number;
   total_supply: number;
+  sparkline_in_7d: Sparkline;
+}
 
-  //    Use for graph
-  sparkline_in_7d: number[];
+interface Sparkline {
+  price: number[];
 }
 
 const TableRow = ({ token }: TableRowProps) => {
@@ -67,6 +69,60 @@ const TableRow = ({ token }: TableRowProps) => {
   const circulatingSupplyRatio =
     (token.circulating_supply / token.total_supply) * 100;
 
+  const everyFourthPrice = token.sparkline_in_7d.price.filter((p, idx) => {
+    return idx % 4 === 0;
+  });
+
+  const sparklineData = {
+    labels: Array.from(Array(everyFourthPrice.length).keys()),
+    datasets: [
+      {
+        borderColor: "#5E74C9",
+        data: everyFourthPrice,
+        fill: true,
+        backgroundColor: (context: {
+          chart: { canvas: HTMLCanvasElement; height: number };
+        }) => {
+          const context2d = context.chart.canvas.getContext("2d");
+          if (context2d) {
+            const linearGradient = context2d.createLinearGradient(
+              0,
+              0,
+              0,
+              context.chart.height
+            );
+            linearGradient.addColorStop(0, "#4d5c9e");
+            linearGradient.addColorStop(1, "#191926");
+            return linearGradient;
+          }
+        },
+      },
+    ],
+  };
+
+  const sparklineOpts = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    scales: {
+      y: {
+        display: false,
+      },
+      x: {
+        display: false,
+      },
+    },
+  };
+
   return (
     <div className="flex items-center justify-between my-2 gap-5 p-5 bg-[#191926] text-white rounded-xl">
       <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
@@ -84,8 +140,6 @@ const TableRow = ({ token }: TableRowProps) => {
         </div>
       </Link>
       <div className="w-20">${currentPrice}</div>
-      {/* If percent change is positive = display up green arrow */}
-      {/* If percent change is negative = display down red arrow */}
       <PriceChangeContainer priceChange={priceChange1h} />
       <PriceChangeContainer priceChange={priceChange24h} />
       <PriceChangeContainer priceChange={priceChange7d} />
@@ -115,7 +169,9 @@ const TableRow = ({ token }: TableRowProps) => {
           ></div>
         </div>
       </div>
-      <div className="w-[120px]">Graph of last 7d</div>
+      <div className="w-[120px] h-[45px]">
+        <Line data={sparklineData} options={sparklineOpts} />
+      </div>
     </div>
   );
 };
