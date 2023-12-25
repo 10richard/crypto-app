@@ -24,7 +24,6 @@ const TokenTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Function returns array
       const tokens = await getTokenTable();
       setTokens(tokens);
       setDisplayTokens(tokens.slice(0, 10));
