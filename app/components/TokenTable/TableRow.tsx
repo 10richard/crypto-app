@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import PriceChangeContainer from "./PriceChangeContainer";
+import roundToTenth from "@/app/utils/roundToTenth";
+import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale, LinearScale, LineElement } from "chart.js";
@@ -33,22 +35,6 @@ interface Sparkline {
 }
 
 const TableRow = ({ token }: TableRowProps) => {
-  const formatNum = (num: number): string => {
-    if (num >= 1_000_000_000_000) {
-      return `${(num / 1_000_000_000_000).toFixed(2)}T`;
-    } else if (num >= 1_000_000_000) {
-      return `${(num / 1_000_000_000).toFixed(2)}B`;
-    } else if (num >= 1_000_000) {
-      return `${(num / 1_000_000).toFixed(2)}M`;
-    } else {
-      return num === null ? "NaN" : num.toLocaleString();
-    }
-  };
-
-  const roundToTenth = (num: number) => {
-    return Math.round(num * 100) / 100;
-  };
-
   const tokenRank = token.market_cap_rank;
   const tokenImage = token.image;
   const tokenName = token.name;
