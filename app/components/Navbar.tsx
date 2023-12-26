@@ -32,10 +32,22 @@ const Navbar = () => {
         <Link href={"/"}>
           <div className="flex gap-3 px-4 py-2">
             <img
-              src={path === "/" ? homeLight.src : homeDark.src}
+              src={
+                path === "/" || path === "/currency-converter"
+                  ? homeLight.src
+                  : homeDark.src
+              }
               alt="Home icon"
             />
-            <p className={`${path === "/" ? "" : "text-[#FFFFFF80]"}`}>Home</p>
+            <p
+              className={`${
+                path === "/" || path === "/currency-converter"
+                  ? ""
+                  : "text-[#FFFFFF80]"
+              }`}
+            >
+              Home
+            </p>
           </div>
         </Link>
         <Link href={"/portfolio"}>
