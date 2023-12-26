@@ -8,8 +8,8 @@ export default function Home() {
     <>
       <Header />
       <Navbar />
-      <TokenTable />
       <NavCoinsConverter />
+      <TokenTable />
     </>
   );
 }
