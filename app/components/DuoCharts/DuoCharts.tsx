@@ -110,7 +110,7 @@ const DuoCharts = () => {
           <div className="flex flex-col gap-4">
             <p className="text-xl text-[#D1D1D1]">Bitcoin (BTC)</p>
             <p className="text-[28px] font-bold">$13.431 mln</p>
-            <p className="text-[#D1D1D1]">
+            <p className="text-[#B9B9BA]">
               {currDate.toLocaleDateString("en", {
                 month: "long",
                 day: "numeric",
