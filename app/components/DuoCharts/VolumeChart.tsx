@@ -65,7 +65,7 @@ const VolumeChart = ({ totalVolume, volumes }: VolumeChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo value={totalVolume} />
+      <ChartInfo title={"Volume 30d"} value={totalVolume} />
       <div className="h-[216px]">
         <Bar data={volumeData} options={volumeOpts} />
       </div>

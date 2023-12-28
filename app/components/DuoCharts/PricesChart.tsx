@@ -66,7 +66,7 @@ const PricesChart = ({ currPrice, prices }: PricesChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo value={currPrice} />
+      <ChartInfo title={"Bitcoin (BTC)"} value={currPrice} />
       <div className="h-[216px]">
         <Line data={pricesData} options={pricesOpts} />
       </div>
