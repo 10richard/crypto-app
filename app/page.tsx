@@ -1,3 +1,4 @@
+import DuoCharts from "./components/DuoCharts/DuoCharts";
 import Header from "./components/Header";
 import NavCoinsConverter from "./components/NavCoinsConverter";
 import Navbar from "./components/Navbar";
@@ -8,8 +9,9 @@ export default function Home() {
     <>
       <Header />
       <Navbar />
-      <TokenTable />
       <NavCoinsConverter />
+      <DuoCharts />
+      <TokenTable />
     </>
   );
 }
