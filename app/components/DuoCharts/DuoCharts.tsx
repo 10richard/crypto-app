@@ -75,7 +75,7 @@ const DuoCharts = () => {
           ? volumes.reduce(
               (sum: number, curr: Array<number>) => sum + curr[1],
               0
-            )
+            ) / 24
           : data.total_volumes.reduce(
               (sum: number, curr: Array<number>) => sum + curr[1],
               0
