@@ -83,7 +83,7 @@ const Navbar = () => {
         </button>
         <button
           type="button"
-          className="flex items-center px-4 py-2 bg-[#191926] rounded-md"
+          className="flex items-center justify-center w-12 h-12 bg-[#191926] rounded-md"
           onClick={handleThemeClick}
         >
           <img
