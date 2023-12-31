@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  getPast24Hours,
-  getPast7Days,
-  getPast14Days,
-  getPastMonth,
-  getPastYear,
-  getPast5Years,
-} from "@/app/api/getBitcoinInfo";
+import { getPastData } from "@/app/api/getBitcoinInfo";
 import formatNum from "@/app/utils/formatNum";
 import { useState, useRef, useEffect } from "react";
 import PricesChart from "./PricesChart";
@@ -21,40 +14,43 @@ const DuoCharts = () => {
   const [totalVolume, setTotalVolume] = useState<string>("N/A");
   const timePeriod = useRef("1D");
 
-  const getData = () => {
-    switch (timePeriod.current) {
-      case "7D":
-        return getPast7Days();
-      case "14D":
-        return getPast14Days();
-      case "1M":
-        return getPastMonth();
-      case "1Y":
-        return getPastYear();
-      case "5Y":
-        return getPast5Years();
-      default:
-        return getPast24Hours();
-    }
+  const daysMap: Record<string, string> = {
+    "1D": "1",
+    "7D": "7",
+    "14D": "14",
+    "1M": "30",
+    "1Y": "365",
+    "5Y": "1825",
+  };
+
+  const config = {
+    vs_currency: "usd",
+    days: "1D",
   };
 
   const getDataFrequency = (data: Array<[number, number]>) => {
-    switch (timePeriod.current) {
-      case "1D":
-        return data.filter((data, idx) => {
-          return idx % 12 === 0;
-        });
-      case "1Y":
-        return data.filter((data, idx) => {
-          return idx % 30 === 0;
-        });
-      case "5Y":
-        return data.filter((data, idx) => {
-          return idx % 30 === 0;
-        });
-      default:
-        return data;
+    if (timePeriod.current === "1D") {
+      return data.filter((data, idx) => {
+        return idx % 12 === 0;
+      });
+    } else if (timePeriod.current === "1Y" || timePeriod.current === "5Y") {
+      return data.filter((data, idx) => {
+        return idx % 30 === 0;
+      });
+    } else {
+      return data;
     }
+  };
+
+  const getQueryString = () => {
+    config.days = daysMap[timePeriod.current];
+    let query = Object.entries(config).reduce(
+      (acc, [key, val]) => `${acc}&${key}=${val}`,
+      ""
+    );
+
+    query += timePeriod.current === "1D" ? "" : "&interval=daily";
+    return query;
   };
 
   const handleClick = (period: string) => {
@@ -63,7 +59,8 @@ const DuoCharts = () => {
   };
 
   const fetchData = async () => {
-    const data = await getData();
+    const queryString = getQueryString();
+    const data = await getPastData(queryString);
     const prices = getDataFrequency(data.prices);
     const volumes = getDataFrequency(data.total_volumes);
     setPrices(prices);
