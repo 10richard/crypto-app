@@ -29,25 +29,27 @@ const TokenList = () => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-6">
       <h2>Select the currency to view statistics</h2>
-      {tokens.map((token, idx) => (
-        <div key={idx} className="flex">
-          <img src={token.image} alt="" />
-          <div>
-            <p>
-              {token.name} {token.symbol}
-            </p>
+      <div className="flex">
+        {tokens.map((token, idx) => (
+          <div key={idx} className="flex">
+            <img src={token.image} alt="" />
             <div>
-              {/* From what time? - 1h, 24h, 7d */}
-              <p>{token.current_price}</p>
-              <PriceChangeContainer
-                priceChange={token.price_change_percentage_1h_in_currency}
-              />
+              <p>
+                {token.name} ({token.symbol.toUpperCase()})
+              </p>
+              <div>
+                {/* From what time? - 1h, 24h, 7d */}
+                <p>{token.current_price}</p>
+                <PriceChangeContainer
+                  priceChange={token.price_change_percentage_1h_in_currency}
+                />
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
