@@ -31,7 +31,7 @@ const TokenList = () => {
   return (
     <div className="flex flex-col gap-6">
       <h2>Select the currency to view statistics</h2>
-      <div className="flex">
+      <div className="flex gap-2">
         {tokens.map((token, idx) => (
           <div key={idx} className="flex">
             <img src={token.image} alt="" />
