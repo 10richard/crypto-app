@@ -1,6 +1,6 @@
-export async function getPast30Days() {
+export async function getPastData(query: string) {
   const data = await fetch(
-    "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30&interval=daily"
+    `https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?${query}`
   );
   const json = await data.json();
   return json;

@@ -8,9 +8,14 @@ ChartJS.register(CategoryScale, LinearScale, LineElement);
 interface VolumeChartProps {
   totalVolume: string;
   volumes: number[];
+  timePeriod: string;
 }
 
-const VolumeChart = ({ totalVolume, volumes }: VolumeChartProps) => {
+const VolumeChart = ({
+  totalVolume,
+  volumes,
+  timePeriod,
+}: VolumeChartProps) => {
   const volumeData = {
     labels: Array.from(Array(volumes.length).keys()),
     datasets: [
@@ -65,7 +70,7 @@ const VolumeChart = ({ totalVolume, volumes }: VolumeChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo title={"Volume 30d"} value={totalVolume} />
+      <ChartInfo title={`Volume ${timePeriod}`} value={totalVolume} />
       <div className="h-[216px]">
         <Bar data={volumeData} options={volumeOpts} />
       </div>
