@@ -7,7 +7,8 @@ ChartJS.register(CategoryScale, LinearScale, LineElement);
 
 interface PricesChartProps {
   currPrice: string;
-  prices: number[];
+  prices: Array<[number, number]>;
+  timePeriod: string;
 }
 
 const PricesChart = ({ currPrice, prices }: PricesChartProps) => {
