@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
 import TimePeriodSelector from "./TimePeriodSelector";
+import TokenList from "./TokenList";
 
 const DuoCharts = () => {
   const [prices, setPrices] = useState<Array<[number, number]>>([]);
@@ -88,6 +89,7 @@ const DuoCharts = () => {
   return (
     <div className="flex justify-center mt-[72px]">
       <div className="flex flex-col items-center max-w-[1296px]">
+        <TokenList />
         <div className="flex gap-8">
           <PricesChart
             currPrice={lastPrice}
