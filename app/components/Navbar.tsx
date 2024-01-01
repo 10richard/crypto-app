@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="text-white flex items-center justify-between py-3 px-[72px]">
+    <nav className="text-white flex items-center justify-between py-3 max-w-[1296px] mx-auto">
       <div className="flex gap-3">
         <img src={logo.src} alt="Crypto App logo" />
         <p className="text-xl font-bold">Loroipsm</p>
@@ -83,7 +83,7 @@ const Navbar = () => {
         </button>
         <button
           type="button"
-          className="flex items-center px-4 py-2 bg-[#191926] rounded-md"
+          className="flex items-center justify-center w-12 h-12 bg-[#191926] rounded-md"
           onClick={handleThemeClick}
         >
           <img
