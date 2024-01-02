@@ -26,7 +26,7 @@ interface TokenCarouselProps {
 
 const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
   const [tokens, setTokens] = useState<TokenInfo[]>([]);
-  const [displayTokens, setDiplayTokens] = useState<TokenInfo[]>([]);
+  const [displayTokens, setDisplayTokens] = useState<TokenInfo[]>([]);
   const [activeTokens, setActiveTokens] = useState<TokenInfo[]>([]);
   const slice = useRef(0);
 
@@ -45,18 +45,18 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
       slice.current -= step;
     }
 
-    setDiplayTokens(tokens.slice(slice.current, slice.current + step));
+    setDisplayTokens(tokens.slice(slice.current, slice.current + step));
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const tokens = await getTop50Tokens();
       setTokens(tokens);
-      setDiplayTokens(tokens.slice(slice, slice.current + 5));
+      setDisplayTokens(tokens.slice(slice, slice.current + 5));
       setActiveTokens([...activeTokens, tokens[0]]);
     };
     fetchData();
-  }, [slice.current, activeTokens]);
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 mb-11 w-full">
