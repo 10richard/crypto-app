@@ -3,7 +3,7 @@ import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
 import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface TokenInfo {
   id: string;
@@ -20,20 +20,37 @@ interface TokenInfo {
   total_supply: number;
 }
 
-const TokenList = () => {
+interface TokenListProps {
+  changeToken: (val: string) => void;
+}
+
+const TokenList = ({ changeToken }: TokenListProps) => {
   const [tokens, setTokens] = useState<TokenInfo[]>([]);
   const [displayTokens, setDiplayTokens] = useState<TokenInfo[]>([]);
   const [activeTokens, setActiveTokens] = useState<TokenInfo[]>([]);
+  const slice = useRef(0);
 
   const handleClick = (sequence: string) => {
-    // display next 5 or previous 5 depending on
+    if (
+      (sequence === "next" && slice.current === 45) ||
+      (sequence === "prev" && slice.current === 0)
+    )
+      return;
+
+    if (sequence === "next") {
+      slice.current += 5;
+      setDiplayTokens(tokens.slice(slice.current, slice.current + 5));
+    } else if (sequence === "prev") {
+      slice.current -= 5;
+      setDiplayTokens(tokens.slice(slice.current, slice.current + 5));
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const tokens = await getTop50Tokens();
       setTokens(tokens);
-      setDiplayTokens(tokens.slice(0, 5));
+      setDiplayTokens(tokens.slice(slice, slice.current + 5));
       setActiveTokens([...activeTokens, tokens[0]]);
     };
     fetchData();
@@ -45,18 +62,19 @@ const TokenList = () => {
       <div className="flex gap-2 relative">
         <button
           className="p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%]"
-          onClick={() => handleClick("next")}
+          onClick={() => handleClick("prev")}
         >
-          <img src={chevronLeft.src} alt="" />
+          <img src={chevronLeft.src} alt="" className="w-4 h-4" />
         </button>
         {displayTokens.map((token, idx) => (
-          <div
+          <button
             key={idx}
-            className={`flex items-center gap-4 p-4 w-full rounded-md ${
+            className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
               activeTokens.includes(token)
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
             }`}
+            onClick={() => changeToken(token.name)}
           >
             <img
               src={token.image}
@@ -76,13 +94,13 @@ const TokenList = () => {
                 />
               </div>
             </div>
-          </div>
+          </button>
         ))}
         <button
           className="p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%]"
           onClick={() => handleClick("next")}
         >
-          <img src={chevronRight.src} alt="" />
+          <img src={chevronRight.src} alt="" className="w-4 h-4" />
         </button>
       </div>
     </div>
