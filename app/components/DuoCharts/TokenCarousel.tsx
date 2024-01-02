@@ -31,19 +31,21 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
   const slice = useRef(0);
 
   const handleClick = (sequence: string) => {
+    const step = 5;
+
     if (
-      (sequence === "next" && slice.current === 45) ||
+      (sequence === "next" && slice.current + step >= tokens.length) ||
       (sequence === "prev" && slice.current === 0)
     )
       return;
 
     if (sequence === "next") {
-      slice.current += 5;
-      setDiplayTokens(tokens.slice(slice.current, slice.current + 5));
+      slice.current += step;
     } else if (sequence === "prev") {
-      slice.current -= 5;
-      setDiplayTokens(tokens.slice(slice.current, slice.current + 5));
+      slice.current -= step;
     }
+
+    setDiplayTokens(tokens.slice(slice.current, slice.current + step));
   };
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
       setActiveTokens([...activeTokens, tokens[0]]);
     };
     fetchData();
-  });
+  }, [slice.current, activeTokens]);
 
   return (
     <div className="flex flex-col gap-6 mb-11 w-full">
