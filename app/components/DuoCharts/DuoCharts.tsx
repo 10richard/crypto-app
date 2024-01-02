@@ -9,6 +9,7 @@ import TimePeriodSelector from "./TimePeriodSelector";
 import TokenList from "./TokenList";
 
 const DuoCharts = () => {
+  const currentToken = useRef("Bitcoin");
   const [prices, setPrices] = useState<Array<[number, number]>>([]);
   const [lastPrice, setLastPrice] = useState<string>("N/A");
   const [volumes, setVolumes] = useState<number[]>([]);
@@ -54,6 +55,11 @@ const DuoCharts = () => {
     return query;
   };
 
+  const changeToken = (token: string) => {
+    currentToken.current = token;
+    fetchData();
+  };
+
   const handleClick = (period: string) => {
     timePeriod.current = period;
     fetchData();
@@ -61,7 +67,10 @@ const DuoCharts = () => {
 
   const fetchData = async () => {
     const queryString = getQueryString();
-    const data = await getPastData(queryString);
+    const data = await getPastData(
+      currentToken.current.toLowerCase(),
+      queryString
+    );
     const prices = getDataFrequency(data.prices);
     const volumes = getDataFrequency(data.total_volumes);
     setPrices(prices);
@@ -89,7 +98,7 @@ const DuoCharts = () => {
   return (
     <div className="flex justify-center mt-[72px]">
       <div className="flex flex-col items-center max-w-[1296px]">
-        <TokenList />
+        <TokenList changeToken={changeToken} />
         <div className="flex gap-8">
           <PricesChart
             currPrice={lastPrice}
