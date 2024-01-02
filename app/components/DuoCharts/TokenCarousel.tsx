@@ -30,7 +30,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
   const [activeTokens, setActiveTokens] = useState<TokenInfo[]>([]);
   const slice = useRef(0);
 
-  const handleClick = (sequence: string) => {
+  const handleCarouselClick = (sequence: string) => {
     const step = 5;
 
     if (
@@ -66,7 +66,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
             slice.current === 0 ? "hidden" : ""
           }`}
-          onClick={() => handleClick("prev")}
+          onClick={() => handleCarouselClick("prev")}
         >
           <img src={chevronLeft.src} alt="" className="w-4 h-4" />
         </button>
@@ -104,7 +104,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
             slice.current === 45 ? "hidden" : ""
           }`}
-          onClick={() => handleClick("next")}
+          onClick={() => handleCarouselClick("next")}
         >
           <img src={chevronRight.src} alt="" className="w-4 h-4" />
         </button>
