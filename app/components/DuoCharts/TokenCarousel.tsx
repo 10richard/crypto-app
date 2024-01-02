@@ -21,7 +21,7 @@ interface TokenInfo {
 }
 
 interface TokenCarouselProps {
-  changeToken: (val: string) => void;
+  changeToken: (id: string, name: string, symbol: string) => void;
 }
 
 const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
@@ -50,7 +50,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
 
   const handleClick = (token: TokenInfo) => {
     setActiveTokens(token);
-    changeToken(token.id);
+    changeToken(token.id, token.name, token.symbol);
   };
 
   useEffect(() => {
@@ -106,7 +106,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           </button>
         ))}
         <button
-          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[50%] ${
+          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
             slice.current === 45 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("next")}

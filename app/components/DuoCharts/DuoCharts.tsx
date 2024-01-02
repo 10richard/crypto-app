@@ -9,7 +9,8 @@ import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
 
 const DuoCharts = () => {
-  const currentToken = useRef("Bitcoin");
+  const selectedToken = useRef("Bitcoin (BTC)");
+  const tokenID = useRef("bitcoin");
   const [prices, setPrices] = useState<Array<[number, number]>>([]);
   const [lastPrice, setLastPrice] = useState<string>("N/A");
   const [volumes, setVolumes] = useState<number[]>([]);
@@ -55,8 +56,9 @@ const DuoCharts = () => {
     return query;
   };
 
-  const changeToken = (token: string) => {
-    currentToken.current = token;
+  const changeToken = (id: string, name: string, symbol: string) => {
+    selectedToken.current = `${name} (${symbol.toUpperCase()})`;
+    tokenID.current = id;
     fetchData();
   };
 
@@ -67,10 +69,7 @@ const DuoCharts = () => {
 
   const fetchData = async () => {
     const queryString = getQueryString();
-    const data = await getPastData(
-      currentToken.current.toLowerCase(),
-      queryString
-    );
+    const data = await getPastData(tokenID.current, queryString);
     const prices = getDataFrequency(data.prices);
     const volumes = getDataFrequency(data.total_volumes);
     setPrices(prices);
@@ -101,7 +100,7 @@ const DuoCharts = () => {
         <TokenCarousel changeToken={changeToken} />
         <div className="flex gap-8">
           <PricesChart
-            token={currentToken.current}
+            token={selectedToken.current}
             currPrice={lastPrice}
             prices={prices}
           />
