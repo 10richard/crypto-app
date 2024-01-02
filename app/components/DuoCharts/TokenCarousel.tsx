@@ -63,7 +63,9 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
       <h2>Select the currency to view statistics</h2>
       <div className="flex gap-2 relative">
         <button
-          className="p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%]"
+          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
+            slice.current === 0 ? "hidden" : ""
+          }`}
           onClick={() => handleClick("prev")}
         >
           <img src={chevronLeft.src} alt="" className="w-4 h-4" />
@@ -99,7 +101,9 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           </button>
         ))}
         <button
-          className="p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%]"
+          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
+            slice.current === 45 ? "hidden" : ""
+          }`}
           onClick={() => handleClick("next")}
         >
           <img src={chevronRight.src} alt="" className="w-4 h-4" />
