@@ -101,9 +101,9 @@ const DuoCharts = () => {
         <TokenList changeToken={changeToken} />
         <div className="flex gap-8">
           <PricesChart
+            token={currentToken.current}
             currPrice={lastPrice}
             prices={prices}
-            timePeriod={timePeriod.current}
           />
           <VolumeChart
             totalVolume={totalVolume}
