@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import PricesChart from "./PricesChart";
 import VolumeChart from "./VolumeChart";
 import TimePeriodSelector from "./TimePeriodSelector";
-import TokenList from "./TokenList";
+import TokenCarousel from "./TokenCarousel";
 
 const DuoCharts = () => {
   const currentToken = useRef("Bitcoin");
@@ -98,7 +98,7 @@ const DuoCharts = () => {
   return (
     <div className="flex justify-center mt-[72px]">
       <div className="flex flex-col items-center max-w-[1296px]">
-        <TokenList changeToken={changeToken} />
+        <TokenCarousel changeToken={changeToken} />
         <div className="flex gap-8">
           <PricesChart
             token={currentToken.current}

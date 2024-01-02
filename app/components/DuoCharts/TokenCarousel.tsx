@@ -20,11 +20,11 @@ interface TokenInfo {
   total_supply: number;
 }
 
-interface TokenListProps {
+interface TokenCarouselProps {
   changeToken: (val: string) => void;
 }
 
-const TokenList = ({ changeToken }: TokenListProps) => {
+const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
   const [tokens, setTokens] = useState<TokenInfo[]>([]);
   const [displayTokens, setDiplayTokens] = useState<TokenInfo[]>([]);
   const [activeTokens, setActiveTokens] = useState<TokenInfo[]>([]);
@@ -107,4 +107,4 @@ const TokenList = ({ changeToken }: TokenListProps) => {
   );
 };
 
-export default TokenList;
+export default TokenCarousel;
