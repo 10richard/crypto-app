@@ -27,7 +27,7 @@ interface TokenCarouselProps {
 const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
   const [tokens, setTokens] = useState<TokenInfo[]>([]);
   const [displayTokens, setDisplayTokens] = useState<TokenInfo[]>([]);
-  const [activeTokens, setActiveTokens] = useState<TokenInfo[]>([]);
+  const [activeTokens, setActiveTokens] = useState<TokenInfo>();
   const slice = useRef(0);
 
   const handleCarouselClick = (sequence: string) => {
@@ -48,12 +48,17 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
     setDisplayTokens(tokens.slice(slice.current, slice.current + step));
   };
 
+  const handleClick = (token: TokenInfo) => {
+    setActiveTokens(token);
+    changeToken(token.id);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const tokens = await getTop50Tokens();
       setTokens(tokens);
       setDisplayTokens(tokens.slice(slice, slice.current + 5));
-      setActiveTokens([...activeTokens, tokens[0]]);
+      setActiveTokens(tokens[0]);
     };
     fetchData();
   }, []);
@@ -74,11 +79,11 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           <button
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
-              activeTokens.includes(token)
+              activeTokens === token
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
             }`}
-            onClick={() => changeToken(token.name)}
+            onClick={() => handleClick(token)}
           >
             <img
               src={token.image}
@@ -101,7 +106,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           </button>
         ))}
         <button
-          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
+          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[50%] ${
             slice.current === 45 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("next")}
