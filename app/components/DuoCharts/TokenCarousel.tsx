@@ -21,7 +21,7 @@ interface TokenInfo {
 }
 
 interface TokenCarouselProps {
-  changeToken: (id: string, name: string, symbol: string) => void;
+  changeToken: (id: string) => void;
 }
 
 const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
@@ -50,7 +50,7 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
 
   const handleClick = (token: TokenInfo) => {
     setActiveTokens(token);
-    changeToken(token.id, token.name, token.symbol);
+    changeToken(token.id);
   };
 
   useEffect(() => {

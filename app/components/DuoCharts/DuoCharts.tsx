@@ -56,8 +56,8 @@ const DuoCharts = () => {
     return query;
   };
 
-  const changeToken = (id: string, name: string, symbol: string) => {
-    setSelectedToken(`${name} (${symbol.toUpperCase()})`);
+  const changeToken = (id: string) => {
+    setSelectedToken(`${id}`);
     tokenID.current = id;
   };
 
