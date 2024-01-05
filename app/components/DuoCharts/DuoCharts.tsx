@@ -40,7 +40,7 @@ interface TokenSlides {
 }
 
 const DuoCharts = () => {
-  // TokenSlides structure: [{bitcoin: {TokenSlidesInfo}}]
+  // TokenSlides structure: [{TokenSlidesInfo}}]
   const [tokenSlides, setTokenSlides] = useState<TokenSlides[]>([]);
   const [prices, setPrices] = useState<Array<[number, number]>>([]);
   const [lastPrice, setLastPrice] = useState<string>("N/A");
@@ -110,11 +110,12 @@ const DuoCharts = () => {
             }
       );
       setTokenSlides(tokenSlides);
-
-      console.log(tokenSlides);
     };
     fetchTokenList();
   }, []);
+
+  // create function where chart data is fetched for each token
+  // token.chartData = {prices: [], total_volumes: []}
 
   useEffect(() => {
     const fetchData = async () => {
