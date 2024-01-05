@@ -1,40 +1,42 @@
-import { getTop50Tokens } from "@/app/api/getTopTokens";
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
 import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 
-interface TokenInfo {
+interface ChartData {
+  prices: Array<[number, number]>;
+  total_volumes: Array<[number, number]>;
+}
+
+interface TokenSlidesInfo {
   id: string;
+  title: string;
   image: string;
-  symbol: string;
-  name: string;
   current_price: number;
-  price_change_percentage_1h_in_currency: number;
-  price_change_percentage_24h_in_currency: number;
-  price_change_percentage_7d_in_currency: number;
-  total_volume: number;
-  market_cap: number;
-  circulating_supply: number;
-  total_supply: number;
+  price_change1h: number;
+  selected: boolean;
+  chartData?: ChartData;
 }
 
 interface TokenCarouselProps {
-  changeToken: (id: string) => void;
+  tokenSlides: TokenSlidesInfo[];
+  tokenSelection: (tokenSlides: TokenSlidesInfo[]) => void;
 }
 
-const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
-  const [tokens, setTokens] = useState<TokenInfo[]>([]);
-  const [displayTokens, setDisplayTokens] = useState<TokenInfo[]>([]);
-  const [activeTokens, setActiveTokens] = useState<TokenInfo>();
+const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
   const slice = useRef(0);
+  const [displayTokens, setDisplayTokens] = useState<TokenSlidesInfo[]>(
+    tokenSlides.slice(slice.current, slice.current + 5)
+  );
+  const [activeTokens, setActiveTokens] =
+    useState<TokenSlidesInfo[]>(tokenSlides);
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
 
     if (
-      (sequence === "next" && slice.current + step >= tokens.length) ||
+      (sequence === "next" && slice.current + step >= tokenSlides.length) ||
       (sequence === "prev" && slice.current === 0)
     )
       return;
@@ -45,23 +47,13 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
       slice.current -= step;
     }
 
-    setDisplayTokens(tokens.slice(slice.current, slice.current + step));
+    setDisplayTokens(tokenSlides.slice(slice.current, slice.current + step));
   };
 
-  const handleClick = (token: TokenInfo) => {
-    setActiveTokens(token);
-    changeToken(token.id);
+  const handleTokenSelection = (token: TokenSlidesInfo) => {
+    setActiveTokens([...activeTokens, token]);
+    tokenSelection(activeTokens);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const tokens = await getTop50Tokens();
-      setTokens(tokens);
-      setDisplayTokens(tokens.slice(slice, slice.current + 5));
-      setActiveTokens(tokens[0]);
-    };
-    fetchData();
-  }, []);
 
   return (
     <div className="flex flex-col gap-6 mb-11 w-full">
@@ -79,27 +71,23 @@ const TokenCarousel = ({ changeToken }: TokenCarouselProps) => {
           <button
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
-              activeTokens === token
+              activeTokens.includes(token)
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
             }`}
-            onClick={() => handleClick(token)}
+            onClick={() => handleTokenSelection(token)}
           >
             <img
               src={token.image}
-              alt={`${token.name} image`}
+              alt={`${token.title} image`}
               className="w-8 h-8"
             />
             <div>
-              <p>
-                {token.name} ({token.symbol.toUpperCase()})
-              </p>
+              <p>{token.title}</p>
               <div className="flex text-sm">
                 <p className="text-[#D1D1D1]">{token.current_price} USD</p>
                 <PriceChangeContainer
-                  priceChange={roundToTenth(
-                    token.price_change_percentage_1h_in_currency
-                  )}
+                  priceChange={roundToTenth(token.price_change1h)}
                 />
               </div>
             </div>
