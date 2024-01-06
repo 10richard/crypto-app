@@ -27,10 +27,12 @@ interface TokenCarouselProps {
 const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
   const slice = useRef(0);
   const [displayTokens, setDisplayTokens] = useState<TokenSlidesInfo[]>(
-    tokenSlides.slice(slice.current, slice.current + 5)
+    tokenSlides.slice(0, 5)
   );
-  const [activeTokens, setActiveTokens] =
-    useState<TokenSlidesInfo[]>(tokenSlides);
+  // Why does the carousel not display when I get rid of the activeTokens state?
+  const [activeTokens, setActiveTokens] = useState(
+    tokenSlides.filter((t) => t.selected)
+  );
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
@@ -51,8 +53,12 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
   };
 
   const handleTokenSelection = (token: TokenSlidesInfo) => {
-    setActiveTokens([...activeTokens, token]);
-    tokenSelection(activeTokens);
+    // find token in tokenSlides and change selected to inverse, afterwards change it and set the new tokenSlides to tokenSelection
+    const newTokens = displayTokens.map((t) =>
+      t === token ? { ...t, selected: !t.selected } : t
+    );
+    console.log(newTokens);
+    setDisplayTokens(newTokens);
   };
 
   return (
@@ -65,13 +71,17 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
           }`}
           onClick={() => handleCarouselClick("prev")}
         >
-          <img src={chevronLeft.src} alt="" className="w-4 h-4" />
+          <img
+            src={chevronLeft.src}
+            alt="Previous tokens"
+            className="w-4 h-4"
+          />
         </button>
         {displayTokens.map((token, idx) => (
           <button
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
-              activeTokens.includes(token)
+              token.selected
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
             }`}
@@ -99,7 +109,7 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
           }`}
           onClick={() => handleCarouselClick("next")}
         >
-          <img src={chevronRight.src} alt="" className="w-4 h-4" />
+          <img src={chevronRight.src} alt="Next tokens" className="w-4 h-4" />
         </button>
       </div>
     </div>
