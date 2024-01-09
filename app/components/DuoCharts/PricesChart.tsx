@@ -5,13 +5,29 @@ import { CategoryScale, LinearScale, LineElement } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
-interface PricesChartProps {
-  currPrice: string;
-  prices: Array<[number, number]>;
-  timePeriod: string;
+interface TokenSlide {
+  id: string;
+  title: string;
+  image: string;
+  current_price: number;
+  price_change1h: number;
+  selected: boolean;
+  chartData?: {
+    volume_summation?: string;
+    prices: Array<[number, number]>;
+    total_volumes: number[];
+  };
 }
 
-const PricesChart = ({ currPrice, prices }: PricesChartProps) => {
+interface PricesChartProps {
+  tokens: TokenSlide[];
+}
+
+const PricesChart = ({ tokens }: PricesChartProps) => {
+  const activeToken = tokens.find((t: TokenSlide) => t.selected);
+  const prices = activeToken?.chartData?.prices || [];
+  const current_price = activeToken?.current_price || 0;
+
   const pricesData = {
     labels: Array.from(Array(prices.length).keys()),
     datasets: [
@@ -45,6 +61,9 @@ const PricesChart = ({ currPrice, prices }: PricesChartProps) => {
         display: false,
       },
     },
+    animation: {
+      duration: 0,
+    },
     responsive: true,
     maintainAspectRatio: false,
     elements: {
@@ -67,7 +86,10 @@ const PricesChart = ({ currPrice, prices }: PricesChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo title={"Bitcoin (BTC)"} value={currPrice} />
+      <ChartInfo
+        title={activeToken?.title || ""}
+        value={current_price.toString()}
+      />
       <div className="h-[216px]">
         <Line data={pricesData} options={pricesOpts} />
       </div>
