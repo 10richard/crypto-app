@@ -2,14 +2,14 @@ import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
 import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface ChartData {
   prices: Array<[number, number]>;
   total_volumes: Array<[number, number]>;
 }
 
-interface TokenSlidesInfo {
+interface TokenSlideInfo {
   id: string;
   title: string;
   image: string;
@@ -20,45 +20,41 @@ interface TokenSlidesInfo {
 }
 
 interface TokenCarouselProps {
-  tokenSlides: TokenSlidesInfo[];
-  tokenSelection: (tokenSlides: TokenSlidesInfo[]) => void;
+  tokenSlides: TokenSlideInfo[];
+  handleSelection: (tokenSlides: TokenSlideInfo[]) => void;
+  handleToggle: (val: boolean) => void;
 }
 
-const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
-  const slice = useRef(0);
-  const [displayTokens, setDisplayTokens] = useState<TokenSlidesInfo[]>(
-    tokenSlides.slice(0, 5)
-  );
-  // Why does the carousel not display when I get rid of the activeTokens state?
-  const [activeTokens, setActiveTokens] = useState(
-    tokenSlides.filter((t) => t.selected)
-  );
+const TokenCarousel = ({
+  tokenSlides,
+  handleSelection,
+  handleToggle,
+}: TokenCarouselProps) => {
+  const [slice, setSlice] = useState(0);
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
 
     if (
-      (sequence === "next" && slice.current + step >= tokenSlides.length) ||
-      (sequence === "prev" && slice.current === 0)
+      (sequence === "next" && slice + step >= tokenSlides.length) ||
+      (sequence === "prev" && slice === 0)
     )
       return;
 
     if (sequence === "next") {
-      slice.current += step;
+      setSlice(slice + step);
     } else if (sequence === "prev") {
-      slice.current -= step;
+      setSlice(slice - step);
     }
-
-    setDisplayTokens(tokenSlides.slice(slice.current, slice.current + step));
   };
 
-  const handleTokenSelection = (token: TokenSlidesInfo) => {
+  const handleTokenSelection = (token: TokenSlideInfo) => {
     // find token in tokenSlides and change selected to inverse, afterwards change it and set the new tokenSlides to tokenSelection
-    const newTokens = displayTokens.map((t) =>
-      t === token ? { ...t, selected: !t.selected } : t
+    const newTokens = tokenSlides.map((t) =>
+      t === token || t.selected ? { ...t, selected: !t.selected } : t
     );
     console.log(newTokens);
-    setDisplayTokens(newTokens);
+    handleSelection(newTokens);
   };
 
   return (
@@ -67,7 +63,7 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
       <div className="flex gap-2 relative">
         <button
           className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
-            slice.current === 0 ? "hidden" : ""
+            slice === 0 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("prev")}
         >
@@ -77,7 +73,7 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
             className="w-4 h-4"
           />
         </button>
-        {displayTokens.map((token, idx) => (
+        {tokenSlides.slice(slice, slice + 5).map((token, idx) => (
           <button
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
@@ -105,7 +101,7 @@ const TokenCarousel = ({ tokenSlides, tokenSelection }: TokenCarouselProps) => {
         ))}
         <button
           className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
-            slice.current === 45 ? "hidden" : ""
+            slice === 45 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("next")}
         >
