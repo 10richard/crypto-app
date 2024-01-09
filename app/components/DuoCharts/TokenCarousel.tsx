@@ -49,11 +49,9 @@ const TokenCarousel = ({
   };
 
   const handleTokenSelection = (token: TokenSlideInfo) => {
-    // find token in tokenSlides and change selected to inverse, afterwards change it and set the new tokenSlides to tokenSelection
     const newTokens = tokenSlides.map((t) =>
       t === token || t.selected ? { ...t, selected: !t.selected } : t
     );
-    console.log(newTokens);
     handleSelection(newTokens);
   };
 
