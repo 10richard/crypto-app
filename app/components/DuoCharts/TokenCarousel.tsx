@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 
 interface ChartData {
   prices: Array<[number, number]>;
-  total_volumes: Array<[number, number]>;
+  total_volumes: number[];
 }
 
 interface TokenSlideInfo {
