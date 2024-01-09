@@ -5,17 +5,30 @@ import { CategoryScale, LinearScale, LineElement } from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
+interface TokenSlide {
+  id: string;
+  title: string;
+  image: string;
+  current_price: number;
+  price_change1h: number;
+  selected: boolean;
+  chartData?: {
+    volume_summation?: string;
+    prices: Array<[number, number]>;
+    total_volumes: number[];
+  };
+}
+
 interface VolumeChartProps {
-  totalVolume: string;
-  volumes: number[];
+  tokens: TokenSlide[];
   timePeriod: string;
 }
 
-const VolumeChart = ({
-  totalVolume,
-  volumes,
-  timePeriod,
-}: VolumeChartProps) => {
+const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
+  const activeToken = tokens.find((t: TokenSlide) => t.selected);
+  const volumes = activeToken?.chartData?.total_volumes || [];
+  const volume_summation = activeToken?.chartData?.volume_summation || 0;
+
   const volumeData = {
     labels: Array.from(Array(volumes.length).keys()),
     datasets: [
@@ -48,6 +61,9 @@ const VolumeChart = ({
         display: false,
       },
     },
+    animation: {
+      duration: 0,
+    },
     responsive: true,
     maintainAspectRatio: false,
     elements: {
@@ -70,7 +86,10 @@ const VolumeChart = ({
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo title={`Volume ${timePeriod}`} value={totalVolume} />
+      <ChartInfo
+        title={`Volume ${timePeriod}`}
+        value={volume_summation.toString()}
+      />
       <div className="h-[216px]">
         <Bar data={volumeData} options={volumeOpts} />
       </div>
