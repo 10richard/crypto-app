@@ -25,9 +25,9 @@ interface VolumeChartProps {
 }
 
 const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
-  const activeToken = tokens.find((t: TokenSlide) => t.selected);
-  const volumes = activeToken?.chartData?.total_volumes || [];
-  const volume_summation = activeToken?.chartData?.volume_summation || 0;
+  const activeToken = tokens.filter((t: TokenSlide) => t.selected);
+  const volumes = activeToken[0]?.chartData?.total_volumes || [];
+  const volume_summation = activeToken[0]?.chartData?.volume_summation || 0;
 
   const volumeData = {
     labels: Array.from(Array(volumes.length).keys()),
