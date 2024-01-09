@@ -41,7 +41,6 @@ interface TokenSlide {
 
 const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
-  const [toggleCompare, setToggleCompare] = useState(false);
   const [timePeriod, setTimePeriod] = useState("1D");
 
   const daysMap: Record<string, string> = {
@@ -134,7 +133,6 @@ const DuoCharts = () => {
         <TokenCarousel
           tokenSlides={tokenSlides}
           handleSelection={setTokenSlides}
-          handleToggle={setToggleCompare}
         />
         <div className="flex gap-8">
           <PricesChart tokens={tokenSlides} />

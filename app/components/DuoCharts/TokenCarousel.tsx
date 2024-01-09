@@ -22,13 +22,11 @@ interface TokenSlideInfo {
 interface TokenCarouselProps {
   tokenSlides: TokenSlideInfo[];
   handleSelection: (tokenSlides: TokenSlideInfo[]) => void;
-  handleToggle: (val: boolean) => void;
 }
 
 const TokenCarousel = ({
   tokenSlides,
   handleSelection,
-  handleToggle,
 }: TokenCarouselProps) => {
   const [slice, setSlice] = useState(0);
 
@@ -106,6 +104,7 @@ const TokenCarousel = ({
           <img src={chevronRight.src} alt="Next tokens" className="w-4 h-4" />
         </button>
       </div>
+      <button onClick={}></button>
     </div>
   );
 };
