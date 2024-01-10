@@ -49,11 +49,28 @@ const TokenCarousel = ({
   };
 
   const handleTokenSelection = (token: TokenSlide) => {
-    const activeTokensLen = tokenSlides.map((t) => t.selected).length;
+    const activeTokens = tokenSlides.filter((t) => t.selected);
 
-    const newTokens = tokenSlides.map((t) =>
-      t === token || t.selected ? { ...t, selected: !t.selected } : t
-    );
+    if (activeTokens.length === 1 && activeTokens.includes(token)) return;
+
+    let newTokens = tokenSlides;
+
+    if (toggleCompare) {
+      if (activeTokens.includes(token)) {
+        newTokens = tokenSlides.map((t) =>
+          t === token ? { ...t, selected: false } : t
+        );
+      } else {
+        newTokens = tokenSlides.map((t) =>
+          t === token ? { ...t, selected: !t.selected } : t
+        );
+      }
+    } else {
+      newTokens = tokenSlides.map((t) =>
+        t === token || t.selected ? { ...t, selected: !t.selected } : t
+      );
+    }
+
     handleSelection(newTokens);
   };
 
@@ -107,12 +124,16 @@ const TokenCarousel = ({
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
             } ${
-              tokenSlides.filter((t) => t.selected).length === 3
+              !token.selected &&
+              tokenSlides.filter((t) => t.selected).length >= 3
                 ? "cursor-not-allowed"
                 : ""
             }`}
             onClick={() => handleTokenSelection(token)}
-            disabled={tokenSlides.filter((t) => t.selected).length === 3}
+            disabled={
+              !token.selected &&
+              tokenSlides.filter((t) => t.selected).length >= 3
+            }
           >
             <img
               src={token.image}
