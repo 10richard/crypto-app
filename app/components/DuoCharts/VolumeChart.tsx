@@ -34,6 +34,11 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
   const multipleTokens = activeTokens.length > 1;
   const colors = ["#A75EE0", "#E771FF", "#97DFFC"];
 
+  const title = multipleTokens ? "" : `Volume ${timePeriod}`;
+  const value = multipleTokens
+    ? `Volume ${timePeriod}`
+    : `$${activeTokens[0]?.chartData?.volume_summation}` || "";
+
   const datasets = activeTokens.map((token, idx) => ({
     label: `${token.title.split(" ")[0]} $${token.chartData?.volume_summation}`,
     data: token.chartData?.total_volumes,
@@ -119,14 +124,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo
-        title={multipleTokens ? "" : `Volume ${timePeriod}`}
-        value={
-          multipleTokens
-            ? `Volume ${timePeriod}`
-            : activeTokens[0]?.chartData?.volume_summation || ""
-        }
-      />
+      <ChartInfo title={title} value={value} includeDate={true} />
       <div className="h-[216px]">
         <Bar data={volumeData} options={volumeOpts} />
       </div>
