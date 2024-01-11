@@ -24,9 +24,11 @@ interface PricesChartProps {
 }
 
 const PricesChart = ({ tokens }: PricesChartProps) => {
-  const activeToken = tokens.filter((t: TokenSlide) => t.selected);
-  const prices = activeToken[0]?.chartData?.prices || [];
-  const current_price = activeToken[0]?.current_price || 0;
+  const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
+  const multipleTokens = activeTokens.length > 1;
+
+  const prices = activeTokens[0]?.chartData?.prices || [];
+  const current_price = activeTokens[0]?.current_price || 0;
 
   const pricesData = {
     labels: Array.from(Array(prices.length).keys()),
@@ -87,7 +89,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
       <ChartInfo
-        title={activeToken[0]?.title || ""}
+        title={activeTokens[0]?.title || ""}
         value={current_price.toString()}
       />
       <div className="h-[216px]">
