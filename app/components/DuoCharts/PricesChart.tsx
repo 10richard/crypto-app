@@ -1,7 +1,12 @@
 import ChartInfo from "./ChartInfo";
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import { CategoryScale, LinearScale, LineElement } from "chart.js";
+import {
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  ChartOptions,
+} from "chart.js";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
@@ -26,41 +31,63 @@ interface PricesChartProps {
 const PricesChart = ({ tokens }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
+  const colors = ["#A75EE0", "#E771FF", "#97DFFC"];
 
-  const prices = activeTokens[0]?.chartData?.prices || [];
-  const current_price = activeTokens[0]?.current_price || 0;
+  const title = multipleTokens ? "" : activeTokens[0]?.title;
+  const value = multipleTokens
+    ? new Date().toLocaleDateString("en", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : (`$${activeTokens[0]?.current_price}` || 0).toString();
+
+  const datasets = activeTokens.map((token, idx) => ({
+    label: `${token.title.split(" ")[0]} $${token.current_price}`,
+    data: token.chartData?.prices || [],
+    fill: false,
+    showLine: true,
+    borderColor: colors[idx],
+    backgroundColor: colors[idx],
+  }));
 
   const pricesData = {
-    labels: Array.from(Array(prices.length).keys()),
-    datasets: [
-      {
-        borderColor: "#5E74C9",
-        data: prices,
-        fill: true,
-        backgroundColor: (context: {
-          chart: { canvas: HTMLCanvasElement; height: number };
-        }) => {
-          const context2d = context.chart.canvas.getContext("2d");
-          if (context2d) {
-            const linearGradient = context2d.createLinearGradient(
-              0,
-              0,
-              0,
-              context.chart.height
-            );
-            linearGradient.addColorStop(0, "#4f4fa8");
-            linearGradient.addColorStop(1, "#1c1c3a");
-            return linearGradient;
-          }
-        },
-      },
-    ],
+    labels: Array.from(Array(activeTokens[0]?.chartData?.prices.length).keys()),
+    type: "line",
+    datasets: datasets,
+    // [
+    //   {
+    //     borderColor: "#5E74C9",
+    //     data: prices,
+    //     fill: true,
+    //     backgroundColor: (context: {
+    //       chart: { canvas: HTMLCanvasElement; height: number };
+    //     }) => {
+    //       const context2d = context.chart.canvas.getContext("2d");
+    //       if (context2d) {
+    //         const linearGradient = context2d.createLinearGradient(
+    //           0,
+    //           0,
+    //           0,
+    //           context.chart.height
+    //         );
+    //         linearGradient.addColorStop(0, "#4f4fa8");
+    //         linearGradient.addColorStop(1, "#1c1c3a");
+    //         return linearGradient;
+    //       }
+    //     },
+    //   },
+    // ],
   };
 
-  const pricesOpts = {
+  const pricesOpts: ChartOptions<"line"> = {
     plugins: {
       legend: {
-        display: false,
+        display: multipleTokens,
+        position: "bottom",
+        labels: {
+          color: "#D1D1D1",
+        },
       },
     },
     animation: {
@@ -88,10 +115,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
 
   return (
     <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
-      <ChartInfo
-        title={activeTokens[0]?.title || ""}
-        value={current_price.toString()}
-      />
+      <ChartInfo title={title} value={value} includeDate={!multipleTokens} />
       <div className="h-[216px]">
         <Line data={pricesData} options={pricesOpts} />
       </div>
