@@ -86,40 +86,39 @@ const DuoCharts = () => {
     fetchTokenList();
   }, []);
 
+  const fetchDataForToken = async (token: TokenSlide) => {
+    const data = await getPastData(token.id, getQueryString());
+    const prices = getDataFrequency(data.prices, timePeriod);
+    const volumes = getDataFrequency(data.total_volumes, timePeriod);
+    const volume_summation = formatNum(
+      timePeriod === "1D"
+        ? volumes.reduce(
+            (sum: number, curr: Array<number>) => sum + curr[1],
+            0
+          ) / 24
+        : data.total_volumes.reduce(
+            (sum: number, curr: Array<number>) => sum + curr[1],
+            0
+          )
+    );
+
+    return {
+      ...token,
+      chartData: {
+        volume_summation: volume_summation,
+        prices: prices,
+        total_volumes: volumes.map((arr) => arr[1]),
+      },
+    };
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const activeTokens = tokenSlides.filter((t) => t.selected);
-      const queryString = getQueryString();
-
       if (activeTokens.length > 0) {
         const updatedTokenSlides = await Promise.all(
-          activeTokens.map(async (token) => {
-            const data = await getPastData(token.id, queryString);
-            const prices = getDataFrequency(data.prices, timePeriod);
-            const volumes = getDataFrequency(data.total_volumes, timePeriod);
-            const volume_summation = formatNum(
-              timePeriod === "1D"
-                ? volumes.reduce(
-                    (sum: number, curr: Array<number>) => sum + curr[1],
-                    0
-                  ) / 24
-                : data.total_volumes.reduce(
-                    (sum: number, curr: Array<number>) => sum + curr[1],
-                    0
-                  )
-            );
-
-            return {
-              ...token,
-              chartData: {
-                volume_summation: volume_summation,
-                prices: prices,
-                total_volumes: volumes.map((arr) => arr[1]),
-              },
-            };
-          })
+          activeTokens.map(fetchDataForToken)
         );
-
         setTokenSlides((tokenSlides: TokenSlide[]) =>
           tokenSlides.map((t) =>
             activeTokens.includes(t)
