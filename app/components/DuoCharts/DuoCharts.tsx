@@ -43,6 +43,7 @@ const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
   const [timePeriod, setTimePeriod] = useState("1D");
   const prevTokens = useRef<TokenSlide[]>([]);
+  const prevTimePeriod = useRef("1D");
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -129,7 +130,11 @@ const DuoCharts = () => {
     const fetchData = async () => {
       const activeTokens = tokenSlides.filter((t) => t.selected);
 
-      if (arraysAreEqual(prevTokens.current, activeTokens)) return;
+      if (
+        arraysAreEqual(prevTokens.current, activeTokens) ||
+        prevTimePeriod.current !== timePeriod
+      )
+        return;
 
       if (activeTokens.length > 0) {
         const updatedTokenSlides = await Promise.all(
@@ -144,6 +149,7 @@ const DuoCharts = () => {
         );
       }
       prevTokens.current = activeTokens;
+      prevTimePeriod.current = timePeriod;
     };
 
     fetchData();
