@@ -88,9 +88,6 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
         display: false,
       },
     },
-    animation: {
-      duration: 0,
-    },
     responsive: true,
     maintainAspectRatio: false,
     elements: {

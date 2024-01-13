@@ -82,51 +82,11 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
       return volumeA - volumeB;
     });
 
-  // const datasets = activeTokens.map((token, idx) => ({
-  //   label: `${token.title.split(" ")[0]} $${token.chartData?.volume_summation}`,
-  //   data: token.chartData?.total_volumes,
-  //   fill: true,
-  //   backgroundColor: colors[idx],
-  // }));
-
-  // const volumes = multipleTokens
-  //   ? activeTokens.map((t) => t.chartData?.total_volumes)
-  //   : activeTokens[0]?.chartData?.total_volumes || [];
-
-  // const volume_summation = multipleTokens
-  //   ? null
-  //   : activeTokens[0]?.chartData?.volume_summation || 0;
-
   const volumeData = {
     labels: Array.from(
       Array(activeTokens[0]?.chartData?.total_volumes.length).keys()
     ),
     datasets: datasets,
-    // [
-    //   {
-    //     label: `${activeTokens[0]?.title.split(" ")[0]} $${
-    //       activeTokens[0]?.chartData?.volume_summation
-    //     }`,
-    //     data: volumes,
-    //     fill: true,
-    //     backgroundColor: (context: {
-    //       chart: { canvas: HTMLCanvasElement; height: number };
-    //     }) => {
-    //       const context2d = context.chart.canvas.getContext("2d");
-    //       if (context2d) {
-    //         const linearGradient = context2d.createLinearGradient(
-    //           0,
-    //           0,
-    //           0,
-    //           context.chart.height
-    //         );
-    //         linearGradient.addColorStop(0, "#A75EE0");
-    //         linearGradient.addColorStop(1, "#251d3c");
-    //         return linearGradient;
-    //       }
-    //     },
-    //   },
-    // ],
   };
 
   const volumeOpts: ChartOptions<"bar"> = {
@@ -134,9 +94,6 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
       legend: {
         display: false,
       },
-    },
-    animation: {
-      duration: 0,
     },
     responsive: true,
     maintainAspectRatio: false,
