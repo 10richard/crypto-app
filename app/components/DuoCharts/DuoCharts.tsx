@@ -3,7 +3,7 @@
 import { getPastData } from "@/app/api/getPastData";
 import formatNum from "@/app/utils/formatNum";
 import getDataFrequency from "@/app/utils/getDataFrequency";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PricesChart from "./PricesChart";
 import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
@@ -42,6 +42,7 @@ interface TokenSlide {
 const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
   const [timePeriod, setTimePeriod] = useState("1D");
+  const prevTokens = useRef<TokenSlide[]>([]);
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -112,9 +113,24 @@ const DuoCharts = () => {
     };
   };
 
+  const arraysAreEqual = (arr1: TokenSlide[], arr2: TokenSlide[]) => {
+    if (arr1.length !== arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i].id !== arr2[i].id) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const activeTokens = tokenSlides.filter((t) => t.selected);
+
+      if (arraysAreEqual(prevTokens.current, activeTokens)) return;
+
       if (activeTokens.length > 0) {
         const updatedTokenSlides = await Promise.all(
           activeTokens.map(fetchDataForToken)
@@ -127,6 +143,7 @@ const DuoCharts = () => {
           )
         );
       }
+      prevTokens.current = activeTokens;
     };
 
     fetchData();
