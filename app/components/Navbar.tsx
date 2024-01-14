@@ -1,15 +1,5 @@
 "use client";
 
-// import logo from "@/public/images/logo.svg";
-// import homeLight from "@/public/images/navbar/homeLight.svg";
-// import homeDark from "@/public/images/navbar/homeDark.svg";
-// import portfolioLight from "@/public/images/navbar/portfolioLight.svg";
-// import portfolioDark from "@/public/images/navbar/portfolioDark.svg";
-// import search from "@/public/images/navbar/search.svg";
-// import currency from "@/public/images/navbar/currency.svg";
-// import chevronDown from "@/public/images/navbar/chevron-down.svg";
-// import sun from "@/public/images/navbar/sun.svg";
-// import moon from "@/public/images/navbar/moon.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
