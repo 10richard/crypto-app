@@ -48,33 +48,39 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
       })
     : (`$${activeTokens[0]?.current_price}` || 0).toString();
 
-  const datasets = activeTokens.map((token, idx) => {
-    const linearGradient = (context: {
-      chart: { canvas: HTMLCanvasElement; height: number };
-    }) => {
-      const context2d = context.chart.canvas.getContext("2d");
-      if (context2d) {
-        const gradient = context2d.createLinearGradient(
-          0,
-          0,
-          0,
-          context.chart.height
-        );
-        gradient.addColorStop(0.5, gradientColors[idx]);
-        gradient.addColorStop(1, "#191934");
-        return gradient;
-      }
-    };
+  const datasets = activeTokens
+    .map((token, idx) => {
+      const linearGradient = (context: {
+        chart: { canvas: HTMLCanvasElement; height: number };
+      }) => {
+        const context2d = context.chart.canvas.getContext("2d");
+        if (context2d) {
+          const gradient = context2d.createLinearGradient(
+            0,
+            0,
+            0,
+            context.chart.height
+          );
+          gradient.addColorStop(0.5, gradientColors[idx]);
+          gradient.addColorStop(1, "#191934");
+          return gradient;
+        }
+      };
 
-    return {
-      label: `${token.title.split(" ")[0]} $${token.current_price}`,
-      data: token.chartData?.prices || [],
-      fill: true,
-      showLine: true,
-      borderColor: colors[idx],
-      backgroundColor: linearGradient,
-    };
-  });
+      return {
+        label: `${token.title.split(" ")[0]} $${token.current_price}`,
+        data: token.chartData?.prices || [],
+        fill: true,
+        showLine: true,
+        borderColor: colors[idx],
+        backgroundColor: linearGradient,
+      };
+    })
+    .sort((a, b) => {
+      const volumeA = parseFloat(a.label.split("$")[1]) || 0;
+      const volumeB = parseFloat(b.label.split("$")[1]) || 0;
+      return volumeA - volumeB;
+    });
 
   const pricesData = {
     labels: Array.from(Array(activeTokens[0]?.chartData?.prices.length).keys()),
