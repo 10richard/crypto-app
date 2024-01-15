@@ -8,6 +8,14 @@ import {
   ChartOptions,
 } from "chart.js";
 import getTodayDate from "@/app/utils/getTodayDate";
+import {
+  blue,
+  lightBlue,
+  lightPink,
+  lightPurple,
+  pink,
+  purple,
+} from "@/app/utils/chartColors";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
@@ -33,12 +41,11 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
 
-  const colors = multipleTokens
-    ? ["#7878FF", "#E771FF", "#97DFFC"]
-    : ["#7878FF"];
+  const colors = multipleTokens ? [purple, pink, blue] : [purple];
+
   const gradientColors = multipleTokens
-    ? ["#4F4FA9", "#8251B0", "#5C889A"]
-    : ["#4F4FA9"];
+    ? [lightPurple, lightPink, lightBlue]
+    : [lightPurple];
 
   const title = multipleTokens ? "" : activeTokens[0]?.title;
   const value = multipleTokens

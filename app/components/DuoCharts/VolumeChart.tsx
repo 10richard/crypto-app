@@ -7,6 +7,7 @@ import {
   LineElement,
   ChartOptions,
 } from "chart.js";
+import { blue, pink, purple } from "@/app/utils/chartColors";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
@@ -33,9 +34,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
 
-  const colors = multipleTokens
-    ? ["#7878FF", "#E771FF", "#97DFFC"]
-    : ["#E771FF"];
+  const colors = multipleTokens ? [purple, pink, blue] : [pink];
 
   const title = multipleTokens ? "" : `Volume ${timePeriod}`;
   const value = multipleTokens
