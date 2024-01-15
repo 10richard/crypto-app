@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="text-white flex items-center justify-between py-3 max-w-[1296px] mx-auto">
+    <nav className="flex items-center justify-between py-3 max-w-[1296px] mx-auto">
       <div className="flex gap-3">
         <Image
           src={"/images/logo.svg"}
