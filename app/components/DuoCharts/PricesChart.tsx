@@ -7,6 +7,7 @@ import {
   LineElement,
   ChartOptions,
 } from "chart.js";
+import getTodayDate from "@/app/utils/getTodayDate";
 
 ChartJS.register(CategoryScale, LinearScale, LineElement);
 
@@ -41,11 +42,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
 
   const title = multipleTokens ? "" : activeTokens[0]?.title;
   const value = multipleTokens
-    ? new Date().toLocaleDateString("en", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      })
+    ? getTodayDate()
     : (`$${activeTokens[0]?.current_price}` || 0).toString();
 
   const datasets = activeTokens
