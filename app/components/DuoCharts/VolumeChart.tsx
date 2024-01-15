@@ -118,7 +118,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
         </div>
         <div className={`flex gap-6 mt-11 ${multipleTokens ? "" : "hidden"}`}>
           {activeTokens.map((token, idx) => (
-            <div key={idx} className="flex gap-2 items-center">
+            <div key={token.id} className="flex gap-2 items-center">
               <span
                 className={`w-5 h-5`}
                 style={{ backgroundColor: colors[idx] }}
