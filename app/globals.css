@@ -2,22 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --main-bg: #f2f5f9;
-  --main-text: black;
-} */
-
 :root {
   --main-bg: #13121b;
   --main-text: white;
-  --active-btn: #39397c;
+  --active-btn: #7878ff;
   --inactive-btn: #232337;
-  --inactive-token: #191926;
-  --inactive-time-period: #191926;
-  --token-row-bg: #191926;
+  --input-text: #d1d1d1;
+  --input-bg: #191926;
+  --token-row: #191926;
   --price-chart: #191934;
   --volume-chart: #1f1934;
-  --navbar: #1f1934;
+  --header: #1f1934;
 }
 
 /* [data-theme="dark"] {
