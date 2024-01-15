@@ -2,35 +2,35 @@ import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
 import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-import { useState, useRef, useEffect } from "react";
+import compareIcon from "@/public/images/coins-carousel/compare-icon.svg";
+import exitIcon from "@/public/images/coins-carousel/exit-icon.svg";
+import { useState } from "react";
 
-interface ChartData {
-  prices: Array<[number, number]>;
-  total_volumes: number[];
-}
-
-interface TokenSlideInfo {
+interface TokenSlide {
   id: string;
   title: string;
   image: string;
   current_price: number;
   price_change1h: number;
   selected: boolean;
-  chartData?: ChartData;
+  chartData?: {
+    volume_summation?: string;
+    prices: Array<[number, number]>;
+    total_volumes: number[];
+  };
 }
 
 interface TokenCarouselProps {
-  tokenSlides: TokenSlideInfo[];
-  handleSelection: (tokenSlides: TokenSlideInfo[]) => void;
-  handleToggle: (val: boolean) => void;
+  tokenSlides: TokenSlide[];
+  handleSelection: (tokenSlides: TokenSlide[]) => void;
 }
 
 const TokenCarousel = ({
   tokenSlides,
   handleSelection,
-  handleToggle,
 }: TokenCarouselProps) => {
   const [slice, setSlice] = useState(0);
+  const [toggleCompare, setToggleCompare] = useState(false);
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
@@ -48,16 +48,61 @@ const TokenCarousel = ({
     }
   };
 
-  const handleTokenSelection = (token: TokenSlideInfo) => {
-    const newTokens = tokenSlides.map((t) =>
-      t === token || t.selected ? { ...t, selected: !t.selected } : t
-    );
+  const handleTokenSelection = (token: TokenSlide) => {
+    const activeTokens = tokenSlides.filter((t) => t.selected);
+
+    if (activeTokens.length === 1 && activeTokens.includes(token)) return;
+
+    let newTokens = tokenSlides;
+
+    if (toggleCompare) {
+      if (activeTokens.includes(token)) {
+        newTokens = tokenSlides.map((t) =>
+          t === token ? { ...t, selected: false } : t
+        );
+      } else {
+        newTokens = tokenSlides.map((t) =>
+          t === token ? { ...t, selected: !t.selected } : t
+        );
+      }
+    } else {
+      newTokens = tokenSlides.map((t) =>
+        t === token || t.selected ? { ...t, selected: !t.selected } : t
+      );
+    }
+
     handleSelection(newTokens);
+  };
+
+  const handleToggle = () => {
+    if (toggleCompare) {
+      const newTokens = tokenSlides.map((t, idx) =>
+        idx === 0 ? { ...t, selected: true } : { ...t, selected: false }
+      );
+      handleSelection(newTokens);
+    }
+
+    setToggleCompare(!toggleCompare);
   };
 
   return (
     <div className="flex flex-col gap-6 mb-11 w-full">
-      <h2>Select the currency to view statistics</h2>
+      <div className="flex justify-between">
+        <h2>Select the currency to view statistics</h2>
+        <button
+          onClick={handleToggle}
+          className="flex items-center gap-3 px-6 py-3 bg-[#232337] rounded-md"
+        >
+          <img
+            src={toggleCompare ? exitIcon.src : compareIcon.src}
+            alt="Compare Icon"
+            className="w-6 h-6"
+          />
+          <p className="text-white text-sm">
+            {toggleCompare ? "Exit Comparison" : "Compare"}
+          </p>
+        </button>
+      </div>
       <div className="flex gap-2 relative">
         <button
           className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
@@ -78,8 +123,17 @@ const TokenCarousel = ({
               token.selected
                 ? "bg-[#3d3d82] border border-[#7878FF]"
                 : "bg-[#232337]"
+            } ${
+              !token.selected &&
+              tokenSlides.filter((t) => t.selected).length >= 3
+                ? "cursor-not-allowed"
+                : ""
             }`}
             onClick={() => handleTokenSelection(token)}
+            disabled={
+              !token.selected &&
+              tokenSlides.filter((t) => t.selected).length >= 3
+            }
           >
             <img
               src={token.image}
