@@ -9,6 +9,7 @@ import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
 import { getTop50Tokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
+import arraysAreEqual from "@/app/utils/arraysAreEqual";
 
 interface TokenInfo {
   id: string;
@@ -112,18 +113,6 @@ const DuoCharts = () => {
         total_volumes: volumes.map((arr) => arr[1]),
       },
     };
-  };
-
-  const arraysAreEqual = (arr1: TokenSlide[], arr2: TokenSlide[]) => {
-    if (arr1.length !== arr2.length) return false;
-
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i].id !== arr2[i].id) {
-        return false;
-      }
-    }
-
-    return true;
   };
 
   useEffect(() => {
