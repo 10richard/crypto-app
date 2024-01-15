@@ -43,7 +43,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   const title = multipleTokens ? "" : activeTokens[0]?.title;
   const value = multipleTokens
     ? getTodayDate()
-    : (`$${activeTokens[0]?.current_price}` || 0).toString();
+    : `$${activeTokens[0]?.current_price || 0}`.toString();
 
   const datasets = activeTokens
     .map((token, idx) => {
