@@ -3,12 +3,13 @@
 import { getPastData } from "@/app/api/getPastData";
 import formatNum from "@/app/utils/formatNum";
 import getDataFrequency from "@/app/utils/getDataFrequency";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PricesChart from "./PricesChart";
 import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
 import { getTop50Tokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
+import arraysAreEqual from "@/app/utils/arraysAreEqual";
 
 interface TokenInfo {
   id: string;
@@ -41,8 +42,9 @@ interface TokenSlide {
 
 const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
-  const [toggleCompare, setToggleCompare] = useState(false);
   const [timePeriod, setTimePeriod] = useState("1D");
+  const prevTokens = useRef<TokenSlide[]>([]);
+  const prevTimePeriod = useRef("");
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -69,6 +71,28 @@ const DuoCharts = () => {
     return query;
   };
 
+  const sumUp = (sum: number, curr: Array<number>) => sum + curr[1];
+
+  const fetchDataForToken = async (token: TokenSlide) => {
+    const data = await getPastData(token.id, getQueryString());
+    const prices = getDataFrequency(data.prices, timePeriod);
+    const volumes = getDataFrequency(data.total_volumes, timePeriod);
+    const volume_summation = formatNum(
+      timePeriod === "1D"
+        ? volumes.reduce(sumUp, 0) / 24
+        : data.total_volumes.reduce(sumUp, 0)
+    );
+
+    return {
+      ...token,
+      chartData: {
+        volume_summation: volume_summation,
+        prices: prices,
+        total_volumes: volumes.map((arr) => arr[1]),
+      },
+    };
+  };
+
   useEffect(() => {
     const fetchTokenList = async () => {
       const tokenList = await getTop50Tokens();
@@ -90,39 +114,27 @@ const DuoCharts = () => {
   useEffect(() => {
     const fetchData = async () => {
       const activeTokens = tokenSlides.filter((t) => t.selected);
-      const queryString = getQueryString();
+
+      if (
+        prevTimePeriod.current === timePeriod &&
+        arraysAreEqual(prevTokens.current, activeTokens)
+      )
+        return;
 
       if (activeTokens.length > 0) {
-        const data = await getPastData(activeTokens[0].id, queryString);
-        const prices = getDataFrequency(data.prices, timePeriod);
-        const volumes = getDataFrequency(data.total_volumes, timePeriod);
-        const volume_summation = formatNum(
-          timePeriod === "1D"
-            ? volumes.reduce(
-                (sum: number, curr: Array<number>) => sum + curr[1],
-                0
-              ) / 24
-            : data.total_volumes.reduce(
-                (sum: number, curr: Array<number>) => sum + curr[1],
-                0
-              )
+        const updatedTokenSlides = await Promise.all(
+          activeTokens.map(fetchDataForToken)
         );
-
         setTokenSlides((tokenSlides: TokenSlide[]) =>
           tokenSlides.map((t) =>
             activeTokens.includes(t)
-              ? {
-                  ...t,
-                  chartData: {
-                    volume_summation: volume_summation,
-                    prices: prices,
-                    total_volumes: volumes.map((arr) => arr[1]),
-                  },
-                }
+              ? updatedTokenSlides.find((ut) => ut.id === t.id) || t
               : t
           )
         );
       }
+      prevTokens.current = activeTokens;
+      prevTimePeriod.current = timePeriod;
     };
 
     fetchData();
@@ -134,7 +146,6 @@ const DuoCharts = () => {
         <TokenCarousel
           tokenSlides={tokenSlides}
           handleSelection={setTokenSlides}
-          handleToggle={setToggleCompare}
         />
         <div className="flex gap-8">
           <PricesChart tokens={tokenSlides} />
