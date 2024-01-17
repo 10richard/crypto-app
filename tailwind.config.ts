@@ -10,20 +10,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bkg: "var(--main-bg)",
-        content: "var(--main-text)",
+        bkg: {
+          main: "var(--main-bg)",
+          input: "rgb(var(--input-bg) / <alpha-value>)",
+          navbar: "var(--navbar)",
+          subnav: "var(--coins-converter)",
+        },
+        content: {
+          main: "rgb(var(--main-text) / <alpha-value>)",
+          sub: "var(--sub-text)",
+          date: "var(--date-text)",
+          timeperiod: "var(--time-period-text)",
+        },
         active: {
-          btn: "var(--active-btn)",
+          btn: "rgb(var(--active-btn) / <alpha-value>)",
         },
         inactive: {
           btn: "var(--inactive-btn)",
         },
-        input: {
-          text: "var(input-text)",
-          bg: "var(--input-bg)",
-        },
         tokenrow: "var(--token-row)",
-        charts: {
+        chart: {
           price: "var(--price-chart)",
           volume: "var(--volume-chart)",
         },
