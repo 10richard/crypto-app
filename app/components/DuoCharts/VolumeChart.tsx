@@ -109,7 +109,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
+    <div className="flex flex-col gap-6 w-[632px] bg-chart-volume rounded-xl p-6">
       <ChartInfo title={title} value={value} includeDate={true} />
       <div className="flex flex-col">
         <div className="max-h-[216px]">
@@ -122,7 +122,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
                 className={`w-5 h-5`}
                 style={{ backgroundColor: colors[idx] }}
               ></span>
-              <p className="text-[#D1D1D1]">
+              <p className="text-content-sub">
                 {token.title.split(" ")[0]} ${token.chartData?.volume_summation}
               </p>
             </div>

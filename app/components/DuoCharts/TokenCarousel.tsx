@@ -91,21 +91,22 @@ const TokenCarousel = ({
         <h2>Select the currency to view statistics</h2>
         <button
           onClick={handleToggle}
-          className="flex items-center gap-3 px-6 py-3 bg-[#232337] rounded-md"
+          className="flex items-center gap-3 px-6 py-3 bg-inactive-btn rounded-md"
         >
+          {/* Add light themed images */}
           <img
             src={toggleCompare ? exitIcon.src : compareIcon.src}
             alt="Compare Icon"
             className="w-6 h-6"
           />
-          <p className="text-white text-sm">
+          <p className="text-content-main text-sm">
             {toggleCompare ? "Exit Comparison" : "Compare"}
           </p>
         </button>
       </div>
       <div className="flex gap-2 relative">
         <button
-          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
+          className={`p-4 bg-active-btn/50 border border-[#7878FF] rounded-full absolute left-[-3%] translate-y-[30%] ${
             slice === 0 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("prev")}
@@ -121,8 +122,8 @@ const TokenCarousel = ({
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
               token.selected
-                ? "bg-[#3d3d82] border border-[#7878FF]"
-                : "bg-[#232337]"
+                ? "bg-active-btn/50 border border-[#7878FF]"
+                : "bg-inactive-btn"
             } ${
               !token.selected &&
               tokenSlides.filter((t) => t.selected).length >= 3
@@ -143,7 +144,7 @@ const TokenCarousel = ({
             <div>
               <p>{token.title}</p>
               <div className="flex text-sm">
-                <p className="text-[#D1D1D1]">{token.current_price} USD</p>
+                <p className="text-content-sub">{token.current_price} USD</p>
                 <PriceChangeContainer
                   priceChange={roundToTenth(token.price_change1h)}
                 />
@@ -152,7 +153,7 @@ const TokenCarousel = ({
           </button>
         ))}
         <button
-          className={`p-4 bg-[#3d3d82] border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
+          className={`p-4 bg-active-btn/50 border border-[#7878FF] rounded-full absolute right-[-3%] translate-y-[30%] ${
             slice === 45 ? "hidden" : ""
           }`}
           onClick={() => handleCarouselClick("next")}

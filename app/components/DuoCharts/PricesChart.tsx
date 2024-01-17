@@ -119,7 +119,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   };
 
   return (
-    <div className="flex flex-col justify-between gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
+    <div className="flex flex-col justify-between gap-6 w-[632px] bg-chart-price rounded-xl p-6">
       <ChartInfo title={title} value={value} includeDate={!multipleTokens} />
       <div className="flex flex-col">
         <div className="max-h-[216px]">
@@ -132,7 +132,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
                 className={`w-5 h-5`}
                 style={{ backgroundColor: colors[idx] }}
               ></span>
-              <p className="text-[#D1D1D1]">
+              <p className="text-content-sub">
                 {token.title.split(" ")[0]} ${token.current_price}
               </p>
             </div>

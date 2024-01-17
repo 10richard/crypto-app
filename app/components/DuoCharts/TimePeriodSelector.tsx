@@ -10,14 +10,14 @@ const TimePeriodSelector = ({
   const timePeriods = ["1D", "7D", "14D", "1M", "1Y", "5Y"];
 
   return (
-    <div className="p-1 mt-14 bg-[#232337] rounded-md self-start">
+    <div className="p-1 mt-14 bg-bkg-input rounded-md self-start">
       {timePeriods.map((timePeriod, idx) => (
         <button
           key={idx}
           className={`${
             timePeriod === currTimePeriod
-              ? "bg-[#3d3d82] border border-[#7878FF]"
-              : "text-[#A7A7CC]"
+              ? "bg-active-btn/50 border border-[#7878FF]"
+              : "text-content-timeperiod"
           } px-5 py-2 text-sm rounded-md`}
           onClick={() => handleClick(timePeriod)}
         >
