@@ -4,15 +4,30 @@
 
 :root {
   --main-bg: #13121b;
-  --main-text: white;
-  --active-btn: #7878ff;
+  --main-text: 255 255 255;
+  --sub-text: #d1d1d1;
+  --active-btn: 97 97 222;
   --inactive-btn: #232337;
-  --input-text: #d1d1d1;
   --input-bg: #191926;
   --token-row: #191926;
+  --coins-converter: #191926;
   --price-chart: #191934;
   --volume-chart: #1f1934;
   --header: #1f1934;
+}
+
+[data-theme="light"] {
+  --main-bg: #f2f5f9;
+  --main-text: 53 53 116;
+  --sub-text: #42428b;
+  --active-btn: 97 97 222;
+  --inactive-btn: white;
+  --input-bg: 204 204 254;
+  --token-row: white;
+  --coins-converter: white;
+  --price-chart: #191934;
+  --volume-chart: #1f1934;
+  --header: #353574;
 }
 
 /* [data-theme="dark"] {
