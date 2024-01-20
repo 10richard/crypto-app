@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface ThemeContextProps {
   currentTheme: string;
-  toggleTheme: (darkTheme: string) => void;
+  toggleTheme: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const ThemeContext = createContext<ThemeContextProps | undefined>(
@@ -13,6 +13,9 @@ export const ThemeContext = createContext<ThemeContextProps | undefined>(
 
 export function useTheme() {
   const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
   return context;
 }
 
