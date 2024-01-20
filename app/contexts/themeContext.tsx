@@ -39,7 +39,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
-      <div data-theme={currentTheme === "dark-theme" ? "dark" : "light"}>
+      <div
+        className="text-content-main bg-bkg-main"
+        data-theme={currentTheme === "dark-theme" ? "dark" : "light"}
+      >
         {children}
       </div>
     </ThemeContext.Provider>

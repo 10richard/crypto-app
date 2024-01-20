@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+[data-theme="dark"] {
   --main-bg: #13121b;
   --main-text: 255 255 255;
   --sub-text: #d1d1d1;
