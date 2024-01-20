@@ -3,15 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useTheme } from "../contexts/themeContext";
 
 const Navbar = () => {
-  const [toggleTheme, setToggleTheme] = useState("dark-theme");
+  const { currentTheme, toggleTheme } = useTheme();
   const path = usePathname();
-
-  const handleThemeClick = () => {
-    setToggleTheme(toggleTheme === "dark-theme" ? "light-theme" : "dark-theme");
-  };
 
   return (
     <nav className="bg-bkg-navbar">
@@ -31,8 +27,8 @@ const Navbar = () => {
               <Image
                 src={
                   path === "/" || path === "/currency-converter"
-                    ? `/images/navbar/${toggleTheme}/home-active.svg`
-                    : `/images/navbar/${toggleTheme}/home-inactive.svg`
+                    ? `/images/navbar/${currentTheme}/home-active.svg`
+                    : `/images/navbar/${currentTheme}/home-inactive.svg`
                 }
                 alt="Home icon"
                 width={24}
@@ -54,8 +50,8 @@ const Navbar = () => {
               <Image
                 src={
                   path === "/portfolio"
-                    ? `/images/navbar/${toggleTheme}/portfolio-active.svg`
-                    : `/images/navbar/${toggleTheme}/portfolio-inactive.svg`
+                    ? `/images/navbar/${currentTheme}/portfolio-active.svg`
+                    : `/images/navbar/${currentTheme}/portfolio-inactive.svg`
                 }
                 alt="Portfolio icon"
                 width={24}
@@ -74,7 +70,7 @@ const Navbar = () => {
         <div className="flex gap-4">
           <div className="flex items-center relative">
             <Image
-              src={`/images/navbar/${toggleTheme}/search.svg`}
+              src={`/images/navbar/${currentTheme}/search.svg`}
               alt="Search icon"
               width={20}
               height={0}
@@ -83,7 +79,7 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="px-11 py-3 bg-bkg-input w-[396px] rounded-md placeholder-content-sub"
+              className="px-11 py-3 bg-bkg-input md:w-[396px] rounded-md placeholder-content-sub"
             />
           </div>
           <button
@@ -91,14 +87,14 @@ const Navbar = () => {
             className="flex items-center gap-2 px-4 py-3 bg-bkg-input rounded-md"
           >
             <Image
-              src={`/images/navbar/${toggleTheme}/currency.svg`}
+              src={`/images/navbar/${currentTheme}/currency.svg`}
               alt="Currency icon"
               width={20}
               height={20}
             />
             <p>USD</p>
             <Image
-              src={`/images/navbar/${toggleTheme}/chevron-down.svg`}
+              src={`/images/navbar/${currentTheme}/chevron-down.svg`}
               alt="Chevron down icon"
               width={12}
               height={12}
@@ -107,10 +103,10 @@ const Navbar = () => {
           <button
             type="button"
             className="flex items-center justify-center w-12 h-12 bg-bkg-input rounded-md"
-            onClick={handleThemeClick}
+            onClick={toggleTheme}
           >
             <Image
-              src={`/images/navbar/${toggleTheme}/color-theme.svg`}
+              src={`/images/navbar/${currentTheme}/color-theme.svg`}
               alt="Color theme change icon"
               width={24}
               height={24}

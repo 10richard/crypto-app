@@ -1,14 +1,10 @@
-import {
-  createContext,
-  ReactElement,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+"use client";
+
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface ThemeContextProps {
-  isDarkTheme: boolean;
-  toggleTheme: () => void;
+  currentTheme: string;
+  toggleTheme: (darkTheme: string) => void;
 }
 
 export const ThemeContext = createContext<ThemeContextProps | undefined>(
@@ -20,6 +16,29 @@ export function useTheme() {
   return context;
 }
 
-export const ThemeProvider = () => {
-  const storedThemeRaw = localStorage.getItem();
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const storedTheme = localStorage.getItem("theme");
+  const initialTheme = storedTheme ? JSON.parse(storedTheme) : "dark-theme";
+
+  const [currentTheme, setCurrentTheme] = useState<string>(initialTheme);
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(currentTheme));
+  }, [currentTheme]);
+
+  const toggleTheme = () => {
+    setCurrentTheme(
+      currentTheme === "dark-theme" ? "light-theme" : "dark-theme"
+    );
+  };
+
+  return (
+    <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
+      <div data-theme={currentTheme === "dark-theme" ? "dark" : "light"}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
 };
