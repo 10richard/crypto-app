@@ -22,13 +22,19 @@ export function useTheme() {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const storedTheme = localStorage.getItem("theme");
-  const initialTheme = storedTheme ? JSON.parse(storedTheme) : "dark-theme";
+  const storedTheme =
+    typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+  const initialTheme =
+    storedTheme && storedTheme !== "undefined"
+      ? JSON.parse(storedTheme)
+      : "dark-theme";
 
   const [currentTheme, setCurrentTheme] = useState<string>(initialTheme);
 
   useEffect(() => {
-    localStorage.setItem("theme", JSON.stringify(currentTheme));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", JSON.stringify(currentTheme));
+    }
   }, [currentTheme]);
 
   const toggleTheme = () => {
