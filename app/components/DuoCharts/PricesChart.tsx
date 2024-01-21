@@ -1,5 +1,6 @@
 import ChartInfo from "./ChartInfo";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import {
   CategoryScale,
@@ -40,6 +41,7 @@ interface PricesChartProps {
 const PricesChart = ({ tokens }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
+  const darkTheme = useTheme().currentTheme === "dark-theme";
 
   const colors = multipleTokens ? [purple, pink, blue] : [purple];
 
@@ -66,7 +68,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
             context.chart.height
           );
           gradient.addColorStop(0.5, gradientColors[idx]);
-          gradient.addColorStop(1, "#191934");
+          gradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
           return gradient;
         }
       };

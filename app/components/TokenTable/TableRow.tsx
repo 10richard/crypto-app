@@ -4,6 +4,7 @@ import PriceChangeContainer from "./PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale, LinearScale, LineElement } from "chart.js";
 
@@ -59,6 +60,8 @@ const TableRow = ({ token }: TableRowProps) => {
     return idx % 4 === 0;
   });
 
+  const darkTheme = useTheme().currentTheme === "dark-theme";
+
   const sparklineData = {
     labels: Array.from(Array(everyFourthPrice.length).keys()),
     datasets: [
@@ -78,7 +81,7 @@ const TableRow = ({ token }: TableRowProps) => {
               context.chart.height
             );
             linearGradient.addColorStop(0, "#4d5c9e");
-            linearGradient.addColorStop(1, "#191926");
+            linearGradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
             return linearGradient;
           }
         },

@@ -47,7 +47,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="text-sm flex justify-center gap-10 py-4 bg-header">
+    <header className="text-white text-sm flex justify-center gap-10 py-4 bg-header">
       <div className="flex items-center gap-2">
         <img
           src={flashCicle.src}

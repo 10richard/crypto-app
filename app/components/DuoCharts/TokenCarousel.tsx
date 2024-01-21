@@ -1,9 +1,11 @@
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
-import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
-import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-import compareIcon from "@/public/images/coins-carousel/compare-icon.svg";
-import exitIcon from "@/public/images/coins-carousel/exit-icon.svg";
+// import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
+// import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
+// import compareIcon from "@/public/images/coins-carousel/compare-icon.svg";
+// import exitIcon from "@/public/images/coins-carousel/exit-icon.svg";
+import Image from "next/image";
+import { useTheme } from "@/app/contexts/themeContext";
 import { useState } from "react";
 
 interface TokenSlide {
@@ -31,6 +33,7 @@ const TokenCarousel = ({
 }: TokenCarouselProps) => {
   const [slice, setSlice] = useState(0);
   const [toggleCompare, setToggleCompare] = useState(false);
+  const { currentTheme } = useTheme();
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
@@ -93,12 +96,16 @@ const TokenCarousel = ({
           onClick={handleToggle}
           className="flex items-center gap-3 px-6 py-3 bg-inactive-btn rounded-md"
         >
-          {/* Add light themed images */}
-          <img
-            src={toggleCompare ? exitIcon.src : compareIcon.src}
-            alt="Compare Icon"
-            className="w-6 h-6"
-          />
+          <Image
+            src={
+              toggleCompare
+                ? `images/coins-carousel/${currentTheme}/exit-icon.svg`
+                : `images/coins-carousel/${currentTheme}/compare-icon.svg`
+            }
+            alt="Toggle compare icon"
+            width={24}
+            height={24}
+          ></Image>
           <p className="text-content-main text-sm">
             {toggleCompare ? "Exit Comparison" : "Compare"}
           </p>
@@ -111,11 +118,12 @@ const TokenCarousel = ({
           }`}
           onClick={() => handleCarouselClick("prev")}
         >
-          <img
-            src={chevronLeft.src}
-            alt="Previous tokens"
-            className="w-4 h-4"
-          />
+          <Image
+            src={"images/coins-carousel/chevron-left.svg"}
+            alt="Chevron left"
+            width={16}
+            height={16}
+          ></Image>
         </button>
         {tokenSlides.slice(slice, slice + 5).map((token, idx) => (
           <button
@@ -158,7 +166,12 @@ const TokenCarousel = ({
           }`}
           onClick={() => handleCarouselClick("next")}
         >
-          <img src={chevronRight.src} alt="Next tokens" className="w-4 h-4" />
+          <Image
+            src={"images/coins-carousel/chevron-right.svg"}
+            alt="Chevron right"
+            width={16}
+            height={16}
+          ></Image>
         </button>
       </div>
     </div>
