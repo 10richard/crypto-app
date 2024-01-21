@@ -79,12 +79,12 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="px-11 py-3 bg-bkg-input md:w-[396px] rounded-md placeholder-content-sub"
+              className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub"
             />
           </div>
           <button
             type="button"
-            className="flex items-center gap-2 px-4 py-3 bg-bkg-input rounded-md"
+            className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
           >
             <Image
               src={`/images/navbar/${currentTheme}/currency.svg`}
@@ -102,7 +102,7 @@ const Navbar = () => {
           </button>
           <button
             type="button"
-            className="flex items-center justify-center w-12 h-12 bg-bkg-input rounded-md"
+            className="flex items-center justify-center w-12 h-12 bg-bkg-input/40 rounded-md"
             onClick={toggleTheme}
           >
             <Image

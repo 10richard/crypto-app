@@ -13,7 +13,7 @@ const NavCoinsConverter = () => {
           <div
             className={`text-lg w-[244px] py-3 rounded-md ${
               path === "/"
-                ? "bg-active-btn/50 border border-[#7878FF]"
+                ? "text-white bg-active-btn/50 border border-[#7878FF]"
                 : "bg-inactive-btn"
             }`}
           >
@@ -24,7 +24,7 @@ const NavCoinsConverter = () => {
           <div
             className={`text-lg w-[244px] py-3 rounded-md ${
               path === "/currency-converter"
-                ? "bg-active-btn/50 border border-[#7878FF]"
+                ? "text-white bg-active-btn/50 border border-[#7878FF]"
                 : "bg-inactive-btn"
             }`}
           >

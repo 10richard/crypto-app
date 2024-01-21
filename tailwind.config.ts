@@ -12,7 +12,7 @@ const config: Config = {
       colors: {
         bkg: {
           main: "var(--main-bg)",
-          input: "var(--input-bg)",
+          input: "rgba(var(--input-bg) / <alpha-value>)",
           navbar: "var(--navbar)",
           subnav: "var(--coins-converter)",
         },
