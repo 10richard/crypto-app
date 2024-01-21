@@ -13,6 +13,7 @@ import moon from "@/public/images/navbar/moon.svg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { MaxWidthContainer } from "./styled/MaxWidthContainer";
 
 const Navbar = () => {
   const [toggleTheme, setToggleTheme] = useState("dark");
@@ -23,75 +24,79 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="text-white flex items-center justify-between py-3 max-w-[1296px] mx-auto">
-      <div className="flex gap-3">
-        <img src={logo.src} alt="Crypto App logo" />
-        <p className="text-xl font-bold">Loroipsm</p>
-      </div>
-      <div className="flex gap-6">
-        <Link href={"/"}>
-          <div className="flex gap-3 px-4 py-2">
-            <img
-              src={
-                path === "/" || path === "/currency-converter"
-                  ? homeLight.src
-                  : homeDark.src
-              }
-              alt="Home icon"
-            />
-            <p
-              className={`${
-                path === "/" || path === "/currency-converter"
-                  ? ""
-                  : "text-[#FFFFFF80]"
-              }`}
-            >
-              Home
-            </p>
-          </div>
-        </Link>
-        <Link href={"/portfolio"}>
-          <div className="flex gap-3 px-4 py-2">
-            <img
-              src={
-                path === "/portfolio" ? portfolioLight.src : portfolioDark.src
-              }
-              alt="Portfolio icon"
-            />
-            <p className={`${path === "/portfolio" ? "" : "text-[#FFFFFF80]"}`}>
-              Portfolio
-            </p>
-          </div>
-        </Link>
-      </div>
-      <div className="flex gap-4">
-        <div className="flex items-center relative">
-          <img src={search.src} alt="" className="absolute left-3" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-10 py-2 bg-[#191926] w-[396px] rounded-md"
-          />
+    <nav className="text-white max-w-[1296px] mx-auto">
+      <MaxWidthContainer className="flex items-center justify-between">
+        <div className="flex gap-3">
+          <img src={logo.src} alt="Crypto App logo" />
+          <p className="text-xl font-bold">Loroipsm</p>
         </div>
-        <button
-          type="button"
-          className="flex items-center gap-2 px-4 py-2 bg-[#191926] rounded-md"
-        >
-          <img src={currency.src} alt="" />
-          <p>USD</p>
-          <img src={chevronDown.src} alt="" />
-        </button>
-        <button
-          type="button"
-          className="flex items-center justify-center w-12 h-12 bg-[#191926] rounded-md"
-          onClick={handleThemeClick}
-        >
-          <img
-            src={toggleTheme === "dark" ? sun.src : moon.src}
-            alt="Theme changer"
-          />
-        </button>
-      </div>
+        <div className="flex gap-6">
+          <Link href={"/"}>
+            <div className="flex gap-3 px-4 py-2">
+              <img
+                src={
+                  path === "/" || path === "/currency-converter"
+                    ? homeLight.src
+                    : homeDark.src
+                }
+                alt="Home icon"
+              />
+              <p
+                className={`${
+                  path === "/" || path === "/currency-converter"
+                    ? ""
+                    : "text-[#FFFFFF80]"
+                }`}
+              >
+                Home
+              </p>
+            </div>
+          </Link>
+          <Link href={"/portfolio"}>
+            <div className="flex gap-3 px-4 py-2">
+              <img
+                src={
+                  path === "/portfolio" ? portfolioLight.src : portfolioDark.src
+                }
+                alt="Portfolio icon"
+              />
+              <p
+                className={`${path === "/portfolio" ? "" : "text-[#FFFFFF80]"}`}
+              >
+                Portfolio
+              </p>
+            </div>
+          </Link>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex items-center relative">
+            <img src={search.src} alt="" className="absolute left-3" />
+            <input
+              type="text"
+              placeholder="Search..."
+              className="px-10 py-2 bg-[#191926] w-[396px] rounded-md"
+            />
+          </div>
+          <button
+            type="button"
+            className="flex items-center gap-2 px-4 py-2 bg-[#191926] rounded-md"
+          >
+            <img src={currency.src} alt="" />
+            <p>USD</p>
+            <img src={chevronDown.src} alt="" />
+          </button>
+          <button
+            type="button"
+            className="flex items-center justify-center w-12 h-12 bg-[#191926] rounded-md"
+            onClick={handleThemeClick}
+          >
+            <img
+              src={toggleTheme === "dark" ? sun.src : moon.src}
+              alt="Theme changer"
+            />
+          </button>
+        </div>
+      </MaxWidthContainer>
     </nav>
   );
 };
