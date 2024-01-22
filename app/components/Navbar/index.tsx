@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "../../contexts/themeContext";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import SearchBar from "./SearchBar";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme } = useTheme();
@@ -69,20 +71,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4">
-          <div className="flex items-center relative">
-            <Image
-              src={`/images/navbar/${currentTheme}/search.svg`}
-              alt="Search icon"
-              width={20}
-              height={0}
-              className="absolute left-3"
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub"
-            />
-          </div>
+          <SearchBar />
           <button
             type="button"
             className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
@@ -101,18 +90,10 @@ const Navbar = () => {
               height={12}
             />
           </button>
-          <button
-            type="button"
-            className="flex items-center justify-center w-12 h-12 bg-bkg-input/40 rounded-md"
-            onClick={toggleTheme}
-          >
-            <Image
-              src={`/images/navbar/${currentTheme}/color-theme.svg`}
-              alt="Color theme change icon"
-              width={24}
-              height={24}
-            />
-          </button>
+          <ThemeSwitcher
+            currentTheme={currentTheme}
+            toggleTheme={toggleTheme}
+          />
         </div>
       </MaxWidthContainer>
     </nav>
