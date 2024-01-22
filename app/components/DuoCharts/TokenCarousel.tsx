@@ -1,9 +1,5 @@
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
-// import chevronRight from "@/public/images/coins-carousel/chevron-right.svg";
-// import chevronLeft from "@/public/images/coins-carousel/chevron-left.svg";
-// import compareIcon from "@/public/images/coins-carousel/compare-icon.svg";
-// import exitIcon from "@/public/images/coins-carousel/exit-icon.svg";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useState } from "react";
@@ -130,7 +126,7 @@ const TokenCarousel = ({
             key={idx}
             className={`text-left flex items-center gap-4 p-4 w-full rounded-md ${
               token.selected
-                ? "bg-active-btn/50 border border-[#7878FF]"
+                ? "text-white bg-active-btn/50 border border-[#7878FF]"
                 : "bg-inactive-btn"
             } ${
               !token.selected &&
@@ -152,7 +148,13 @@ const TokenCarousel = ({
             <div>
               <p>{token.title}</p>
               <div className="flex text-sm">
-                <p className="text-content-sub">{token.current_price} USD</p>
+                <p
+                  className={`${
+                    token.selected ? "text-white/70" : "text-content-sub"
+                  }`}
+                >
+                  {token.current_price} USD
+                </p>
                 <PriceChangeContainer
                   priceChange={roundToTenth(token.price_change1h)}
                 />
