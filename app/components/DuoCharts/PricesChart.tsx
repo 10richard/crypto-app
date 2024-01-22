@@ -41,7 +41,7 @@ interface PricesChartProps {
 const PricesChart = ({ tokens }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
-  const darkTheme = useTheme().currentTheme === "dark-theme";
+  const { isDarkTheme } = useTheme();
 
   const colors = multipleTokens ? [purple, pink, blue] : [purple];
 
@@ -68,7 +68,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
             context.chart.height
           );
           gradient.addColorStop(0.5, gradientColors[idx]);
-          gradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
+          gradient.addColorStop(1, isDarkTheme() ? "#191934" : "#fdfdff");
           return gradient;
         }
       };

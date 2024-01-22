@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 interface ThemeContextProps {
   currentTheme: string;
   toggleTheme: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  isDarkTheme: () => boolean;
 }
 
 export const ThemeContext = createContext<ThemeContextProps | undefined>(
@@ -43,8 +44,12 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     );
   };
 
+  const isDarkTheme = () => {
+    return currentTheme === "dark-theme";
+  };
+
   return (
-    <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, toggleTheme, isDarkTheme }}>
       <div
         className="text-content-main bg-bkg-main"
         data-theme={currentTheme === "dark-theme" ? "dark" : "light"}

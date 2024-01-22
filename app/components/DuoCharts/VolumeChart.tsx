@@ -1,6 +1,5 @@
 import ChartInfo from "./ChartInfo";
 import { Bar } from "react-chartjs-2";
-import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import {
   CategoryScale,
@@ -34,7 +33,6 @@ interface VolumeChartProps {
 const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
-  const darkTheme = useTheme().currentTheme === "dark-theme";
 
   const colors = multipleTokens ? [purple, pink, blue] : [pink];
 
