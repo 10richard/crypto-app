@@ -3,11 +3,6 @@
 import { useEffect, useState } from "react";
 import { getHeaderInfo } from "../api/getHeaderInfo";
 import Image from "next/image";
-import flashCicle from "@/public/images/header/flash-circle.svg";
-import exchange from "@/public/images/header/exchange.svg";
-import btc from "@/public/images/header/bitcoin.svg";
-import eth from "@/public/images/header/eth.svg";
-import greenArrow from "@/public/images/header/green-arrow.svg";
 
 const Header = () => {
   const [activeCoins, setActiveCoins] = useState<number>(0);
