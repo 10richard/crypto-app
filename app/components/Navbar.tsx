@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "../contexts/themeContext";
+import { MaxWidthContainer } from "./styled/MaxWidthContainer";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme } = useTheme();
@@ -11,7 +12,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-bkg-navbar">
-      <div className="flex items-center justify-between py-3 max-w-[1296px] mx-auto">
+      <MaxWidthContainer className="flex items-center justify-between py-3">
         <div className="flex gap-3">
           <Image
             src={"/images/logo.svg"}
@@ -113,7 +114,7 @@ const Navbar = () => {
             />
           </button>
         </div>
-      </div>
+      </MaxWidthContainer>
     </nav>
   );
 };

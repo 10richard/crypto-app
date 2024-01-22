@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { MaxWidthContainer } from "./styled/MaxWidthContainer";
 
 const NavCoinsConverter = () => {
   const path = usePathname();
 
   return (
-    <div className="max-w-[1296px] mx-auto">
+    <MaxWidthContainer>
       <div className="text-center flex justify-center max-w-[506px] mt-14 p-1 rounded-md bg-bkg-subnav">
         <Link href={"/"}>
           <div
@@ -32,7 +33,7 @@ const NavCoinsConverter = () => {
           </div>
         </Link>
       </div>
-    </div>
+    </MaxWidthContainer>
   );
 };
 
