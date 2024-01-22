@@ -2,31 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #13121b;
-  color: white;
+[data-theme="dark"] {
+  --main-bg: #13121b;
+  --main-text: 255 255 255;
+  --sub-text: #d1d1d1;
+  --date-text: #b9b9ba;
+  --active-btn: 97 97 222;
+  --inactive-btn: #232337;
+  --input-bg: 40 40 70;
+  --token-row: #191926;
+  --coins-converter: #191926;
+  --price-chart: #191934;
+  --volume-chart: #1f1934;
+  --time-period-text: #a7a7cc;
+  --header: #1f1934;
+  --navbar: "transparent";
 }
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+[data-theme="light"] {
+  --main-bg: #f2f5f9;
+  --main-text: 53 53 116;
+  --sub-text: #42428b;
+  --date-text: #42428b;
+  --active-btn: 97 97 222;
+  --inactive-btn: white;
+  --input-bg: 204 204 254;
+  --token-row: white;
+  --coins-converter: white;
+  --price-chart: white;
+  --volume-chart: white;
+  --time-period-text: #181826;
+  --header: #353574;
+  --navbar: white;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */

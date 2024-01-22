@@ -2,11 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getHeaderInfo } from "../api/getHeaderInfo";
-import flashCicle from "@/public/images/header/flash-circle.svg";
-import exchange from "@/public/images/header/exchange.svg";
-import btc from "@/public/images/header/bitcoin.svg";
-import eth from "@/public/images/header/eth.svg";
-import greenArrow from "@/public/images/header/green-arrow.svg";
+import Image from "next/image";
 
 const Header = () => {
   const [activeCoins, setActiveCoins] = useState<number>(0);
@@ -47,23 +43,34 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="text-sm flex justify-center gap-10 py-4 bg-[#1E1932] mb-6">
+    <header className="text-white text-sm flex justify-center gap-10 py-4 bg-header">
       <div className="flex items-center gap-2">
-        <img
-          src={flashCicle.src}
-          alt="Active coins icons"
-          className="w-[20px]"
-        />
+        <Image
+          src={"/images/header/flash-circle.svg"}
+          alt="Active coins"
+          width={20}
+          height={20}
+        ></Image>
         <p className="text-[#D1D1D1]">Coins</p>
         <p>{activeCoins}</p>
       </div>
       <div className="flex items-center gap-2">
-        <img src={exchange.src} alt="Total markets icon" className="w-[20px]" />
+        <Image
+          src={"/images/header/exchange.svg"}
+          alt="Total markets icon"
+          width={20}
+          height={20}
+        ></Image>
         <p className="text-[#D1D1D1]">Exchange</p>
         <p>{totalMarkets}</p>
       </div>
       <div className="flex items-center gap-1">
-        <img src={greenArrow.src} alt="Green arrow" />
+        <Image
+          src={"/images/header/green-arrow.svg"}
+          alt="Price change arrow"
+          width={16}
+          height={16}
+        ></Image>
         <p>{marketCap}</p>
       </div>
       <div className="flex items-center gap-2">
@@ -76,7 +83,12 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <img src={btc.src} alt="" className="w-[25px]" />
+        <Image
+          src={"/images/header/bitcoin.svg"}
+          alt="BTC image"
+          width={25}
+          height={25}
+        ></Image>
         <p>{btcMarketCapPercent}%</p>
         <div className="h-[6px] w-[53px] bg-[#787585] rounded-xl overflow-hidden">
           <div
@@ -86,7 +98,12 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <img src={eth.src} alt="" className="w-[25px]" />
+        <Image
+          src={"/images/header/eth.svg"}
+          alt="ETH image"
+          width={25}
+          height={25}
+        ></Image>
         <p>{ethMarketCapPercent}%</p>
         <div className="h-[6px] w-[53px] bg-[#787585] rounded-xl overflow-hidden">
           <div

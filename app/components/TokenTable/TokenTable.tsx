@@ -34,7 +34,7 @@ const TokenTable = () => {
   return (
     <div className="flex justify-center pt-[72px] pb-[38px]">
       <div className="flex flex-col gap-2 max-w-[1296px]">
-        <div className="text-[#D1D1D1] flex justify-between gap-5 p-5">
+        <div className="text-content-sub flex justify-between gap-5 p-5">
           <div className="w-4">#</div>
           <div className="w-[208px]">Name</div>
           <div className="w-20">Price</div>
@@ -49,7 +49,7 @@ const TokenTable = () => {
           dataLength={displayTokens.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<p className="text-center">Loading...</p>}
+          loader={<p className="text-center text-content-main">Loading...</p>}
         >
           {displayTokens.map((t, idx) => (
             <TableRow key={idx} token={t} />
