@@ -37,7 +37,7 @@ const Navbar = () => {
                 }
                 alt="Home icon"
                 width={24}
-                height={0}
+                height={24}
               />
               <p
                 className={`${
@@ -60,7 +60,7 @@ const Navbar = () => {
                 }
                 alt="Portfolio icon"
                 width={24}
-                height={0}
+                height={24}
               />
               <p
                 className={`${

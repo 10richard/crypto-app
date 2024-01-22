@@ -13,7 +13,7 @@ const SearchBar = ({ currentTheme, handleSearch }: SearchBarProps) => {
         src={`/images/navbar/${currentTheme}/search.svg`}
         alt="Search icon"
         width={20}
-        height={0}
+        height={20}
         className="absolute left-3"
       />
       <input
