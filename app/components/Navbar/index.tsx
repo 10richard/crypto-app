@@ -3,8 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "../contexts/themeContext";
-import { MaxWidthContainer } from "./styled/MaxWidthContainer";
+import { useTheme } from "../../contexts/themeContext";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme } = useTheme();
