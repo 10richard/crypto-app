@@ -1,7 +1,7 @@
 import { getAllTokens } from "@/app/api/getAllTokens";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface SearchBarProps {
   currentTheme: string;
@@ -14,6 +14,7 @@ interface TokenInfo {
 }
 
 const SearchBar = ({ currentTheme }: SearchBarProps) => {
+  const [isActive, setIsActive] = useState(false);
   const [search, setSearch] = useState("");
   const [allTokens, setAllTokens] = useState<TokenInfo[]>([]);
   const filterTokens = allTokens?.filter((t) => {
@@ -24,13 +25,20 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
     return true;
   });
 
+  const searchBar = useRef<HTMLInputElement | null>(null);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    setIsActive(searchBar.current === e.target);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await getAllTokens();
       setAllTokens(data);
     };
-
     fetchData();
+
+    window.addEventListener("click", handleClickOutside);
   }, []);
 
   return (
@@ -45,14 +53,15 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
         />
         <input
           type="text"
+          ref={searchBar}
           placeholder="Search..."
           className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub outline-none"
           onChange={(e) => setSearch(e.target.value.toLowerCase())}
         />
       </div>
       <div
-        className={`bg-bkg-input/40 h-[200px] max-w-max overflow-y-scroll rounded-lg absolute ml-8 ${
-          search ? "" : "hidden"
+        className={`bg-bkg-input/40 h-[200px] max-w-[300px] overflow-y-scroll rounded-lg absolute ml-8 ${
+          search && isActive ? "" : "hidden"
         }`}
       >
         {filterTokens?.map((t) => (
