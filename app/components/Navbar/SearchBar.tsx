@@ -17,8 +17,9 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
   const [search, setSearch] = useState("");
   const [allTokens, setAllTokens] = useState<TokenInfo[]>([]);
   const filterTokens = allTokens?.filter((t) => {
+    const lowerCaseName = t.name.toLowerCase();
     for (let i = 0; i < search.length; i++) {
-      if (t.name[i] !== search[i]) return false;
+      if (lowerCaseName[i] !== search[i]) return false;
     }
     return true;
   });
@@ -57,25 +58,23 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
         <input
           type="text"
           placeholder="Search..."
-          className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub"
-          onChange={(e) => setSearch(e.target.value)}
+          className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub outline-none"
+          onChange={(e) => setSearch(e.target.value.toLowerCase())}
         />
       </div>
       <div
-        className={`bg-bkg-input/40 h-max-[200px] max-w-max overflow-hidden rounded-lg absolute ml-8 ${
+        className={`bg-bkg-input/40 h-[200px] max-w-max overflow-y-scroll rounded-lg absolute ml-8 ${
           search ? "" : "hidden"
         }`}
       >
         {filterTokens?.map((t) => (
-          <div>
-            <Link
-              key={t.id}
-              href={`/token-info/${t.id}`}
-              className="text-red-500 py-2 px-3"
-            >
-              {t.name}
-            </Link>
-          </div>
+          <Link
+            key={t.id}
+            href={`/token-info/${t.id}`}
+            className="py-2 px-3 block hover:bg-bkg-input duration-100"
+          >
+            {t.name}
+          </Link>
         ))}
       </div>
     </div>
