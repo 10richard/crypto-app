@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface CurrencyContextProps {
@@ -22,12 +24,12 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const storedCurrency =
     typeof window !== "undefined" ? localStorage.getItem("currency") : null;
-  const initialTheme =
+  const initialCurrency =
     storedCurrency && storedCurrency !== "undefined"
       ? JSON.parse(storedCurrency)
       : "usd";
 
-  const [currentCurrency, setCurrentCurrency] = useState(initialTheme);
+  const [currentCurrency, setCurrentCurrency] = useState(initialCurrency);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
