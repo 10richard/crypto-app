@@ -7,11 +7,9 @@ import { useTheme } from "../../contexts/themeContext";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 import SearchBar from "./SearchBar";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { useState } from "react";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme } = useTheme();
-  const [search, setSearch] = useState("");
   const path = usePathname();
 
   return (
@@ -73,25 +71,27 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4">
-          <SearchBar currentTheme={currentTheme} handleSearch={setSearch} />
-          <button
-            type="button"
-            className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
-          >
-            <Image
-              src={`/images/navbar/${currentTheme}/currency.svg`}
-              alt="Currency icon"
-              width={20}
-              height={20}
-            />
-            <p>USD</p>
-            <Image
-              src={`/images/navbar/${currentTheme}/chevron-down.svg`}
-              alt="Chevron down icon"
-              width={12}
-              height={12}
-            />
-          </button>
+          <SearchBar currentTheme={currentTheme} />
+          <div>
+            <button
+              type="button"
+              className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
+            >
+              <Image
+                src={`/images/navbar/${currentTheme}/currency.svg`}
+                alt="Currency icon"
+                width={20}
+                height={20}
+              />
+              <p>USD</p>
+              <Image
+                src={`/images/navbar/${currentTheme}/chevron-down.svg`}
+                alt="Chevron down icon"
+                width={12}
+                height={12}
+              />
+            </button>
+          </div>
           <ThemeSwitcher
             currentTheme={currentTheme}
             toggleTheme={toggleTheme}
