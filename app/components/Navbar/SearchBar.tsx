@@ -33,18 +33,6 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await getAllTokens();
-  //     const filteredTokens = search
-  //       ? null
-  //       : data.filter((t: TokenInfo) => t.name.includes(search));
-  //     setDisplayTokens(filteredTokens);
-  //   };
-
-  //   fetchData();
-  // }, [search]);
-
   return (
     <div className="relative">
       <div className="flex items-center relative">
