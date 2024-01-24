@@ -15,6 +15,17 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
     setCurrentCurrency(currency);
   };
 
+  // const dropDown = useRef<HTMLDivElement | null>(null);
+
+  // function handleClickOutside(e: MouseEvent) {
+  //   console.log(dropDown.current !== e.target);
+  //   setIsActive(dropDown.current !== e.target);
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener("click", handleClickOutside);
+  // }, []);
+
   return (
     <div className="relative">
       <button
@@ -23,7 +34,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
         onClick={() => setIsActive(!isActive)}
       >
         <Image
-          src={`/images/currency/${currentTheme}/${currentCurrency}.svg`}
+          src={`/images/currency/${currentTheme}/usd.svg`}
           alt="Currency icon"
           width={20}
           height={20}
@@ -42,6 +53,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
         className={`bg-bkg-input/40 text-center rounded-lg absolute left-0 right-0 ${
           isActive ? "" : "hidden"
         }`}
+        // ref={dropDown}
       >
         {currencies.map((c) => (
           <button
@@ -51,13 +63,14 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
             }`}
             onClick={() => setCurrentCurrency(c)}
           >
-            <Image
-              src={`/images/currency/${currentTheme}/usd.svg`}
+            <input type="radio" checked={c === currentCurrency} />
+            {/* <Image
+              src={`/images/currency/${currentTheme}/${c}.svg`}
               alt="Currency icon"
               width={20}
               height={20}
-            />
-            <p>{c.toUpperCase()}</p>
+            /> */}
+            <p className="mx-auto">{c.toUpperCase()}</p>
           </button>
         ))}
       </div>
