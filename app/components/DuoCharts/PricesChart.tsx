@@ -1,5 +1,6 @@
 import ChartInfo from "./ChartInfo";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import {
   CategoryScale,
@@ -40,6 +41,7 @@ interface PricesChartProps {
 const PricesChart = ({ tokens }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
+  const { isDarkTheme } = useTheme();
 
   const colors = multipleTokens ? [purple, pink, blue] : [purple];
 
@@ -66,7 +68,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
             context.chart.height
           );
           gradient.addColorStop(0.5, gradientColors[idx]);
-          gradient.addColorStop(1, "#191934");
+          gradient.addColorStop(1, isDarkTheme() ? "#191934" : "#fdfdff");
           return gradient;
         }
       };
@@ -119,7 +121,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   };
 
   return (
-    <div className="flex flex-col justify-between gap-6 w-[632px] bg-[#191934] rounded-xl p-6">
+    <div className="flex flex-col justify-between gap-6 w-[632px] bg-chart-price rounded-xl p-6">
       <ChartInfo title={title} value={value} includeDate={!multipleTokens} />
       <div className="flex flex-col">
         <div className="max-h-[216px]">
@@ -132,7 +134,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
                 className={`w-5 h-5`}
                 style={{ backgroundColor: colors[idx] }}
               ></span>
-              <p className="text-[#D1D1D1]">
+              <p className="text-content-sub">
                 {token.title.split(" ")[0]} ${token.current_price}
               </p>
             </div>

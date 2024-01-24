@@ -4,6 +4,7 @@ import PriceChangeContainer from "./PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale, LinearScale, LineElement } from "chart.js";
 
@@ -59,6 +60,8 @@ const TableRow = ({ token }: TableRowProps) => {
     return idx % 4 === 0;
   });
 
+  const darkTheme = useTheme().currentTheme === "dark-theme";
+
   const sparklineData = {
     labels: Array.from(Array(everyFourthPrice.length).keys()),
     datasets: [
@@ -78,7 +81,7 @@ const TableRow = ({ token }: TableRowProps) => {
               context.chart.height
             );
             linearGradient.addColorStop(0, "#4d5c9e");
-            linearGradient.addColorStop(1, "#191926");
+            linearGradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
             return linearGradient;
           }
         },
@@ -110,8 +113,8 @@ const TableRow = ({ token }: TableRowProps) => {
   };
 
   return (
-    <div className="flex items-center justify-between my-2 gap-5 p-5 bg-[#191926] text-white rounded-xl">
-      <div className="text-[#D1D1D1] w-4">{tokenRank}</div>
+    <div className="flex items-center justify-between my-2 gap-5 p-5 bg-tokenrow text-content-main rounded-xl">
+      <div className="text-content-sub w-4">{tokenRank}</div>
       <Link href={`/token-info/${token.id}`}>
         <div className="flex items-center gap-4 w-[208px]">
           <img
