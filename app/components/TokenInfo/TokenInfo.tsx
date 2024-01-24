@@ -4,57 +4,87 @@ import { getTokenInfo } from "@/app/api/getTokenInfo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
+import { useRouter } from "next/navigation";
 
 interface TokenInfoProps {
-  token: string;
+  token_id: string;
 }
 
-const TokenInfo = ({ token }: TokenInfoProps) => {
-  const tokenInfoMap = {
-    name: "",
-    homepage_link: "",
-    marketcap: "",
-    description: <></>,
-    links: [],
-    ath: "",
-    atl: "",
-  };
-  const [name, setName] = useState("");
-  const [homepage, setHomepage] = useState("");
-  const [marketcap, setMarketcap] = useState("");
-  const [description, setDescription] = useState(<></>);
-  const [links, setLinks] = useState([]);
+interface Links {
+  homepage: string[];
+  blockchain_site: string[];
+}
+
+interface ImageSizes {
+  thumb: string;
+  small: string;
+  large: string;
+}
+
+interface FetchToken {
+  symbol: string;
+  name: string;
+  description: string;
+  links: Links;
+}
+
+interface TokenInfo {
+  name: string;
+  // image: string;
+  // homepage: string;
+  // links: string[];
+  // price: number;
+  // ath: number;
+  // ath_date: string;
+  // atl: number;
+  // atl_date: string;
+  // description: string;
+  // market_cap: number;
+  // fully_diluted_valuation: number;
+  // volume_24h: number;
+  // volume_by_market: number;
+  // total_volume: number;
+  // circulating_supply: number;
+  // max_supply: number;
+}
+
+const TokenInfo = ({ token_id }: TokenInfoProps) => {
+  const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokenInfo = await getTokenInfo(token);
-      //   tokenInfoMap.name = tokenInfo.name;
-      // setName(`${tokenInfo.name} (${tokenInfo.symbol.toUpperCase()})`);
-      //   setHomepage(tokenInfo.links.homepage[0]);
-      //   setDescription(tokenInfo.description.en);
-      //   setLinks(tokenInfo.links.blockchain_site.slice(0, 3));
+      const fetchedToken = await getTokenInfo(token_id);
+      const token = {
+        name: `${fetchedToken.name} (${fetchedToken.symbol.toUpperCase()})`,
+      };
+
+      setTokenInfo(token);
     };
 
     fetchData();
   });
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-14">
       <div className="flex flex-col max-w-[1296px] w-full">
+        <div>
+          <button onClick={() => router.back()}>Back</button>
+        </div>
         <div className="flex justify-between">
           <div className="flex gap-8">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-6 bg-blue-500 px-14 py-10">
+              <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10">
                 <img src="token logo" alt="" />
-                <h2>Token Name</h2>
+                <h2>{tokenInfo?.name}</h2>
               </div>
-              <div className="bg-blue-500 px-6 py-4">
+              <div className="bg-chart-volume px-6 py-4">
                 <Link href={"google.com"} target="_blank">
                   Homepage
                 </Link>
               </div>
             </div>
-            <div className="flex flex-col gap-6 bg-blue-500 px-14 py-10">
+            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
                   <p>Token Price</p>
@@ -90,7 +120,7 @@ const TokenInfo = ({ token }: TokenInfoProps) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-8 bg-blue-500 px-14 py-10 w-[544px]">
+          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 w-[544px]">
             <div>
               <div className="flex gap-4">
                 <div className="flex gap-3">
