@@ -3,7 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "../contexts/themeContext";
+import { useTheme } from "../../contexts/themeContext";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import SearchBar from "./SearchBar";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Navbar = () => {
   const { currentTheme, toggleTheme } = useTheme();
@@ -11,7 +14,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-bkg-navbar">
-      <div className="flex items-center justify-between py-3 max-w-[1296px] mx-auto">
+      <MaxWidthContainer className="flex items-center justify-between py-3">
         <div className="flex gap-3">
           <Image
             src={"/images/logo.svg"}
@@ -32,7 +35,7 @@ const Navbar = () => {
                 }
                 alt="Home icon"
                 width={24}
-                height={0}
+                height={24}
               />
               <p
                 className={`${
@@ -55,7 +58,7 @@ const Navbar = () => {
                 }
                 alt="Portfolio icon"
                 width={24}
-                height={0}
+                height={24}
               />
               <p
                 className={`${
@@ -68,52 +71,33 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex gap-4">
-          <div className="flex items-center relative">
-            <Image
-              src={`/images/navbar/${currentTheme}/search.svg`}
-              alt="Search icon"
-              width={20}
-              height={0}
-              className="absolute left-3"
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-11 py-3 bg-bkg-input/40 md:w-[396px] rounded-md placeholder-content-sub"
-            />
+          <SearchBar currentTheme={currentTheme} />
+          <div>
+            <button
+              type="button"
+              className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
+            >
+              <Image
+                src={`/images/navbar/${currentTheme}/currency.svg`}
+                alt="Currency icon"
+                width={20}
+                height={20}
+              />
+              <p>USD</p>
+              <Image
+                src={`/images/navbar/${currentTheme}/chevron-down.svg`}
+                alt="Chevron down icon"
+                width={12}
+                height={12}
+              />
+            </button>
           </div>
-          <button
-            type="button"
-            className="flex items-center gap-2 px-4 py-3 bg-bkg-input/40 rounded-md"
-          >
-            <Image
-              src={`/images/navbar/${currentTheme}/currency.svg`}
-              alt="Currency icon"
-              width={20}
-              height={20}
-            />
-            <p>USD</p>
-            <Image
-              src={`/images/navbar/${currentTheme}/chevron-down.svg`}
-              alt="Chevron down icon"
-              width={12}
-              height={12}
-            />
-          </button>
-          <button
-            type="button"
-            className="flex items-center justify-center w-12 h-12 bg-bkg-input/40 rounded-md"
-            onClick={toggleTheme}
-          >
-            <Image
-              src={`/images/navbar/${currentTheme}/color-theme.svg`}
-              alt="Color theme change icon"
-              width={24}
-              height={24}
-            />
-          </button>
+          <ThemeSwitcher
+            currentTheme={currentTheme}
+            toggleTheme={toggleTheme}
+          />
         </div>
-      </div>
+      </MaxWidthContainer>
     </nav>
   );
 };

@@ -10,6 +10,7 @@ import TokenCarousel from "./TokenCarousel";
 import { getTop50Tokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
 import arraysAreEqual from "@/app/utils/arraysAreEqual";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 
 interface TokenInfo {
   id: string;
@@ -142,7 +143,7 @@ const DuoCharts = () => {
 
   return (
     <div className="flex justify-center mt-[72px]">
-      <div className="flex flex-col items-center max-w-[1296px]">
+      <MaxWidthContainer className="flex flex-col items-center">
         <TokenCarousel
           tokenSlides={tokenSlides}
           handleSelection={setTokenSlides}
@@ -155,7 +156,7 @@ const DuoCharts = () => {
           currTimePeriod={timePeriod}
           handleClick={setTimePeriod}
         />
-      </div>
+      </MaxWidthContainer>
     </div>
   );
 };

@@ -1,8 +1,8 @@
-import DuoCharts from "./components/DuoCharts/DuoCharts";
+import DuoCharts from "./components/DuoCharts";
 import Header from "./components/Header";
 import NavCoinsConverter from "./components/NavCoinsConverter";
 import Navbar from "./components/Navbar";
-import TokenTable from "./components/TokenTable/TokenTable";
+import TokenTable from "./components/TokenTable";
 
 export default function Home() {
   return (
