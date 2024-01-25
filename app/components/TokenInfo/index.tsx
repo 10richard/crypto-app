@@ -17,19 +17,6 @@ interface Links {
   blockchain_site: string[];
 }
 
-interface ImageSizes {
-  thumb: string;
-  small: string;
-  large: string;
-}
-
-interface FetchToken {
-  symbol: string;
-  name: string;
-  description: string;
-  links: Links;
-}
-
 interface TokenInfo {
   name: string;
   image: string;
