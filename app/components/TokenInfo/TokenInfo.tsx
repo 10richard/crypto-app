@@ -1,12 +1,12 @@
 "use client";
 
 import { getTokenInfo } from "@/app/api/getTokenInfo";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
+import LinkContainer from "./LinkContainer";
+import AllTimeContainer from "./AllTimeContainer";
 
 interface TokenInfoProps {
   token_id: string;
@@ -108,31 +108,15 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   {tokenInfo?.name}
                 </h2>
               </div>
-              <div className="flex justify-center items-center gap-4 bg-chart-volume px-6 py-4 rounded-xl">
-                <Image
-                  src={`/images/token-info/${currentTheme}/link.svg`}
-                  alt="Link symbol"
-                  width={20}
-                  height={20}
-                ></Image>
-                <Link
-                  href={tokenInfo ? tokenInfo?.homepage : ""}
-                  target="_blank"
-                >
-                  {tokenInfo?.homepage}
-                </Link>
-                <Image
-                  src={`/images/token-info/${currentTheme}/link.svg`}
-                  alt="Copy symbol"
-                  width={20}
-                  height={20}
-                ></Image>
-              </div>
+              <LinkContainer
+                link={tokenInfo ? tokenInfo?.homepage : ""}
+                currentTheme={currentTheme}
+              />
             </div>
             <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
-                  <p className="">${tokenInfo?.price}</p>
+                  <p className="text-4xl font-bold">${tokenInfo?.price}</p>
                   <PriceChangeContainer priceChange={2} />
                 </div>
                 <div className="flex gap-4">
@@ -142,36 +126,22 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               </div>
               <img src="stack icon" alt="" />
               <div>
-                <div className="flex gap-4">
-                  <img src="arrow" alt="" />
-                  <div>
-                    <div className="flex gap-4">
-                      <p>All time high: </p>
-                      <p className="text-xl font-medium">${tokenInfo?.ath}</p>
-                    </div>
-                    <div>{tokenInfo?.ath_date}</div>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <img src="arrow" alt="" />
-                  <div>
-                    <div className="flex gap-4">
-                      <p>All time low: </p>
-                      <p className="text-xl font-medium">${tokenInfo?.atl}</p>
-                    </div>
-                    <div>{tokenInfo?.atl_date}</div>
-                  </div>
-                </div>
+                <AllTimeContainer
+                  title="high"
+                  price={tokenInfo?.ath}
+                  date={tokenInfo?.ath_date}
+                />
+                <AllTimeContainer
+                  title="low"
+                  price={tokenInfo?.atl}
+                  date={tokenInfo?.atl_date}
+                />
               </div>
             </div>
           </div>
           <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 w-[544px] rounded-xl">
             <div>
               <div className="flex gap-4">
-                <div className="flex gap-3">
-                  <img src="plus sign" alt="" />
-                  <p>Market Cap</p>
-                </div>
                 <div>
                   <p>$749,864,345,056</p>
                 </div>
