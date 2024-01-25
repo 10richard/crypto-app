@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useTheme } from "@/app/contexts/themeContext";
 
 interface TokenInfoProps {
   token_id: string;
@@ -51,6 +53,7 @@ interface TokenInfo {
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const router = useRouter();
+  const { currentTheme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,10 +71,10 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         market_cap: fetchedToken.market_data.market_cap.usd,
         fully_diluted_valuation:
           fetchedToken.market_data.fully_diluted_valuation.usd,
-        total_volume: fetchedToken.total_volume.usd,
+        total_volume: fetchedToken.market_data.total_volume.usd,
         // volume_24h:
         volume_by_market:
-          fetchedToken.total_volume.usd /
+          fetchedToken.market_data.total_volume.usd /
           fetchedToken.market_data.market_cap.usd,
         description: fetchedToken.description.en,
         max_supply: fetchedToken.market_data.max_supply,
@@ -93,7 +96,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         <div className="flex justify-between">
           <div className="flex gap-8">
             <div className="flex flex-col gap-4">
-              <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10">
+              <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10 rounded-xl">
                 <div className="bg-[#2C2C4D] p-4 rounded-lg">
                   <img
                     src={tokenInfo?.image}
@@ -105,16 +108,28 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   {tokenInfo?.name}
                 </h2>
               </div>
-              <div className="text-center bg-chart-volume px-6 py-4">
+              <div className="flex justify-center items-center gap-4 bg-chart-volume px-6 py-4 rounded-xl">
+                <Image
+                  src={`/images/token-info/${currentTheme}/link.svg`}
+                  alt="Link symbol"
+                  width={20}
+                  height={20}
+                ></Image>
                 <Link
                   href={tokenInfo ? tokenInfo?.homepage : ""}
                   target="_blank"
                 >
                   {tokenInfo?.homepage}
                 </Link>
+                <Image
+                  src={`/images/token-info/${currentTheme}/link.svg`}
+                  alt="Copy symbol"
+                  width={20}
+                  height={20}
+                ></Image>
               </div>
             </div>
-            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10">
+            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
                   <p className="">${tokenInfo?.price}</p>
@@ -132,9 +147,9 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   <div>
                     <div className="flex gap-4">
                       <p>All time high: </p>
-                      <p className="text-xl font-medium">$230</p>
+                      <p className="text-xl font-medium">${tokenInfo?.ath}</p>
                     </div>
-                    <div>Wed, 14 Sep 2023 11:54:46 GMT</div>
+                    <div>{tokenInfo?.ath_date}</div>
                   </div>
                 </div>
                 <div className="flex gap-4">
@@ -142,15 +157,15 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   <div>
                     <div className="flex gap-4">
                       <p>All time low: </p>
-                      <p className="text-xl font-medium">$230</p>
+                      <p className="text-xl font-medium">${tokenInfo?.atl}</p>
                     </div>
-                    <div>Wed, 14 Sep 2023 11:54:46 GMT</div>
+                    <div>{tokenInfo?.atl_date}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 w-[544px]">
+          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 w-[544px] rounded-xl">
             <div>
               <div className="flex gap-4">
                 <div className="flex gap-3">
