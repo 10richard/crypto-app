@@ -125,7 +125,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 </div>
               </div>
               <img src="stack icon" alt="" />
-              <div>
+              <div className="flex flex-col gap-6">
                 <AllTimeContainer
                   title="high"
                   price={tokenInfo?.ath}
