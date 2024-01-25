@@ -7,7 +7,7 @@ export default function Page({ params }: { params: { id: string } }) {
     <>
       <Header />
       <Navbar />
-      <TokenInfo token={params.id} />
+      <TokenInfo token_id={params.id} />
     </>
   );
 }
