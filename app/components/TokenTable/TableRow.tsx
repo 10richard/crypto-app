@@ -60,7 +60,7 @@ const TableRow = ({ token }: TableRowProps) => {
     return idx % 4 === 0;
   });
 
-  const darkTheme = useTheme().currentTheme === "dark-theme";
+  const { isDarkTheme } = useTheme();
 
   const sparklineData = {
     labels: Array.from(Array(everyFourthPrice.length).keys()),
@@ -81,7 +81,10 @@ const TableRow = ({ token }: TableRowProps) => {
               context.chart.height
             );
             linearGradient.addColorStop(0, "#4d5c9e");
-            linearGradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
+            linearGradient.addColorStop(
+              1,
+              isDarkTheme() ? "#191934" : "#fdfdff"
+            );
             return linearGradient;
           }
         },
