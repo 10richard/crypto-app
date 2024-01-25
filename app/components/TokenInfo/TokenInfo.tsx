@@ -30,22 +30,22 @@ interface FetchToken {
 
 interface TokenInfo {
   name: string;
-  // image: string;
-  // homepage: string;
-  // links: string[];
-  // price: number;
-  // ath: number;
-  // ath_date: string;
-  // atl: number;
-  // atl_date: string;
-  // description: string;
-  // market_cap: number;
-  // fully_diluted_valuation: number;
+  image: string;
+  homepage: string;
+  links: string[];
+  price: number;
+  ath: number;
+  ath_date: string;
+  atl: number;
+  atl_date: string;
+  market_cap: number;
+  fully_diluted_valuation: number;
   // volume_24h: number;
-  // volume_by_market: number;
-  // total_volume: number;
-  // circulating_supply: number;
-  // max_supply: number;
+  volume_by_market: number;
+  total_volume: number;
+  description: string;
+  max_supply: number;
+  circulating_supply: number;
 }
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
@@ -57,6 +57,25 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
       const fetchedToken = await getTokenInfo(token_id);
       const token = {
         name: `${fetchedToken.name} (${fetchedToken.symbol.toUpperCase()})`,
+        image: fetchedToken.image.small,
+        homepage: fetchedToken.links.homepage[0],
+        links: fetchedToken.links.blockchain_site.slice(0, 3),
+        price: fetchedToken.market_data.current_price.usd,
+        ath: fetchedToken.market_data.ath.usd,
+        ath_date: fetchedToken.market_data.ath_date.usd,
+        atl: fetchedToken.market_data.atl.usd,
+        atl_date: fetchedToken.market_data.atl_date.usd,
+        market_cap: fetchedToken.market_data.market_cap.usd,
+        fully_diluted_valuation:
+          fetchedToken.market_data.fully_diluted_valuation.usd,
+        total_volume: fetchedToken.total_volume.usd,
+        // volume_24h:
+        volume_by_market:
+          fetchedToken.total_volume.usd /
+          fetchedToken.market_data.market_cap.usd,
+        description: fetchedToken.description.en,
+        max_supply: fetchedToken.market_data.max_supply,
+        circulating_supply: fetchedToken.market_data.circulating_supply,
       };
 
       setTokenInfo(token);
@@ -74,25 +93,36 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         <div className="flex justify-between">
           <div className="flex gap-8">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10">
-                <img src="token logo" alt="" />
-                <h2>{tokenInfo?.name}</h2>
+              <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10">
+                <div className="bg-[#2C2C4D] p-4 rounded-lg">
+                  <img
+                    src={tokenInfo?.image}
+                    alt={`${tokenInfo?.name} image`}
+                    className="w-8 h-8"
+                  />
+                </div>
+                <h2 className="text-center text-3xl font-bold">
+                  {tokenInfo?.name}
+                </h2>
               </div>
-              <div className="bg-chart-volume px-6 py-4">
-                <Link href={"google.com"} target="_blank">
-                  Homepage
+              <div className="text-center bg-chart-volume px-6 py-4">
+                <Link
+                  href={tokenInfo ? tokenInfo?.homepage : ""}
+                  target="_blank"
+                >
+                  {tokenInfo?.homepage}
                 </Link>
               </div>
             </div>
             <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
-                  <p>Token Price</p>
+                  <p className="">${tokenInfo?.price}</p>
                   <PriceChangeContainer priceChange={2} />
                 </div>
                 <div className="flex gap-4">
                   <p>Profit:</p>
-                  <p>$2020</p>
+                  <p>$2020 (do last)</p>
                 </div>
               </div>
               <img src="stack icon" alt="" />
