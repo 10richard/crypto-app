@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface CurrencyChangerProps {
@@ -10,24 +10,21 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
   const [isActive, setIsActive] = useState(false);
   const { currentCurrency, setCurrentCurrency } = useCurrency();
   const currencies = ["usd", "gbp", "eur", "btc", "eth"];
-  const dropDownRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropDownRef.current &&
-        !dropDownRef.current.contains(event.target as Node)
-      ) {
-        setIsActive(false);
-      }
-    }
+  const handleCurrencyClick = (currency: string) => {
+    setCurrentCurrency(currency);
+  };
 
-    document.addEventListener("click", handleClickOutside);
+  // const dropDown = useRef<HTMLDivElement | null>(null);
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [dropDownRef]);
+  // function handleClickOutside(e: MouseEvent) {
+  //   console.log(dropDown.current !== e.target);
+  //   setIsActive(dropDown.current !== e.target);
+  // }
+
+  // useEffect(() => {
+  //   window.addEventListener("click", handleClickOutside);
+  // }, []);
 
   return (
     <div className="relative">
@@ -56,7 +53,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
         className={`bg-bkg-input/40 text-center rounded-lg absolute left-0 right-0 ${
           isActive ? "" : "hidden"
         }`}
-        ref={dropDownRef}
+        // ref={dropDown}
       >
         {currencies.map((c) => (
           <button
@@ -67,6 +64,12 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
             onClick={() => setCurrentCurrency(c)}
           >
             <input type="radio" checked={c === currentCurrency} />
+            {/* <Image
+              src={`/images/currency/${currentTheme}/${c}.svg`}
+              alt="Currency icon"
+              width={20}
+              height={20}
+            /> */}
             <p className="mx-auto">{c.toUpperCase()}</p>
           </button>
         ))}
