@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface CurrencyChangerProps {
@@ -10,24 +10,11 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
   const [isActive, setIsActive] = useState(false);
   const { currentCurrency, setCurrentCurrency } = useCurrency();
   const currencies = ["usd", "gbp", "eur", "btc", "eth"];
-  const dropDownRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropDownRef.current &&
-        !dropDownRef.current.contains(event.target as Node)
-      ) {
-        setIsActive(false);
-      }
-    }
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [dropDownRef]);
+  const handleCurrencyClick = (currency: string) => {
+    setCurrentCurrency(currency);
+    setIsActive(false);
+  };
 
   return (
     <div className="relative">
@@ -56,7 +43,6 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
         className={`bg-bkg-input/40 text-center rounded-lg absolute left-0 right-0 ${
           isActive ? "" : "hidden"
         }`}
-        ref={dropDownRef}
       >
         {currencies.map((c) => (
           <button
@@ -64,9 +50,13 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
             className={`text-center flex items-center gap-2 w-full py-2 px-4 ${
               currentCurrency === c ? "bg-bkg-input" : ""
             }`}
-            onClick={() => setCurrentCurrency(c)}
+            onClick={() => handleCurrencyClick(c)}
           >
-            <input type="radio" checked={c === currentCurrency} />
+            <input
+              type="radio"
+              readOnly={true}
+              checked={c === currentCurrency}
+            />
             <p className="mx-auto">{c.toUpperCase()}</p>
           </button>
         ))}
