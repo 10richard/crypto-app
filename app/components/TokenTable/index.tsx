@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import TableRow from "./TableRow";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import { useCurrency } from "@/app/contexts/currencyContext";
 
 const TokenTable = () => {
   const [tokens, setTokens] = useState([]);
   const [displayTokens, setDisplayTokens] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const { currentCurrency } = useCurrency();
 
   const fetchMoreData = () => {
     if (displayTokens.length >= 50) {
@@ -25,7 +27,7 @@ const TokenTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokens = await getTop50Tokens();
+      const tokens = await getTop50Tokens(currentCurrency);
       setTokens(tokens);
       setDisplayTokens(tokens.slice(0, 10));
     };

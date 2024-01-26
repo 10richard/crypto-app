@@ -11,6 +11,7 @@ import { getTop50Tokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
 import arraysAreEqual from "@/app/utils/arraysAreEqual";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface TokenInfo {
   id: string;
@@ -46,6 +47,7 @@ const DuoCharts = () => {
   const [timePeriod, setTimePeriod] = useState("1D");
   const prevTokens = useRef<TokenSlide[]>([]);
   const prevTimePeriod = useRef("");
+  const { currentCurrency } = useCurrency();
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -57,7 +59,7 @@ const DuoCharts = () => {
   };
 
   const config = {
-    vs_currency: "usd",
+    vs_currency: currentCurrency,
     days: "1D",
   };
 
@@ -96,7 +98,7 @@ const DuoCharts = () => {
 
   useEffect(() => {
     const fetchTokenList = async () => {
-      const tokenList = await getTop50Tokens();
+      const tokenList = await getTop50Tokens(currentCurrency);
       const tokenSlides = tokenList.map((token: TokenInfo, idx: number) => ({
         id: token.id,
         title: `${token.name} (${token.symbol.toUpperCase()})`,
