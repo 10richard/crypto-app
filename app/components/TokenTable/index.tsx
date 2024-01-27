@@ -32,7 +32,7 @@ const TokenTable = () => {
       setDisplayTokens(tokens.slice(0, 10));
     };
     fetchData();
-  }, []);
+  }, [currentCurrency]);
 
   return (
     <div className="flex justify-center pt-[72px] pb-[38px]">

@@ -3,7 +3,7 @@
 import { getPastData } from "@/app/api/getPastData";
 import formatNum from "@/app/utils/formatNum";
 import getDataFrequency from "@/app/utils/getDataFrequency";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import PricesChart from "./PricesChart";
 import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
@@ -45,9 +45,10 @@ interface TokenSlide {
 const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
   const [timePeriod, setTimePeriod] = useState("1D");
+  const { currentCurrency } = useCurrency();
   const prevTokens = useRef<TokenSlide[]>([]);
   const prevTimePeriod = useRef("");
-  const { currentCurrency } = useCurrency();
+  const prevCurrency = useRef(currentCurrency);
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -65,6 +66,7 @@ const DuoCharts = () => {
 
   const getQueryString = () => {
     config.days = daysMap[timePeriod];
+    config.vs_currency = currentCurrency;
     let query = Object.entries(config).reduce(
       (acc, [key, val]) => `${acc}&${key}=${val}`,
       ""
@@ -112,7 +114,7 @@ const DuoCharts = () => {
     };
 
     fetchTokenList();
-  }, []);
+  }, [currentCurrency]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,7 +122,8 @@ const DuoCharts = () => {
 
       if (
         prevTimePeriod.current === timePeriod &&
-        arraysAreEqual(prevTokens.current, activeTokens)
+        arraysAreEqual(prevTokens.current, activeTokens) &&
+        prevCurrency.current === currentCurrency
       )
         return;
 
@@ -138,10 +141,11 @@ const DuoCharts = () => {
       }
       prevTokens.current = activeTokens;
       prevTimePeriod.current = timePeriod;
+      prevCurrency.current = currentCurrency;
     };
 
     fetchData();
-  }, [tokenSlides, timePeriod]);
+  }, [tokenSlides, timePeriod, currentCurrency]);
 
   return (
     <div className="flex justify-center mt-[72px]">
