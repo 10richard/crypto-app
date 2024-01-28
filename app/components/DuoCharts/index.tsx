@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import PricesChart from "./PricesChart";
 import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
-import { getTop50Tokens } from "@/app/api/getTopTokens";
+import { getTopTokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
 import arraysAreEqual from "@/app/utils/arraysAreEqual";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
@@ -100,7 +100,7 @@ const DuoCharts = () => {
 
   useEffect(() => {
     const fetchTokenList = async () => {
-      const tokenList = await getTop50Tokens(currentCurrency);
+      const tokenList = await getTopTokens(currentCurrency);
       const tokenSlides = tokenList.map((token: TokenInfo, idx: number) => ({
         id: token.id,
         title: `${token.name} (${token.symbol.toUpperCase()})`,

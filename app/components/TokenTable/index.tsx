@@ -1,6 +1,6 @@
 "use client";
 
-import { getTop50Tokens } from "../../api/getTopTokens";
+import { getTopTokens } from "../../api/getTopTokens";
 import { useState, useEffect } from "react";
 import TableRow from "./TableRow";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -27,7 +27,7 @@ const TokenTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokens = await getTop50Tokens(currentCurrency);
+      const tokens = await getTopTokens(currentCurrency);
       setTokens(tokens);
       setDisplayTokens(tokens.slice(0, 10));
     };
