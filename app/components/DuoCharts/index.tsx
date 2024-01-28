@@ -3,7 +3,7 @@
 import { getPastData } from "@/app/api/getPastData";
 import formatNum from "@/app/utils/formatNum";
 import getDataFrequency from "@/app/utils/getDataFrequency";
-import { useState, useEffect, useRef, use } from "react";
+import { useState, useEffect, useRef } from "react";
 import PricesChart from "./PricesChart";
 import TimePeriodSelector from "./TimePeriodSelector";
 import TokenCarousel from "./TokenCarousel";
