@@ -19,7 +19,7 @@ const SearchBar = ({ currentTheme }: SearchBarProps) => {
   const [allTokens, setAllTokens] = useState<TokenInfo[]>([]);
   const filterTokens = allTokens?.filter((t) => {
     const lowerCaseName = t.name.toLowerCase();
-    return lowerCaseName.includes(search);
+    return lowerCaseName.startsWith(search);
   });
 
   const searchBar = useRef<HTMLInputElement | null>(null);
