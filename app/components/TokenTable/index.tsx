@@ -1,15 +1,17 @@
 "use client";
 
-import { getTop50Tokens } from "../../api/getTopTokens";
+import { getTopTokens } from "../../api/getTopTokens";
 import { useState, useEffect } from "react";
 import TableRow from "./TableRow";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import { useCurrency } from "@/app/contexts/currencyContext";
 
 const TokenTable = () => {
   const [tokens, setTokens] = useState([]);
   const [displayTokens, setDisplayTokens] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const { currentCurrency } = useCurrency();
 
   const fetchMoreData = () => {
     if (displayTokens.length >= 50) {
@@ -25,12 +27,12 @@ const TokenTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokens = await getTop50Tokens();
+      const tokens = await getTopTokens(currentCurrency);
       setTokens(tokens);
       setDisplayTokens(tokens.slice(0, 10));
     };
     fetchData();
-  }, []);
+  }, [currentCurrency]);
 
   return (
     <div className="flex justify-center pt-[72px] pb-[38px]">

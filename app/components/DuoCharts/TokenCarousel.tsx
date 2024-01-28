@@ -3,6 +3,7 @@ import roundToTenth from "@/app/utils/roundToTenth";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useState } from "react";
+import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface TokenSlide {
   id: string;
@@ -30,6 +31,7 @@ const TokenCarousel = ({
   const [slice, setSlice] = useState(0);
   const [toggleCompare, setToggleCompare] = useState(false);
   const { currentTheme } = useTheme();
+  const { currentCurrency } = useCurrency();
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;
@@ -153,7 +155,7 @@ const TokenCarousel = ({
                     token.selected ? "text-white/70" : "text-content-sub"
                   }`}
                 >
-                  {token.current_price} USD
+                  {token.current_price} {currentCurrency.toUpperCase()}
                 </p>
                 <PriceChangeContainer
                   priceChange={roundToTenth(token.price_change1h)}
