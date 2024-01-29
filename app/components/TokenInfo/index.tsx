@@ -53,18 +53,21 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         image: fetchedToken.image.small,
         homepage: fetchedToken.links.homepage[0],
         links: fetchedToken.links.blockchain_site.slice(0, 3),
-        price: fetchedToken.market_data.current_price[currentCurrency],
-        ath: fetchedToken.market_data.ath[currentCurrency],
-        ath_date: fetchedToken.market_data.ath_date[currentCurrency],
-        atl: fetchedToken.market_data.atl[currentCurrency],
-        atl_date: fetchedToken.market_data.atl_date[currentCurrency],
-        market_cap: fetchedToken.market_data.market_cap[currentCurrency],
+        price: fetchedToken.market_data.current_price[currentCurrency.abbr],
+        ath: fetchedToken.market_data.ath[currentCurrency.abbr],
+        ath_date: fetchedToken.market_data.ath_date[currentCurrency.abbr],
+        atl: fetchedToken.market_data.atl[currentCurrency.abbr],
+        atl_date: fetchedToken.market_data.atl_date[currentCurrency.abbr],
+        market_cap: fetchedToken.market_data.market_cap[currentCurrency.abbr],
         fully_diluted_valuation:
-          fetchedToken.market_data.fully_diluted_valuation[currentCurrency],
-        total_volume: fetchedToken.market_data.total_volume[currentCurrency],
+          fetchedToken.market_data.fully_diluted_valuation[
+            currentCurrency.abbr
+          ],
+        total_volume:
+          fetchedToken.market_data.total_volume[currentCurrency.abbr],
         volume_by_market:
-          fetchedToken.market_data.total_volume[currentCurrency] /
-          fetchedToken.market_data.market_cap[currentCurrency],
+          fetchedToken.market_data.total_volume[currentCurrency.abbr] /
+          fetchedToken.market_data.market_cap[currentCurrency.abbr],
         description: fetchedToken.description.en,
         max_supply:
           fetchedToken.market_data.max_supply === null
@@ -121,7 +124,8 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
                   <p className="text-4xl font-bold">
-                    ${tokenInfo?.price.toLocaleString()}
+                    {currentCurrency.symbol}
+                    {tokenInfo?.price.toLocaleString()}
                   </p>
                   <PriceChangeContainer priceChange={2} />
                 </div>
@@ -134,12 +138,12 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               <div className="flex flex-col gap-6">
                 <AllTimeContainer
                   title="high"
-                  price={tokenInfo?.ath}
+                  price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
                   date={tokenInfo?.ath_date}
                 />
                 <AllTimeContainer
                   title="low"
-                  price={tokenInfo?.atl}
+                  price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
                   date={tokenInfo?.atl_date}
                 />
               </div>
@@ -149,10 +153,12 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             <div className="flex flex-col gap-4">
               <MarketDataContainer
                 title="Market Cap"
+                currency={currentCurrency.symbol}
                 value={tokenInfo?.market_cap}
               />
               <MarketDataContainer
                 title="Fully Diluted Valuation"
+                currency={currentCurrency.symbol}
                 value={tokenInfo?.fully_diluted_valuation}
               />
               <MarketDataContainer

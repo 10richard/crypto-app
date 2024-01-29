@@ -27,7 +27,7 @@ const TokenTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const tokens = await getTopTokens(currentCurrency);
+      const tokens = await getTopTokens(currentCurrency.abbr);
       setTokens(tokens);
       setDisplayTokens(tokens.slice(0, 10));
     };

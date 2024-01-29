@@ -100,7 +100,7 @@ const DuoCharts = () => {
 
   useEffect(() => {
     const fetchTokenList = async () => {
-      const tokenList = await getTopTokens(currentCurrency);
+      const tokenList = await getTopTokens(currentCurrency.abbr);
       const tokenSlides = tokenList.map((token: TokenInfo, idx: number) => ({
         id: token.id,
         title: `${token.name} (${token.symbol.toUpperCase()})`,
@@ -155,8 +155,12 @@ const DuoCharts = () => {
           handleSelection={setTokenSlides}
         />
         <div className="flex gap-8">
-          <PricesChart tokens={tokenSlides} />
-          <VolumeChart tokens={tokenSlides} timePeriod={timePeriod} />
+          <PricesChart tokens={tokenSlides} currency={currentCurrency.symbol} />
+          <VolumeChart
+            tokens={tokenSlides}
+            currency={currentCurrency.symbol}
+            timePeriod={timePeriod}
+          />
         </div>
         <TimePeriodSelector
           currTimePeriod={timePeriod}
