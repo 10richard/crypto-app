@@ -9,12 +9,14 @@ interface LinkContainerProps {
 const LinkContainer = ({ link, currentTheme }: LinkContainerProps) => {
   return (
     <div className="flex justify-center items-center gap-4 bg-chart-volume px-6 py-4 rounded-xl">
-      <Image
-        src={`/images/token-info/${currentTheme}/link.svg`}
-        alt="Link symbol"
-        width={20}
-        height={20}
-      ></Image>
+      <Link href={link} target="_blank">
+        <Image
+          src={`/images/token-info/${currentTheme}/link.svg`}
+          alt="Link symbol"
+          width={20}
+          height={20}
+        ></Image>
+      </Link>
       <Link href={link} target="_blank">
         {link}
       </Link>
@@ -23,6 +25,10 @@ const LinkContainer = ({ link, currentTheme }: LinkContainerProps) => {
         alt="Copy symbol"
         width={20}
         height={20}
+        onClick={() => {
+          navigator.clipboard.writeText(link);
+        }}
+        className="cursor-copy"
       ></Image>
     </div>
   );
