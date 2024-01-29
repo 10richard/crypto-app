@@ -14,7 +14,7 @@ const MarketDataContainer = ({ title, value }: MarketDataContainerProps) => {
       <div className="flex items-center gap-3">
         <Image
           src={`/images/token-info/${currentTheme}/info-icon.svg`}
-          alt="Add symbol"
+          alt="Info icon"
           width={32}
           height={32}
         ></Image>
