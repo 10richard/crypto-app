@@ -9,6 +9,7 @@ import LinkContainer from "./LinkContainer";
 import AllTimeContainer from "./AllTimeContainer";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import MarketDataContainer from "./MarketDataContainer";
+import Image from "next/image";
 
 interface TokenInfoProps {
   token_id: string;
@@ -65,7 +66,10 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
           fetchedToken.market_data.total_volume[currentCurrency] /
           fetchedToken.market_data.market_cap[currentCurrency],
         description: fetchedToken.description.en,
-        max_supply: fetchedToken.market_data.max_supply,
+        max_supply:
+          fetchedToken.market_data.max_supply === null
+            ? "N/A"
+            : fetchedToken.market_data.max_supply,
         circulating_supply: fetchedToken.market_data.circulating_supply,
       };
 
@@ -78,8 +82,19 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
   return (
     <div className="flex justify-center mt-14">
       <div className="flex flex-col max-w-[1296px] w-full">
-        <div>
-          <button onClick={() => router.back()}>Back</button>
+        <div className="mb-10">
+          <button
+            className="flex items-center gap-3"
+            onClick={() => router.back()}
+          >
+            <Image
+              src={`/images/token-info/${currentTheme}/arrow-back.svg`}
+              alt="Arrow back"
+              width={35}
+              height={35}
+            ></Image>
+            <p className="text-lg">Back</p>
+          </button>
         </div>
         <div className="flex justify-between">
           <div className="flex gap-8">
@@ -101,7 +116,8 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 currentTheme={currentTheme}
               />
             </div>
-            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl">
+            {/* Change height */}
+            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
                   <p className="text-4xl font-bold">
@@ -130,31 +146,33 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             </div>
           </div>
           <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
-            <div>
-              <div className="flex flex-col gap-4">
-                <MarketDataContainer
-                  title="Market Cap"
-                  value={tokenInfo?.market_cap}
-                />
-                <MarketDataContainer
-                  title="Fully Diluted Valuation"
-                  value={tokenInfo?.fully_diluted_valuation}
-                />
-                <MarketDataContainer
-                  title="Volume/Market"
-                  value={tokenInfo?.volume_by_market}
-                />
-              </div>
+            <div className="flex flex-col gap-4">
+              <MarketDataContainer
+                title="Market Cap"
+                value={tokenInfo?.market_cap}
+              />
+              <MarketDataContainer
+                title="Fully Diluted Valuation"
+                value={tokenInfo?.fully_diluted_valuation}
+              />
+              <MarketDataContainer
+                title="Volume/Market"
+                value={tokenInfo?.volume_by_market}
+              />
             </div>
-            <div>
-              <div className="flex gap-4">
-                <div className="flex gap-3">
-                  <p>Total Volume</p>
-                </div>
-                <div>
-                  <p>$749,864,345,056</p>
-                </div>
-              </div>
+            <div className="flex flex-col gap-4">
+              <MarketDataContainer
+                title="Total Volume"
+                value={tokenInfo?.total_volume}
+              />
+              <MarketDataContainer
+                title="Circulating Supply"
+                value={tokenInfo?.circulating_supply}
+              />
+              <MarketDataContainer
+                title="Max Supply"
+                value={tokenInfo?.max_supply}
+              />
             </div>
             <div>Circulating Supply vs Max Supply bar</div>
           </div>
