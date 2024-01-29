@@ -108,9 +108,9 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   </p>
                   <PriceChangeContainer priceChange={2} />
                 </div>
-                <div className="flex gap-4">
+                <div className="flex items-center gap-4">
                   <p>Profit:</p>
-                  <p>$2020 (do last)</p>
+                  <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
                 </div>
               </div>
               <img src="stack icon" alt="" />
