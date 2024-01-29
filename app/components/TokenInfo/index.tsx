@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@/app/contexts/themeContext";
 import LinkContainer from "./LinkContainer";
 import AllTimeContainer from "./AllTimeContainer";
+import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface TokenInfoProps {
   token_id: string;
@@ -29,7 +30,6 @@ interface TokenInfo {
   atl_date: string;
   market_cap: number;
   fully_diluted_valuation: number;
-  // volume_24h: number;
   volume_by_market: number;
   total_volume: number;
   description: string;
@@ -41,6 +41,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const router = useRouter();
   const { currentTheme } = useTheme();
+  const { currentCurrency } = useCurrency();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,19 +51,18 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         image: fetchedToken.image.small,
         homepage: fetchedToken.links.homepage[0],
         links: fetchedToken.links.blockchain_site.slice(0, 3),
-        price: fetchedToken.market_data.current_price.usd,
-        ath: fetchedToken.market_data.ath.usd,
-        ath_date: fetchedToken.market_data.ath_date.usd,
-        atl: fetchedToken.market_data.atl.usd,
-        atl_date: fetchedToken.market_data.atl_date.usd,
-        market_cap: fetchedToken.market_data.market_cap.usd,
+        price: fetchedToken.market_data.current_price[currentCurrency],
+        ath: fetchedToken.market_data.ath[currentCurrency],
+        ath_date: fetchedToken.market_data.ath_date[currentCurrency],
+        atl: fetchedToken.market_data.atl[currentCurrency],
+        atl_date: fetchedToken.market_data.atl_date[currentCurrency],
+        market_cap: fetchedToken.market_data.market_cap[currentCurrency],
         fully_diluted_valuation:
-          fetchedToken.market_data.fully_diluted_valuation.usd,
-        total_volume: fetchedToken.market_data.total_volume.usd,
-        // volume_24h:
+          fetchedToken.market_data.fully_diluted_valuation[currentCurrency],
+        total_volume: fetchedToken.market_data.total_volume[currentCurrency],
         volume_by_market:
-          fetchedToken.market_data.total_volume.usd /
-          fetchedToken.market_data.market_cap.usd,
+          fetchedToken.market_data.total_volume[currentCurrency] /
+          fetchedToken.market_data.market_cap[currentCurrency],
         description: fetchedToken.description.en,
         max_supply: fetchedToken.market_data.max_supply,
         circulating_supply: fetchedToken.market_data.circulating_supply,
@@ -72,7 +72,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
     };
 
     fetchData();
-  });
+  }, [currentCurrency]);
 
   return (
     <div className="flex justify-center mt-14">
@@ -103,7 +103,9 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl">
               <div className="flex flex-col gap-5">
                 <div className="flex gap-4">
-                  <p className="text-4xl font-bold">${tokenInfo?.price}</p>
+                  <p className="text-4xl font-bold">
+                    ${tokenInfo?.price.toLocaleString()}
+                  </p>
                   <PriceChangeContainer priceChange={2} />
                 </div>
                 <div className="flex gap-4">
