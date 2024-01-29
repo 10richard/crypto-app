@@ -1,20 +1,26 @@
 import Image from "next/image";
+import { useTheme } from "@/app/contexts/themeContext";
 
 interface MarketDataContainerProps {
-  currentTheme: string;
+  title: string;
+  value: number | undefined;
 }
 
-const MarketDataContainer = ({ currentTheme }: MarketDataContainerProps) => {
-  // For most right hand info
+const MarketDataContainer = ({ title, value }: MarketDataContainerProps) => {
+  const { currentTheme } = useTheme();
+
   return (
-    <div className="flex gap-3">
-      <Image
-        src={`/images/token-info/${currentTheme}/add-sign.svg`}
-        alt="Add symbol"
-        width={16}
-        height={16}
-      ></Image>
-      <p>Market Cap</p>
+    <div className="flex justify-between items-center w-full">
+      <div className="flex items-center gap-3">
+        <Image
+          src={`/images/token-info/${currentTheme}/info-icon.svg`}
+          alt="Add symbol"
+          width={32}
+          height={32}
+        ></Image>
+        <p>{title}</p>
+      </div>
+      <p className="text-xl font-medium">{value?.toLocaleString()}</p>
     </div>
   );
 };

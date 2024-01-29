@@ -8,6 +8,7 @@ import { useTheme } from "@/app/contexts/themeContext";
 import LinkContainer from "./LinkContainer";
 import AllTimeContainer from "./AllTimeContainer";
 import { useCurrency } from "@/app/contexts/currencyContext";
+import MarketDataContainer from "./MarketDataContainer";
 
 interface TokenInfoProps {
   token_id: string;
@@ -128,18 +129,26 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 w-[544px] rounded-xl">
+          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
             <div>
-              <div className="flex gap-4">
-                <div>
-                  <p>$749,864,345,056</p>
-                </div>
+              <div className="flex flex-col gap-4">
+                <MarketDataContainer
+                  title="Market Cap"
+                  value={tokenInfo?.market_cap}
+                />
+                <MarketDataContainer
+                  title="Fully Diluted Valuation"
+                  value={tokenInfo?.fully_diluted_valuation}
+                />
+                <MarketDataContainer
+                  title="Volume/Market"
+                  value={tokenInfo?.volume_by_market}
+                />
               </div>
             </div>
             <div>
               <div className="flex gap-4">
                 <div className="flex gap-3">
-                  <img src="plus sign" alt="" />
                   <p>Total Volume</p>
                 </div>
                 <div>
@@ -147,7 +156,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 </div>
               </div>
             </div>
-            <div>Progress bar</div>
+            <div>Circulating Supply vs Max Supply bar</div>
           </div>
         </div>
       </div>
