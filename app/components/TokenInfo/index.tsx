@@ -11,6 +11,7 @@ import { useCurrency } from "@/app/contexts/currencyContext";
 import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
 import formatNum from "@/app/utils/formatNum";
+import PrgoressBar from "../PrgoressBar";
 
 interface TokenInfoProps {
   token_id: string;
@@ -186,27 +187,15 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 }`}
               />
             </div>
-            <div className="flex flex-col gap-1">
-              <div className="text-xs flex justify-between">
-                <p>
-                  {formatNum(
-                    tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
-                  )}
-                  %
-                </p>
-                <p className="text-[#5E74C9]">
-                  {formatNum(tokenInfo ? tokenInfo?.circulating_by_max : 0)}%
-                </p>
-              </div>
-              <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
-                <div
-                  className={`h-full bg-[#5E74C9]`}
-                  style={{
-                    width: `${tokenInfo ? tokenInfo.circulating_by_max : 0}%`,
-                  }}
-                ></div>
-              </div>
-            </div>
+            <PrgoressBar
+              left_text={formatNum(
+                tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
+              )}
+              right_text={formatNum(
+                tokenInfo ? tokenInfo?.circulating_by_max : 0
+              )}
+              percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
+            />
           </div>
         </div>
       </div>
