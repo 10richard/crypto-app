@@ -2,7 +2,7 @@ import Image from "next/image";
 
 interface AllTimeContainerProps {
   title: string;
-  price: number | undefined;
+  price: string | undefined;
   date: string | undefined;
 }
 
@@ -29,7 +29,7 @@ const AllTimeContainer = ({ title, price, date }: AllTimeContainerProps) => {
           height={16}
         ></Image>
         <p>All time {title}: </p>
-        <p className="text-xl font-medium">${price}</p>
+        <p className="text-xl font-medium">{price}</p>
       </div>
       <div className="text-sm text-[#B9B9BA] flex justify-end max-w-[230px]">
         {formattedDate}

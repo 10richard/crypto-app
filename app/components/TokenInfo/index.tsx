@@ -57,18 +57,21 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         image: fetchedToken.image.small,
         homepage: fetchedToken.links.homepage[0],
         links: fetchedToken.links.blockchain_site.slice(0, 3),
-        price: fetchedToken.market_data.current_price[currentCurrency],
-        ath: fetchedToken.market_data.ath[currentCurrency],
-        ath_date: fetchedToken.market_data.ath_date[currentCurrency],
-        atl: fetchedToken.market_data.atl[currentCurrency],
-        atl_date: fetchedToken.market_data.atl_date[currentCurrency],
-        market_cap: fetchedToken.market_data.market_cap[currentCurrency],
+        price: fetchedToken.market_data.current_price[currentCurrency.abbr],
+        ath: fetchedToken.market_data.ath[currentCurrency.abbr],
+        ath_date: fetchedToken.market_data.ath_date[currentCurrency.abbr],
+        atl: fetchedToken.market_data.atl[currentCurrency.abbr],
+        atl_date: fetchedToken.market_data.atl_date[currentCurrency.abbr],
+        market_cap: fetchedToken.market_data.market_cap[currentCurrency.abbr],
         fully_diluted_valuation:
-          fetchedToken.market_data.fully_diluted_valuation[currentCurrency],
-        total_volume: fetchedToken.market_data.total_volume[currentCurrency],
+          fetchedToken.market_data.fully_diluted_valuation[
+            currentCurrency.abbr
+          ],
+        total_volume:
+          fetchedToken.market_data.total_volume[currentCurrency.abbr],
         volume_by_market:
-          fetchedToken.market_data.total_volume[currentCurrency] /
-          fetchedToken.market_data.market_cap[currentCurrency],
+          fetchedToken.market_data.total_volume[currentCurrency.abbr] /
+          fetchedToken.market_data.market_cap[currentCurrency.abbr],
         description: fetchedToken.description.en,
         circulating_supply: fetchedToken.market_data.circulating_supply,
         max_supply:
@@ -154,6 +157,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 </div>
               </div>
             </div>
+<<<<<<< HEAD
             <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
               <div className="flex flex-col gap-4">
                 <MarketDataContainer
@@ -197,6 +201,53 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   tokenInfo ? tokenInfo?.circulating_by_max : 0
                 )}%`}
                 percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
+=======
+            {/* Change height */}
+            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
+              <div className="flex flex-col gap-5">
+                <div className="flex gap-4">
+                  <p className="text-4xl font-bold">
+                    {currentCurrency.symbol}
+                    {tokenInfo?.price.toLocaleString()}
+                  </p>
+                  <PriceChangeContainer priceChange={2} />
+                </div>
+                <div className="flex items-center gap-4">
+                  <p>Profit:</p>
+                  <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
+                </div>
+              </div>
+              <img src="stack icon" alt="" />
+              <div className="flex flex-col gap-6">
+                <AllTimeContainer
+                  title="high"
+                  price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
+                  date={tokenInfo?.ath_date}
+                />
+                <AllTimeContainer
+                  title="low"
+                  price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
+                  date={tokenInfo?.atl_date}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
+            <div className="flex flex-col gap-4">
+              <MarketDataContainer
+                title="Market Cap"
+                currency={currentCurrency.symbol}
+                value={tokenInfo?.market_cap}
+              />
+              <MarketDataContainer
+                title="Fully Diluted Valuation"
+                currency={currentCurrency.symbol}
+                value={tokenInfo?.fully_diluted_valuation}
+              />
+              <MarketDataContainer
+                title="Volume/Market"
+                value={tokenInfo?.volume_by_market}
+>>>>>>> main
               />
             </div>
           </div>

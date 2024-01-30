@@ -36,9 +36,10 @@ interface TokenSlide {
 
 interface PricesChartProps {
   tokens: TokenSlide[];
+  currency: string;
 }
 
-const PricesChart = ({ tokens }: PricesChartProps) => {
+const PricesChart = ({ tokens, currency }: PricesChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
   const { isDarkTheme } = useTheme();
@@ -52,7 +53,7 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
   const title = multipleTokens ? "" : activeTokens[0]?.title;
   const value = multipleTokens
     ? getTodayDate()
-    : `$${activeTokens[0]?.current_price || 0}`.toString();
+    : `${currency}${activeTokens[0]?.current_price || 0}`.toString();
 
   const datasets = activeTokens
     .map((token, idx) => {
@@ -135,7 +136,8 @@ const PricesChart = ({ tokens }: PricesChartProps) => {
                 style={{ backgroundColor: colors[idx] }}
               ></span>
               <p className="text-content-sub">
-                {token.title.split(" ")[0]} ${token.current_price}
+                {token.title.split(" ")[0]} {currency}
+                {token.current_price}
               </p>
             </div>
           ))}
