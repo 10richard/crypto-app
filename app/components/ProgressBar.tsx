@@ -4,7 +4,7 @@ interface ProgressBarProps {
   percent: number;
 }
 
-const PrgoressBar = ({ left_text, right_text, percent }: ProgressBarProps) => {
+const ProgressBar = ({ left_text, right_text, percent }: ProgressBarProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       <div className="text-xs flex justify-between">
@@ -23,4 +23,4 @@ const PrgoressBar = ({ left_text, right_text, percent }: ProgressBarProps) => {
   );
 };
 
-export default PrgoressBar;
+export default ProgressBar;

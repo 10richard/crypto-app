@@ -11,7 +11,7 @@ import { useCurrency } from "@/app/contexts/currencyContext";
 import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
 import formatNum from "@/app/utils/formatNum";
-import PrgoressBar from "../PrgoressBar";
+import ProgressBar from "../ProgressBar";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 
 interface TokenInfoProps {
@@ -188,7 +188,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 }`}
               />
             </div>
-            <PrgoressBar
+            <ProgressBar
               left_text={formatNum(
                 tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
               )}
@@ -197,6 +197,16 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               )}
               percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
             />
+          </div>
+        </div>
+        <div className="flex">
+          {/* Add token description here */}
+          {/* Add links here */}
+          <div>{tokenInfo?.description}</div>
+          <div className="flex flex-col">
+            {tokenInfo?.links.map((link) => (
+              <LinkContainer link={link} currentTheme={currentTheme} />
+            ))}
           </div>
         </div>
       </MaxWidthContainer>
