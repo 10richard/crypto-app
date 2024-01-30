@@ -3,7 +3,7 @@ import { useTheme } from "@/app/contexts/themeContext";
 
 interface MarketDataContainerProps {
   title: string;
-  currency: string;
+  currency?: string;
   value: string | number | undefined;
 }
 
