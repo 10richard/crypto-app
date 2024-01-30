@@ -27,10 +27,11 @@ interface TokenSlide {
 
 interface VolumeChartProps {
   tokens: TokenSlide[];
+  currency: string;
   timePeriod: string;
 }
 
-const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
+const VolumeChart = ({ tokens, currency, timePeriod }: VolumeChartProps) => {
   const activeTokens = tokens.filter((t: TokenSlide) => t.selected);
   const multipleTokens = activeTokens.length > 1;
 
@@ -39,7 +40,7 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
   const title = multipleTokens ? "" : `Volume ${timePeriod}`;
   const value = multipleTokens
     ? `Volume ${timePeriod}`
-    : `$${activeTokens[0]?.chartData?.volume_summation}` || "";
+    : `${currency}${activeTokens[0]?.chartData?.volume_summation}` || "";
 
   const datasets = activeTokens
     .map((token, idx) => {
@@ -123,7 +124,8 @@ const VolumeChart = ({ tokens, timePeriod }: VolumeChartProps) => {
                 style={{ backgroundColor: colors[idx] }}
               ></span>
               <p className="text-content-sub">
-                {token.title.split(" ")[0]} ${token.chartData?.volume_summation}
+                {token.title.split(" ")[0]} {currency}
+                {token.chartData?.volume_summation}
               </p>
             </div>
           ))}

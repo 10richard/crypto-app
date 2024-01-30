@@ -2,9 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
+interface Currency {
+  abbr: string;
+  symbol: string;
+}
+
 interface CurrencyContextProps {
-  currentCurrency: string;
-  setCurrentCurrency: (val: string) => void;
+  currentCurrency: Currency;
+  setCurrentCurrency: (val: Currency) => void;
 }
 
 export const CurrencyContext = createContext<CurrencyContextProps | undefined>(
@@ -27,7 +32,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
   const initialCurrency =
     storedCurrency && storedCurrency !== "undefined"
       ? JSON.parse(storedCurrency)
-      : "usd";
+      : { abbr: "usd", symbol: "$" };
 
   const [currentCurrency, setCurrentCurrency] = useState(initialCurrency);
 

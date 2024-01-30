@@ -48,7 +48,7 @@ const DuoCharts = () => {
   const { currentCurrency } = useCurrency();
   const prevTokens = useRef<TokenSlide[]>([]);
   const prevTimePeriod = useRef("");
-  const prevCurrency = useRef(currentCurrency);
+  const prevCurrency = useRef(currentCurrency.abbr);
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -60,13 +60,13 @@ const DuoCharts = () => {
   };
 
   const config = {
-    vs_currency: currentCurrency,
+    vs_currency: currentCurrency.abbr,
     days: "1D",
   };
 
   const getQueryString = () => {
     config.days = daysMap[timePeriod];
-    config.vs_currency = currentCurrency;
+    config.vs_currency = currentCurrency.abbr;
     let query = Object.entries(config).reduce(
       (acc, [key, val]) => `${acc}&${key}=${val}`,
       ""
@@ -100,7 +100,7 @@ const DuoCharts = () => {
 
   useEffect(() => {
     const fetchTokenList = async () => {
-      const tokenList = await getTopTokens(currentCurrency);
+      const tokenList = await getTopTokens(currentCurrency.abbr);
       const tokenSlides = tokenList.map((token: TokenInfo, idx: number) => ({
         id: token.id,
         title: `${token.name} (${token.symbol.toUpperCase()})`,
@@ -123,7 +123,7 @@ const DuoCharts = () => {
       if (
         prevTimePeriod.current === timePeriod &&
         arraysAreEqual(prevTokens.current, activeTokens) &&
-        prevCurrency.current === currentCurrency
+        prevCurrency.current === currentCurrency.abbr
       )
         return;
 
@@ -141,7 +141,7 @@ const DuoCharts = () => {
       }
       prevTokens.current = activeTokens;
       prevTimePeriod.current = timePeriod;
-      prevCurrency.current = currentCurrency;
+      prevCurrency.current = currentCurrency.abbr;
     };
 
     fetchData();
@@ -155,8 +155,12 @@ const DuoCharts = () => {
           handleSelection={setTokenSlides}
         />
         <div className="flex gap-8">
-          <PricesChart tokens={tokenSlides} />
-          <VolumeChart tokens={tokenSlides} timePeriod={timePeriod} />
+          <PricesChart tokens={tokenSlides} currency={currentCurrency.symbol} />
+          <VolumeChart
+            tokens={tokenSlides}
+            currency={currentCurrency.symbol}
+            timePeriod={timePeriod}
+          />
         </div>
         <TimePeriodSelector
           currTimePeriod={timePeriod}
