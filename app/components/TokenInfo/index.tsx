@@ -12,6 +12,7 @@ import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
 import formatNum from "@/app/utils/formatNum";
 import PrgoressBar from "../PrgoressBar";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 
 interface TokenInfoProps {
   token_id: string;
@@ -88,7 +89,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
 
   return (
     <div className="flex justify-center mt-14">
-      <div className="flex flex-col max-w-[1296px] w-full">
+      <MaxWidthContainer className="flex flex-col">
         <div className="mb-10">
           <button
             className="flex items-center gap-3"
@@ -198,7 +199,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             />
           </div>
         </div>
-      </div>
+      </MaxWidthContainer>
     </div>
   );
 };
