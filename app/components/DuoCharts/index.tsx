@@ -48,7 +48,7 @@ const DuoCharts = () => {
   const { currentCurrency } = useCurrency();
   const prevTokens = useRef<TokenSlide[]>([]);
   const prevTimePeriod = useRef("");
-  const prevCurrency = useRef(currentCurrency);
+  const prevCurrency = useRef(currentCurrency.abbr);
 
   const daysMap: Record<string, string> = {
     "1D": "1",
@@ -60,13 +60,13 @@ const DuoCharts = () => {
   };
 
   const config = {
-    vs_currency: currentCurrency,
+    vs_currency: currentCurrency.abbr,
     days: "1D",
   };
 
   const getQueryString = () => {
     config.days = daysMap[timePeriod];
-    config.vs_currency = currentCurrency;
+    config.vs_currency = currentCurrency.abbr;
     let query = Object.entries(config).reduce(
       (acc, [key, val]) => `${acc}&${key}=${val}`,
       ""
@@ -123,7 +123,7 @@ const DuoCharts = () => {
       if (
         prevTimePeriod.current === timePeriod &&
         arraysAreEqual(prevTokens.current, activeTokens) &&
-        prevCurrency.current === currentCurrency
+        prevCurrency.current === currentCurrency.abbr
       )
         return;
 
@@ -141,7 +141,7 @@ const DuoCharts = () => {
       }
       prevTokens.current = activeTokens;
       prevTimePeriod.current = timePeriod;
-      prevCurrency.current = currentCurrency;
+      prevCurrency.current = currentCurrency.abbr;
     };
 
     fetchData();
