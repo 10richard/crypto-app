@@ -155,7 +155,7 @@ const TokenCarousel = ({
                     token.selected ? "text-white/70" : "text-content-sub"
                   }`}
                 >
-                  {token.current_price} {currentCurrency.abbr.toUpperCase()}
+                  {token.current_price} {currentCurrency.toUpperCase()}
                 </p>
                 <PriceChangeContainer
                   priceChange={roundToTenth(token.price_change1h)}

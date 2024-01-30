@@ -4,7 +4,6 @@ import PriceChangeContainer from "./PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";
-import { useCurrency } from "@/app/contexts/currencyContext";
 import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale, LinearScale, LineElement } from "chart.js";
@@ -61,8 +60,7 @@ const TableRow = ({ token }: TableRowProps) => {
     return idx % 4 === 0;
   });
 
-  const { isDarkTheme } = useTheme();
-  const { currentCurrency } = useCurrency();
+  const darkTheme = useTheme().currentTheme === "dark-theme";
 
   const sparklineData = {
     labels: Array.from(Array(everyFourthPrice.length).keys()),
@@ -83,10 +81,7 @@ const TableRow = ({ token }: TableRowProps) => {
               context.chart.height
             );
             linearGradient.addColorStop(0, "#4d5c9e");
-            linearGradient.addColorStop(
-              1,
-              isDarkTheme() ? "#191934" : "#fdfdff"
-            );
+            linearGradient.addColorStop(1, darkTheme ? "#191934" : "#fdfdff");
             return linearGradient;
           }
         },
@@ -133,23 +128,14 @@ const TableRow = ({ token }: TableRowProps) => {
           </div>
         </div>
       </Link>
-      <div className="w-20">
-        {currentCurrency.symbol}
-        {currentPrice}
-      </div>
+      <div className="w-20">${currentPrice}</div>
       <PriceChangeContainer priceChange={priceChange1h} />
       <PriceChangeContainer priceChange={priceChange24h} />
       <PriceChangeContainer priceChange={priceChange7d} />
       <div className="flex flex-col gap-1 w-[228px]">
         <div className="text-xs flex justify-between">
-          <p className="text-[#5E74C9]">
-            {currentCurrency.symbol}
-            {formatNum(token.total_volume)}
-          </p>
-          <p>
-            {currentCurrency.symbol}
-            {formatNum(token.market_cap)}
-          </p>
+          <p className="text-[#5E74C9]">${formatNum(token.total_volume)}</p>
+          <p>${formatNum(token.market_cap)}</p>
         </div>
         <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
           <div
@@ -161,13 +147,9 @@ const TableRow = ({ token }: TableRowProps) => {
       <div className="text-xs flex flex-col gap-1 w-[228px]">
         <div className="flex justify-between">
           <p className="text-[#5E74C9]">
-            {currentCurrency.symbol}
-            {formatNum(token.circulating_supply)}
+            ${formatNum(token.circulating_supply)}
           </p>
-          <p>
-            {currentCurrency.symbol}
-            {formatNum(token.total_supply)}
-          </p>
+          <p>${formatNum(token.total_supply)}</p>
         </div>
         <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
           <div

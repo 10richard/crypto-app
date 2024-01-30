@@ -6,23 +6,12 @@ interface CurrencyChangerProps {
   currentTheme: string;
 }
 
-interface Currency {
-  abbr: string;
-  symbol: string;
-}
-
 const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
   const [isActive, setIsActive] = useState(false);
   const { currentCurrency, setCurrentCurrency } = useCurrency();
-  const currencies = [
-    { abbr: "usd", symbol: "$" },
-    { abbr: "gbp", symbol: "£" },
-    { abbr: "eur", symbol: "€" },
-    { abbr: "btc", symbol: "₿" },
-    { abbr: "eth", symbol: "Ξ" },
-  ];
+  const currencies = ["usd", "gbp", "eur", "btc", "eth"];
 
-  const handleCurrencyClick = (currency: Currency) => {
+  const handleCurrencyClick = (currency: string) => {
     setCurrentCurrency(currency);
     setIsActive(false);
   };
@@ -41,7 +30,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
           height={20}
         />
         <div>
-          <p>{currentCurrency.abbr.toUpperCase()}</p>
+          <p>{currentCurrency.toUpperCase()}</p>
         </div>
         <Image
           src={`/images/navbar/${currentTheme}/chevron-down.svg`}
@@ -57,7 +46,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
       >
         {currencies.map((c) => (
           <button
-            key={c.abbr}
+            key={c}
             className={`text-center flex items-center gap-2 w-full py-2 px-4 ${
               currentCurrency === c ? "bg-bkg-input" : ""
             }`}
@@ -66,9 +55,9 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
             <input
               type="radio"
               readOnly={true}
-              checked={c.abbr === currentCurrency.abbr}
+              checked={c === currentCurrency}
             />
-            <p className="mx-auto">{c.abbr.toUpperCase()}</p>
+            <p className="mx-auto">{c.toUpperCase()}</p>
           </button>
         ))}
       </div>
