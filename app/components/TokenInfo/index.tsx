@@ -163,15 +163,21 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             <div className="flex flex-col gap-4">
               <MarketDataContainer
                 title="Total Volume"
-                value={tokenInfo?.total_volume}
+                value={`${tokenInfo?.total_volume.toLocaleString()} ${
+                  tokenInfo?.name.split(" ")[1]
+                }`}
               />
               <MarketDataContainer
                 title="Circulating Supply"
-                value={tokenInfo?.circulating_supply}
+                value={`${tokenInfo?.circulating_supply.toLocaleString()} ${
+                  tokenInfo?.name.split(" ")[1]
+                }`}
               />
               <MarketDataContainer
                 title="Max Supply"
-                value={tokenInfo?.max_supply}
+                value={`${tokenInfo?.max_supply.toLocaleString()} ${
+                  tokenInfo?.name.split(" ")[1]
+                }`}
               />
             </div>
             <div>Circulating Supply vs Max Supply bar</div>
