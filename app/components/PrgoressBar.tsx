@@ -6,7 +6,7 @@ interface ProgressBarProps {
 
 const PrgoressBar = ({ left_text, right_text, percent }: ProgressBarProps) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 w-full">
       <div className="text-xs flex justify-between">
         <p>{left_text}</p>
         <p className="text-[#5E74C9]">{right_text}</p>
