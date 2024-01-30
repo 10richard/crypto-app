@@ -76,8 +76,8 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             ? "N/A"
             : fetchedToken.market_data.max_supply,
         circulating_by_max:
-          (fetchedToken.market_data.max_supply /
-            fetchedToken.market_data.circulating_supply) *
+          (fetchedToken.market_data.circulating_supply /
+            fetchedToken.market_data.max_supply) *
           100,
       };
 
@@ -89,121 +89,128 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
 
   return (
     <div className="flex justify-center mt-14">
-      <MaxWidthContainer className="flex flex-col">
-        <div className="mb-10">
-          <button
-            className="flex items-center gap-3"
-            onClick={() => router.back()}
-          >
-            <Image
-              src={`/images/token-info/${currentTheme}/arrow-back.svg`}
-              alt="Arrow back"
-              width={35}
-              height={35}
-            ></Image>
-            <p className="text-lg">Back</p>
-          </button>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-8">
-            <div className="flex flex-col gap-4">
-              <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10 rounded-xl">
-                <div className="bg-[#2C2C4D] p-4 rounded-lg">
-                  <img
-                    src={tokenInfo?.image}
-                    alt={`${tokenInfo?.name} image`}
-                    className="w-8 h-8"
+      <MaxWidthContainer className="flex flex-col gap-[80px] pb-[72px]">
+        <div>
+          <div className="mb-10">
+            <button
+              className="flex items-center gap-3"
+              onClick={() => router.back()}
+            >
+              <Image
+                src={`/images/token-info/${currentTheme}/arrow-back.svg`}
+                alt="Arrow back"
+                width={35}
+                height={35}
+              ></Image>
+              <p className="text-lg">Back</p>
+            </button>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex gap-8">
+              <div className="flex flex-col gap-4">
+                <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10 rounded-xl">
+                  <div className="bg-[#2C2C4D] p-4 rounded-lg">
+                    <img
+                      src={tokenInfo?.image}
+                      alt={`${tokenInfo?.name} image`}
+                      className="w-8 h-8"
+                    />
+                  </div>
+                  <h2 className="text-center text-3xl font-bold">
+                    {tokenInfo?.name}
+                  </h2>
+                </div>
+                <LinkContainer
+                  link={tokenInfo ? tokenInfo?.homepage : ""}
+                  currentTheme={currentTheme}
+                />
+              </div>
+              {/* Change height */}
+              <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
+                <div className="flex flex-col gap-5">
+                  <div className="flex gap-4">
+                    <p className="text-4xl font-bold">
+                      ${tokenInfo?.price.toLocaleString()}
+                    </p>
+                    <PriceChangeContainer priceChange={2} />
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <p>Profit:</p>
+                    <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
+                  </div>
+                </div>
+                <img src="stack icon" alt="" />
+                <div className="flex flex-col gap-6">
+                  <AllTimeContainer
+                    title="high"
+                    price={tokenInfo?.ath}
+                    date={tokenInfo?.ath_date}
+                  />
+                  <AllTimeContainer
+                    title="low"
+                    price={tokenInfo?.atl}
+                    date={tokenInfo?.atl_date}
                   />
                 </div>
-                <h2 className="text-center text-3xl font-bold">
-                  {tokenInfo?.name}
-                </h2>
               </div>
-              <LinkContainer
-                link={tokenInfo ? tokenInfo?.homepage : ""}
-                currentTheme={currentTheme}
-              />
             </div>
-            {/* Change height */}
-            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-4">
-                  <p className="text-4xl font-bold">
-                    ${tokenInfo?.price.toLocaleString()}
-                  </p>
-                  <PriceChangeContainer priceChange={2} />
-                </div>
-                <div className="flex items-center gap-4">
-                  <p>Profit:</p>
-                  <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
-                </div>
-              </div>
-              <img src="stack icon" alt="" />
-              <div className="flex flex-col gap-6">
-                <AllTimeContainer
-                  title="high"
-                  price={tokenInfo?.ath}
-                  date={tokenInfo?.ath_date}
+            <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
+              <div className="flex flex-col gap-4">
+                <MarketDataContainer
+                  title="Market Cap"
+                  value={tokenInfo?.market_cap}
                 />
-                <AllTimeContainer
-                  title="low"
-                  price={tokenInfo?.atl}
-                  date={tokenInfo?.atl_date}
+                <MarketDataContainer
+                  title="Fully Diluted Valuation"
+                  value={tokenInfo?.fully_diluted_valuation}
+                />
+                <MarketDataContainer
+                  title="Volume/Market"
+                  value={tokenInfo?.volume_by_market}
                 />
               </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
-            <div className="flex flex-col gap-4">
-              <MarketDataContainer
-                title="Market Cap"
-                value={tokenInfo?.market_cap}
-              />
-              <MarketDataContainer
-                title="Fully Diluted Valuation"
-                value={tokenInfo?.fully_diluted_valuation}
-              />
-              <MarketDataContainer
-                title="Volume/Market"
-                value={tokenInfo?.volume_by_market}
-              />
-            </div>
-            <div className="flex flex-col gap-4">
-              <MarketDataContainer
-                title="Total Volume"
-                value={`${tokenInfo?.total_volume.toLocaleString()} ${
-                  tokenInfo?.name.split(" ")[1]
-                }`}
-              />
-              <MarketDataContainer
-                title="Circulating Supply"
-                value={`${tokenInfo?.circulating_supply.toLocaleString()} ${
-                  tokenInfo?.name.split(" ")[1]
-                }`}
-              />
-              <MarketDataContainer
-                title="Max Supply"
-                value={`${tokenInfo?.max_supply.toLocaleString()} ${
-                  tokenInfo?.name.split(" ")[1]
-                }`}
+              <div className="flex flex-col gap-4">
+                <MarketDataContainer
+                  title="Total Volume"
+                  value={`${tokenInfo?.total_volume.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+                <MarketDataContainer
+                  title="Circulating Supply"
+                  value={`${tokenInfo?.circulating_supply.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+                <MarketDataContainer
+                  title="Max Supply"
+                  value={`${tokenInfo?.max_supply.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+              </div>
+              <ProgressBar
+                left_text={`${formatNum(
+                  tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
+                )}%`}
+                right_text={`${formatNum(
+                  tokenInfo ? tokenInfo?.circulating_by_max : 0
+                )}%`}
+                percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
               />
             </div>
-            <ProgressBar
-              left_text={formatNum(
-                tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
-              )}
-              right_text={formatNum(
-                tokenInfo ? tokenInfo?.circulating_by_max : 0
-              )}
-              percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
-            />
           </div>
         </div>
-        <div className="flex">
-          {/* Add token description here */}
-          {/* Add links here */}
-          <div>{tokenInfo?.description}</div>
-          <div className="flex flex-col">
+        <div className="flex justify-between">
+          <div className="flex flex-col gap-6 max-w-[692px] w-full">
+            <h3 className="text-xl font-medium">Description</h3>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: tokenInfo ? tokenInfo?.description : "",
+              }}
+            ></div>
+          </div>
+          <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
             {tokenInfo?.links.map((link) => (
               <LinkContainer link={link} currentTheme={currentTheme} />
             ))}
