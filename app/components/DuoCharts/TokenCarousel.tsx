@@ -1,4 +1,4 @@
-import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
+import PriceChangeContainer from "../PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";

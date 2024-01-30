@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import PriceChangeContainer from "./PriceChangeContainer";
+import PriceChangeContainer from "../PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";

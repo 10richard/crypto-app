@@ -2,7 +2,7 @@
 
 import { getTokenInfo } from "@/app/api/getTokenInfo";
 import { useEffect, useState } from "react";
-import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
+import PriceChangeContainer from "../PriceChangeContainer";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/app/contexts/themeContext";
 import LinkContainer from "./LinkContainer";
