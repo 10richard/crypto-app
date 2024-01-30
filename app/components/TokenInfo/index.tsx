@@ -10,6 +10,7 @@ import AllTimeContainer from "./AllTimeContainer";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
+import formatNum from "@/app/utils/formatNum";
 
 interface TokenInfoProps {
   token_id: string;
@@ -37,6 +38,7 @@ interface TokenInfo {
   description: string;
   max_supply: number;
   circulating_supply: number;
+  circulating_by_max: number;
 }
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
@@ -66,11 +68,15 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
           fetchedToken.market_data.total_volume[currentCurrency] /
           fetchedToken.market_data.market_cap[currentCurrency],
         description: fetchedToken.description.en,
+        circulating_supply: fetchedToken.market_data.circulating_supply,
         max_supply:
           fetchedToken.market_data.max_supply === null
             ? "N/A"
             : fetchedToken.market_data.max_supply,
-        circulating_supply: fetchedToken.market_data.circulating_supply,
+        circulating_by_max:
+          (fetchedToken.market_data.max_supply /
+            fetchedToken.market_data.circulating_supply) *
+          100,
       };
 
       setTokenInfo(token);
@@ -180,7 +186,27 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 }`}
               />
             </div>
-            <div>Circulating Supply vs Max Supply bar</div>
+            <div className="flex flex-col gap-1">
+              <div className="text-xs flex justify-between">
+                <p>
+                  {formatNum(
+                    tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
+                  )}
+                  %
+                </p>
+                <p className="text-[#5E74C9]">
+                  {formatNum(tokenInfo ? tokenInfo?.circulating_by_max : 0)}%
+                </p>
+              </div>
+              <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
+                <div
+                  className={`h-full bg-[#5E74C9]`}
+                  style={{
+                    width: `${tokenInfo ? tokenInfo.circulating_by_max : 0}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
