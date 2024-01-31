@@ -1,4 +1,4 @@
-import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
+import PriceChangeContainer from "../PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
@@ -155,7 +155,7 @@ const TokenCarousel = ({
                     token.selected ? "text-white/70" : "text-content-sub"
                   }`}
                 >
-                  {token.current_price} {currentCurrency.toUpperCase()}
+                  {token.current_price} {currentCurrency.abbr.toUpperCase()}
                 </p>
                 <PriceChangeContainer
                   priceChange={roundToTenth(token.price_change1h)}

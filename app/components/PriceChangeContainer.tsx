@@ -10,7 +10,7 @@ const PriceChangeContainer = ({ priceChange }: PriceChangeContainerProps) => {
   return (
     <div
       className={`flex gap-1 items-center w-[72px] ${
-        priceChange <= 0 ? "text-[#FF0061]" : "text-[#00B4A7]"
+        priceChange <= 0 ? "text-[#FF0061]" : "text-[#00F5E4]"
       }`}
     >
       <Image
