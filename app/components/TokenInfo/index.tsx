@@ -13,6 +13,7 @@ import Image from "next/image";
 import formatNum from "@/app/utils/formatNum";
 import ProgressBar from "../ProgressBar";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import DescriptionContainer from "./DescriptionContainer";
 
 interface TokenInfoProps {
   token_id: string;
@@ -45,7 +46,6 @@ interface TokenInfo {
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
-  const [showMore, setShowMore] = useState(false);
   const router = useRouter();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
@@ -209,25 +209,9 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
           </div>
         </div>
         <div className="flex justify-between">
-          <div className="flex flex-col gap-6 max-w-[692px] w-full">
-            <h3 className="text-xl font-medium">Description</h3>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: tokenInfo
-                  ? tokenInfo.description
-                      .toString()
-                      .substring(0, showMore ? undefined : 878) +
-                    (showMore ? "" : "...")
-                  : "",
-              }}
-            ></div>
-            <button
-              className="text-[#6060FF]"
-              onClick={() => setShowMore(!showMore)}
-            >
-              {showMore ? "Show Less" : "Show More"}
-            </button>
-          </div>
+          <DescriptionContainer
+            desc={tokenInfo ? tokenInfo?.description : ""}
+          />
           <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
             {tokenInfo?.links.map((link) => (
               <LinkContainer
