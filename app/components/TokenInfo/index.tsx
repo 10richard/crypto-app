@@ -19,11 +19,6 @@ interface TokenInfoProps {
   token_id: string;
 }
 
-interface Links {
-  homepage: string[];
-  blockchain_site: string[];
-}
-
 interface TokenInfo {
   name: string;
   image: string;
