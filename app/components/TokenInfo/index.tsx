@@ -218,7 +218,11 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
           </div>
           <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
             {tokenInfo?.links.map((link) => (
-              <LinkContainer link={link} currentTheme={currentTheme} />
+              <LinkContainer
+                key={link}
+                link={link}
+                currentTheme={currentTheme}
+              />
             ))}
           </div>
         </div>
