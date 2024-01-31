@@ -24,7 +24,7 @@ const NavCoinsConverter = () => {
         <Link href={"/token-converter"}>
           <div
             className={`text-lg w-[244px] py-3 rounded-md ${
-              path === "/currency-converter"
+              path === "/token-converter"
                 ? "text-white bg-active-btn/50 border border-[#7878FF]"
                 : "bg-inactive-btn"
             }`}

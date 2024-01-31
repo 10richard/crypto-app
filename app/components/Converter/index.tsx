@@ -1,12 +1,13 @@
 import PricesChart from "../DuoCharts/PricesChart";
 import TimePeriodSelector from "../DuoCharts/TimePeriodSelector";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 
 // Get past data for left and right token
 // Divide each price point of left by right
 // Graph the result
 const Converter = () => {
   return (
-    <div className="pb-[70px]">
+    <MaxWidthContainer className="pt-11 pb-[70px]">
       <div>
         <h2>Online currency convertor</h2>
         <p>Date Today</p>
@@ -47,7 +48,7 @@ const Converter = () => {
           </div>
         </div>
       </div>
-    </div>
+    </MaxWidthContainer>
   );
 };
 
