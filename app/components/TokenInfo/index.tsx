@@ -104,7 +104,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
               <p className="text-lg">Back</p>
             </button>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-10">
             <div>
               <div className="flex gap-8">
                 <div className="flex flex-col gap-4">
