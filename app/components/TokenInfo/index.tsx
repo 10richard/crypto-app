@@ -133,7 +133,8 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 <div className="flex flex-col gap-5">
                   <div className="flex gap-4">
                     <p className="text-4xl font-bold">
-                      ${tokenInfo?.price.toLocaleString()}
+                      {currentCurrency.symbol}
+                      {tokenInfo?.price.toLocaleString()}
                     </p>
                     <PriceChangeContainer priceChange={2} />
                   </div>
@@ -146,26 +147,27 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 <div className="flex flex-col gap-6">
                   <AllTimeContainer
                     title="high"
-                    price={tokenInfo?.ath}
+                    price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
                     date={tokenInfo?.ath_date}
                   />
                   <AllTimeContainer
                     title="low"
-                    price={tokenInfo?.atl}
+                    price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
                     date={tokenInfo?.atl_date}
                   />
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
             <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
               <div className="flex flex-col gap-4">
                 <MarketDataContainer
                   title="Market Cap"
+                  currency={currentCurrency.symbol}
                   value={tokenInfo?.market_cap}
                 />
                 <MarketDataContainer
                   title="Fully Diluted Valuation"
+                  currency={currentCurrency.symbol}
                   value={tokenInfo?.fully_diluted_valuation}
                 />
                 <MarketDataContainer
@@ -201,53 +203,6 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   tokenInfo ? tokenInfo?.circulating_by_max : 0
                 )}%`}
                 percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
-=======
-            {/* Change height */}
-            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-4">
-                  <p className="text-4xl font-bold">
-                    {currentCurrency.symbol}
-                    {tokenInfo?.price.toLocaleString()}
-                  </p>
-                  <PriceChangeContainer priceChange={2} />
-                </div>
-                <div className="flex items-center gap-4">
-                  <p>Profit:</p>
-                  <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
-                </div>
-              </div>
-              <img src="stack icon" alt="" />
-              <div className="flex flex-col gap-6">
-                <AllTimeContainer
-                  title="high"
-                  price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
-                  date={tokenInfo?.ath_date}
-                />
-                <AllTimeContainer
-                  title="low"
-                  price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
-                  date={tokenInfo?.atl_date}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
-            <div className="flex flex-col gap-4">
-              <MarketDataContainer
-                title="Market Cap"
-                currency={currentCurrency.symbol}
-                value={tokenInfo?.market_cap}
-              />
-              <MarketDataContainer
-                title="Fully Diluted Valuation"
-                currency={currentCurrency.symbol}
-                value={tokenInfo?.fully_diluted_valuation}
-              />
-              <MarketDataContainer
-                title="Volume/Market"
-                value={tokenInfo?.volume_by_market}
->>>>>>> main
               />
             </div>
           </div>
