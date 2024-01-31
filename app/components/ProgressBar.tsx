@@ -1,15 +1,15 @@
 interface ProgressBarProps {
-  left_text: string;
-  right_text: string;
+  leftText: string;
+  rightText: string;
   percent: number;
 }
 
-const ProgressBar = ({ left_text, right_text, percent }: ProgressBarProps) => {
+const ProgressBar = ({ leftText, rightText, percent }: ProgressBarProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       <div className="text-xs flex justify-between">
-        <p>{left_text}</p>
-        <p className="text-[#5E74C9]">{right_text}</p>
+        <p>{leftText}</p>
+        <p className="text-[#5E74C9]">{rightText}</p>
       </div>
       <div className="h-[6px] w-full bg-[#3C4777] rounded-xl overflow-hidden">
         <div
