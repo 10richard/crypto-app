@@ -45,6 +45,7 @@ interface TokenInfo {
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
+  const [showMore, setShowMore] = useState(false);
   const router = useRouter();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
@@ -200,7 +201,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                   tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
                 )}%`}
                 right_text={`${formatNum(
-                  tokenInfo ? tokenInfo?.circulating_by_max : 0
+                  tokenInfo ? tokenInfo?.circulating_by_max : 100
                 )}%`}
                 percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
               />
@@ -212,9 +213,20 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
             <h3 className="text-xl font-medium">Description</h3>
             <div
               dangerouslySetInnerHTML={{
-                __html: tokenInfo ? tokenInfo?.description : "",
+                __html: tokenInfo
+                  ? tokenInfo.description
+                      .toString()
+                      .substring(0, showMore ? undefined : 878) +
+                    (showMore ? "" : "...")
+                  : "",
               }}
             ></div>
+            <button
+              className="text-[#6060FF]"
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? "Show Less" : "Show More"}
+            </button>
           </div>
           <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
             {tokenInfo?.links.map((link) => (
