@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 interface DescriptionContainerProps {
-  desc: string;
+  description: string;
 }
 
-const DescriptionContainer = ({ desc }: DescriptionContainerProps) => {
+const DescriptionContainer = ({ description }: DescriptionContainerProps) => {
   const [showMore, setShowMore] = useState(false);
 
   return (
@@ -13,7 +13,7 @@ const DescriptionContainer = ({ desc }: DescriptionContainerProps) => {
       <div
         dangerouslySetInnerHTML={{
           __html:
-            desc.toString().substring(0, showMore ? undefined : 878) +
+            description.toString().substring(0, showMore ? undefined : 878) +
             (showMore ? "" : "..."),
         }}
       ></div>

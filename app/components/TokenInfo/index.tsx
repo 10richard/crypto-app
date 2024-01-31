@@ -206,7 +206,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
         </div>
         <div className="flex justify-between">
           <DescriptionContainer
-            desc={tokenInfo ? tokenInfo?.description : ""}
+            description={tokenInfo ? tokenInfo?.description : ""}
           />
           <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
             {tokenInfo?.links.map((link) => (
