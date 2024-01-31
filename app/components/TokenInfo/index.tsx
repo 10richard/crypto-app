@@ -40,8 +40,8 @@ interface TokenInfo {
 }
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
-  const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const router = useRouter();
+  const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
 
