@@ -27,20 +27,23 @@ export function useCurrency() {
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const storedCurrency =
-    typeof window !== "undefined" ? localStorage.getItem("currency") : null;
-  const initialCurrency =
-    storedCurrency && storedCurrency !== "undefined"
-      ? JSON.parse(storedCurrency)
-      : { abbr: "usd", symbol: "$" };
-
-  const [currentCurrency, setCurrentCurrency] = useState(initialCurrency);
+  const defaultCurrency = { abbr: "usd", symbol: "$" };
+  const [currentCurrency, setCurrentCurrency] = useState(defaultCurrency);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    setIsClient(true);
+    const storedCurrency = localStorage.getItem("currency");
+    if (storedCurrency) {
+      setCurrentCurrency(JSON.parse(storedCurrency));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
       localStorage.setItem("currency", JSON.stringify(currentCurrency));
     }
-  }, [currentCurrency]);
+  }, [currentCurrency, isClient]);
 
   return (
     <CurrencyContext.Provider value={{ currentCurrency, setCurrentCurrency }}>
