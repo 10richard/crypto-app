@@ -199,7 +199,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 right_text={`${formatNum(
                   tokenInfo ? tokenInfo?.circulating_by_max : 100
                 )}%`}
-                percent={tokenInfo ? tokenInfo.circulating_by_max : 0}
+                percent={tokenInfo ? 100 - tokenInfo.circulating_by_max : 0}
               />
             </div>
           </div>
