@@ -21,7 +21,7 @@ const NavCoinsConverter = () => {
             <p>Coins</p>
           </div>
         </Link>
-        <Link href={"/currency-converter"}>
+        <Link href={"/token-converter"}>
           <div
             className={`text-lg w-[244px] py-3 rounded-md ${
               path === "/currency-converter"
