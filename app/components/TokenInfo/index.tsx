@@ -193,10 +193,10 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
                 />
               </div>
               <ProgressBar
-                left_text={`${formatNum(
+                leftText={`${formatNum(
                   tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
                 )}%`}
-                right_text={`${formatNum(
+                rightText={`${formatNum(
                   tokenInfo ? tokenInfo?.circulating_by_max : 100
                 )}%`}
                 percent={tokenInfo ? 100 - tokenInfo.circulating_by_max : 0}
