@@ -2,7 +2,7 @@
 
 import { getTokenInfo } from "@/app/api/getTokenInfo";
 import { useEffect, useState } from "react";
-import PriceChangeContainer from "../TokenTable/PriceChangeContainer";
+import PriceChangeContainer from "../PriceChangeContainer";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/app/contexts/themeContext";
 import LinkContainer from "./LinkContainer";
@@ -10,14 +10,13 @@ import AllTimeContainer from "./AllTimeContainer";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
+import formatNum from "@/app/utils/formatNum";
+import ProgressBar from "../ProgressBar";
+import { MaxWidthContainer } from "../styled/MaxWidthContainer";
+import DescriptionContainer from "./DescriptionContainer";
 
 interface TokenInfoProps {
   token_id: string;
-}
-
-interface Links {
-  homepage: string[];
-  blockchain_site: string[];
 }
 
 interface TokenInfo {
@@ -37,11 +36,12 @@ interface TokenInfo {
   description: string;
   max_supply: number;
   circulating_supply: number;
+  circulating_by_max: number;
 }
 
 const TokenInfo = ({ token_id }: TokenInfoProps) => {
-  const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const router = useRouter();
+  const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
 
@@ -69,11 +69,15 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
           fetchedToken.market_data.total_volume[currentCurrency.abbr] /
           fetchedToken.market_data.market_cap[currentCurrency.abbr],
         description: fetchedToken.description.en,
+        circulating_supply: fetchedToken.market_data.circulating_supply,
         max_supply:
           fetchedToken.market_data.max_supply === null
             ? "N/A"
             : fetchedToken.market_data.max_supply,
-        circulating_supply: fetchedToken.market_data.circulating_supply,
+        circulating_by_max:
+          (fetchedToken.market_data.circulating_supply /
+            fetchedToken.market_data.max_supply) *
+          100,
       };
 
       setTokenInfo(token);
@@ -84,106 +88,137 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
 
   return (
     <div className="flex justify-center mt-14">
-      <div className="flex flex-col max-w-[1296px] w-full">
-        <div className="mb-10">
-          <button
-            className="flex items-center gap-3"
-            onClick={() => router.back()}
-          >
-            <Image
-              src={`/images/token-info/${currentTheme}/arrow-back.svg`}
-              alt="Arrow back"
-              width={35}
-              height={35}
-            ></Image>
-            <p className="text-lg">Back</p>
-          </button>
-        </div>
-        <div className="flex justify-between">
-          <div className="flex gap-8">
-            <div className="flex flex-col gap-4">
-              <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10 rounded-xl">
-                <div className="bg-[#2C2C4D] p-4 rounded-lg">
-                  <img
-                    src={tokenInfo?.image}
-                    alt={`${tokenInfo?.name} image`}
-                    className="w-8 h-8"
+      <MaxWidthContainer className="flex flex-col gap-[80px] pb-[72px]">
+        <div>
+          <div className="mb-10">
+            <button
+              className="flex items-center gap-3"
+              onClick={() => router.back()}
+            >
+              <Image
+                src={`/images/token-info/${currentTheme}/arrow-back.svg`}
+                alt="Arrow back"
+                width={35}
+                height={35}
+              ></Image>
+              <p className="text-lg">Back</p>
+            </button>
+          </div>
+          <div className="flex justify-between gap-10">
+            <div>
+              <div className="flex gap-8">
+                <div className="flex flex-col gap-4">
+                  <div className="text-center flex flex-col items-center gap-6 bg-chart-volume px-14 py-10 rounded-xl">
+                    <div className="bg-[#2C2C4D] p-4 rounded-lg">
+                      <img
+                        src={tokenInfo?.image}
+                        alt={`${tokenInfo?.name} image`}
+                        className="w-8 h-8"
+                      />
+                    </div>
+                    <h2 className="text-center text-3xl font-bold">
+                      {tokenInfo?.name}
+                    </h2>
+                  </div>
+                  <LinkContainer
+                    link={tokenInfo ? tokenInfo?.homepage : ""}
+                    currentTheme={currentTheme}
                   />
                 </div>
-                <h2 className="text-center text-3xl font-bold">
-                  {tokenInfo?.name}
-                </h2>
-              </div>
-              <LinkContainer
-                link={tokenInfo ? tokenInfo?.homepage : ""}
-                currentTheme={currentTheme}
-              />
-            </div>
-            {/* Change height */}
-            <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl h-[333px]">
-              <div className="flex flex-col gap-5">
-                <div className="flex gap-4">
-                  <p className="text-4xl font-bold">
-                    {currentCurrency.symbol}
-                    {tokenInfo?.price.toLocaleString()}
-                  </p>
-                  <PriceChangeContainer priceChange={2} />
+                <div className="flex flex-col gap-6 bg-chart-volume px-14 py-10 rounded-xl">
+                  <div className="flex flex-col gap-5">
+                    <div className="flex gap-4">
+                      <p className="text-4xl font-bold">
+                        {currentCurrency.symbol}
+                        {tokenInfo?.price.toLocaleString()}
+                      </p>
+                      <PriceChangeContainer priceChange={2} />
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <p>Profit:</p>
+                      <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
+                    </div>
+                  </div>
+                  <img src="stack icon" alt="" />
+                  <div className="flex flex-col gap-6">
+                    <AllTimeContainer
+                      title="high"
+                      price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
+                      date={tokenInfo?.ath_date}
+                    />
+                    <AllTimeContainer
+                      title="low"
+                      price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
+                      date={tokenInfo?.atl_date}
+                    />
+                  </div>
                 </div>
-                <div className="flex items-center gap-4">
-                  <p>Profit:</p>
-                  <p className="text-2xl text-[#00F5E4]">$2020 (do last)</p>
-                </div>
-              </div>
-              <img src="stack icon" alt="" />
-              <div className="flex flex-col gap-6">
-                <AllTimeContainer
-                  title="high"
-                  price={`${currentCurrency.symbol}${tokenInfo?.ath}`}
-                  date={tokenInfo?.ath_date}
-                />
-                <AllTimeContainer
-                  title="low"
-                  price={`${currentCurrency.symbol}${tokenInfo?.atl}`}
-                  date={tokenInfo?.atl_date}
-                />
               </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
-            <div className="flex flex-col gap-4">
-              <MarketDataContainer
-                title="Market Cap"
-                currency={currentCurrency.symbol}
-                value={tokenInfo?.market_cap}
-              />
-              <MarketDataContainer
-                title="Fully Diluted Valuation"
-                currency={currentCurrency.symbol}
-                value={tokenInfo?.fully_diluted_valuation}
-              />
-              <MarketDataContainer
-                title="Volume/Market"
-                value={tokenInfo?.volume_by_market}
+            <div className="flex flex-col gap-8 bg-chart-volume px-14 py-10 max-w-[544px] w-full rounded-xl">
+              <div className="flex flex-col gap-4">
+                <MarketDataContainer
+                  title="Market Cap"
+                  currency={currentCurrency.symbol}
+                  value={tokenInfo?.market_cap}
+                />
+                <MarketDataContainer
+                  title="Fully Diluted Valuation"
+                  currency={currentCurrency.symbol}
+                  value={tokenInfo?.fully_diluted_valuation}
+                />
+                <MarketDataContainer
+                  title="Volume/Market"
+                  value={tokenInfo?.volume_by_market}
+                />
+              </div>
+              <div className="flex flex-col gap-4">
+                <MarketDataContainer
+                  title="Total Volume"
+                  value={`${tokenInfo?.total_volume.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+                <MarketDataContainer
+                  title="Circulating Supply"
+                  value={`${tokenInfo?.circulating_supply.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+                <MarketDataContainer
+                  title="Max Supply"
+                  value={`${tokenInfo?.max_supply.toLocaleString()} ${
+                    tokenInfo?.name.split(" ")[1]
+                  }`}
+                />
+              </div>
+              <ProgressBar
+                leftText={`${formatNum(
+                  tokenInfo ? 100 - tokenInfo.circulating_by_max : 0
+                )}%`}
+                rightText={`${formatNum(
+                  tokenInfo ? tokenInfo?.circulating_by_max : 100
+                )}%`}
+                percent={tokenInfo ? 100 - tokenInfo.circulating_by_max : 0}
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <MarketDataContainer
-                title="Total Volume"
-                value={tokenInfo?.total_volume}
-              />
-              <MarketDataContainer
-                title="Circulating Supply"
-                value={tokenInfo?.circulating_supply}
-              />
-              <MarketDataContainer
-                title="Max Supply"
-                value={tokenInfo?.max_supply}
-              />
-            </div>
-            <div>Circulating Supply vs Max Supply bar</div>
           </div>
         </div>
-      </div>
+        <div className="flex justify-between">
+          <DescriptionContainer
+            description={tokenInfo ? tokenInfo?.description : ""}
+          />
+          <div className="flex flex-col gap-6 pt-12 max-w-[544px] w-full">
+            {tokenInfo?.links.map((link) => (
+              <LinkContainer
+                key={link}
+                link={link}
+                currentTheme={currentTheme}
+              />
+            ))}
+          </div>
+        </div>
+      </MaxWidthContainer>
     </div>
   );
 };

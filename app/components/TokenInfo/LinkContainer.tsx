@@ -8,7 +8,7 @@ interface LinkContainerProps {
 
 const LinkContainer = ({ link, currentTheme }: LinkContainerProps) => {
   return (
-    <div className="flex justify-center items-center gap-4 bg-chart-volume px-6 py-4 rounded-xl">
+    <div className="flex justify-center items-center gap-4 bg-chart-volume px-6 py-4 rounded-xl w-full">
       <Link href={link} target="_blank">
         <Image
           src={`/images/token-info/${currentTheme}/link.svg`}

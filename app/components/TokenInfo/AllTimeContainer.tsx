@@ -17,7 +17,7 @@ const AllTimeContainer = ({ title, price, date }: AllTimeContainerProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <Image
           src={
             title === "high"
