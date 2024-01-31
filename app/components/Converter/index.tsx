@@ -1,6 +1,9 @@
 import PricesChart from "../DuoCharts/PricesChart";
 import TimePeriodSelector from "../DuoCharts/TimePeriodSelector";
 
+// Get past data for left and right token
+// Divide each price point of left by right
+// Graph the result
 const Converter = () => {
   return (
     <div className="pb-[70px]">
