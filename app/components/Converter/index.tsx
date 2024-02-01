@@ -1,3 +1,4 @@
+import getTodayDateTime from "@/app/utils/getTodayDateTime";
 import PricesChart from "../DuoCharts/PricesChart";
 import TimePeriodSelector from "../DuoCharts/TimePeriodSelector";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
@@ -9,11 +10,11 @@ const Converter = () => {
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
       <div>
-        <h2>Online currency convertor</h2>
-        <p>Date Today</p>
+        <h2 className="text-xl">Online currency convertor</h2>
+        <p className="text-[#9E9E9E]">{getTodayDateTime()}</p>
       </div>
       <div>
-        <div>
+        <div className="flex">
           <div>
             <h3>You sell</h3>
             <div>
