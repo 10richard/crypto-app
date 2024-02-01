@@ -62,6 +62,7 @@ const Converter = () => {
         id: token.id,
         name: `${token.name} (${token.symbol.toUpperCase()})`,
         price: token.current_price,
+        symbol: token.symbol,
         image: token.image,
       }));
 
@@ -106,16 +107,18 @@ const Converter = () => {
         <div className="flex gap-6 w-full relative">
           <TokenContainer
             title="You sell"
-            tokenImg={sellToken ? sellToken?.image : ""}
-            token={sellToken ? sellToken?.name : ""}
+            image={sellToken ? sellToken?.image : ""}
+            name={sellToken ? sellToken?.name : ""}
+            symbol={sellToken ? sellToken?.symbol : ""}
             price={sellToken ? sellToken.current_price : 0}
             currentTheme={currentTheme}
             bgColor="bg-chart-price"
           />
           <TokenContainer
             title="You buy"
-            tokenImg={buyToken ? buyToken.image : ""}
-            token={buyToken ? buyToken.name : ""}
+            image={buyToken ? buyToken.image : ""}
+            name={buyToken ? buyToken.name : ""}
+            symbol={buyToken ? buyToken?.symbol : ""}
             price={buyToken ? buyToken.current_price : 0}
             currentTheme={currentTheme}
             bgColor="bg-chart-volume"
