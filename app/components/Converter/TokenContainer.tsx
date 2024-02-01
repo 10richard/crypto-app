@@ -25,13 +25,8 @@ const TokenContainer = ({
       <h3 className="text-sm text-content-main/80">{title}</h3>
       <div className="flex flex-col gap-6">
         <div className="flex justify-between">
-          <div className="flex items-center gap-1">
-            <Image
-              src={tokenImg}
-              alt={`${token} Image`}
-              width={25}
-              height={25}
-            ></Image>
+          <div className="flex items-center gap-2">
+            <img src={tokenImg} alt={`${token} Image`} className="w-[30px]" />
             <p className="text-xl font-medium">{token}</p>
             <Image
               src={`/images/navbar/${currentTheme}/chevron-down.svg`}
