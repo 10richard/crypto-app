@@ -3,8 +3,9 @@ import { useCurrency } from "@/app/contexts/currencyContext";
 
 interface TokenContainerProps {
   title: string;
-  tokenImg: string;
-  token: string;
+  image: string;
+  name: string;
+  symbol: string;
   price: number;
   currentTheme: string;
   bgColor: string;
@@ -12,8 +13,9 @@ interface TokenContainerProps {
 
 const TokenContainer = ({
   title,
-  tokenImg,
-  token,
+  image,
+  name,
+  symbol,
   price,
   currentTheme,
   bgColor,
@@ -26,8 +28,8 @@ const TokenContainer = ({
       <div className="flex flex-col gap-6">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <img src={tokenImg} alt={`${token} Image`} className="w-[30px]" />
-            <p className="text-xl font-medium">{token}</p>
+            <img src={image} alt={`${name} Image`} className="w-[30px]" />
+            <p className="text-xl font-medium">{name}</p>
             <Image
               src={`/images/navbar/${currentTheme}/chevron-down.svg`}
               alt="Chevron down"
@@ -43,9 +45,11 @@ const TokenContainer = ({
         </div>
         <div className="p-2 border-t-[1px]">
           <p>
-            <span className="text-content-main/80">1 BTC =</span>{" "}
+            <span className="text-content-main/80">
+              1 {symbol.toUpperCase()} =
+            </span>{" "}
             {currentCurrency.symbol}
-            {price}
+            {price.toLocaleString()}
           </p>
         </div>
       </div>
