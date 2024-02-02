@@ -7,7 +7,6 @@ import TokenContainer from "./TokenContainer";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useEffect, useState } from "react";
-import { getPastData } from "@/app/api/getPastData";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import ComparisonChart from "./ComparisonChart";
 import { getTopTokens } from "@/app/api/getTopTokens";
@@ -41,27 +40,13 @@ const Converter = () => {
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
 
-  // const daysMap: Record<string, string> = {
-  //   "1D": "1",
-  //   "7D": "7",
-  //   "14D": "14",
-  //   "1M": "30",
-  //   "1Y": "365",
-  //   "5Y": "1825",
-  // };
-
-  // const config = {
-  //   vs_currency: currentCurrency.abbr,
-  //   days: "1D",
-  // };
-
   useEffect(() => {
     const fetchTopTokens = async () => {
       const fetchTokens = await getTopTokens(currentCurrency.abbr);
       const formatTokens = fetchTokens.map((token: Token) => ({
         id: token.id,
         name: `${token.name} (${token.symbol.toUpperCase()})`,
-        price: token.current_price,
+        current_price: token.current_price,
         symbol: token.symbol,
         image: token.image,
       }));
