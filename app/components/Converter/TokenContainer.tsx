@@ -65,6 +65,7 @@ const TokenContainer = ({
             >
               {allTokens.map((t) => (
                 <button
+                  key={t.id}
                   className={`flex items-center gap-2 px-3 py-2 min-w-max ${
                     t.name === name ? "hidden" : ""
                   }`}
