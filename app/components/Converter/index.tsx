@@ -59,28 +59,11 @@ const Converter = () => {
     fetchTopTokens();
   }, [currentCurrency]);
 
-  // const getQueryString = () => {
-  //   config.days = daysMap[timePeriod];
-  //   config.vs_currency = currentCurrency.abbr;
-  //   let query = Object.entries(config).reduce(
-  //     (acc, [key, val]) => `${acc}&${key}=${val}`,
-  //     ""
-  //   );
-
-  //   query += timePeriod === "1D" ? "" : "&interval=daily";
-  //   return query;
-  // };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const leftToken = await getPastData(buyToken.id, getQueryString());
-  //     const rightToken = await getPastData(sellToken.id, getQueryString());
-
-  //     setBuyToken({ id: "bitcoin", prices: leftToken.prices });
-  //   };
-
-  //   fetchData();
-  // }, []);
+  const switchCoins = () => {
+    const buyTokenCopy = buyToken;
+    setBuyToken(sellToken);
+    setSellToken(buyTokenCopy);
+  };
 
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
@@ -112,7 +95,10 @@ const Converter = () => {
             handleClick={setBuyToken}
             allTokens={topTokens}
           />
-          <button className="bg-content-main p-3 w-[48px] h-[48px] absolute right-0 left-0 mx-auto top-1/2 -translate-y-1/2 rounded-full">
+          <button
+            className="bg-content-main p-3 w-[48px] h-[48px] absolute right-0 left-0 mx-auto top-1/2 -translate-y-1/2 rounded-full"
+            onClick={switchCoins}
+          >
             {/* Does the converter btn serve a purpose? Or is just there for decoration? */}
             <Image
               src={`/images/converter/${currentTheme}/converter-icon.svg`}
