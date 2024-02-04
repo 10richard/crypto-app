@@ -39,6 +39,17 @@ const TokenContainer = ({
   const [toggle, setToggle] = useState(false);
   const [value, setValue] = useState("1");
 
+  const [search, setSearch] = useState("");
+  const filterTokens = allTokens?.filter((t) => {
+    const lowerCaseName = t.name.toLowerCase();
+    return lowerCaseName.startsWith(search);
+  });
+
+  const changeToken = (token: Token) => {
+    setToggle(false);
+    handleClick(token);
+  };
+
   return (
     <div className={`flex flex-col gap-10 p-6 w-1/2 rounded-2xl ${bgColor}`}>
       <h3 className="text-sm text-content-main/80">{title}</h3>
@@ -47,7 +58,7 @@ const TokenContainer = ({
           <div className="relative">
             <button
               className="flex items-center gap-2"
-              onClick={() => setToggle(!toggle)}
+              onClick={() => setToggle(true)}
             >
               <img src={image} alt={`${name} Image`} className="w-[30px]" />
               <p className="text-xl font-medium">{name}</p>
@@ -59,24 +70,48 @@ const TokenContainer = ({
               ></Image>
             </button>
             <div
-              className={`flex flex-col bg-bkg-input rounded-lg mt-2 ${
+              className={`flex flex-col bg-bkg-input rounded-lg ${
                 toggle ? "" : "hidden"
-              } absolute h-[200px] overflow-y-scroll`}
+              } absolute h-[200px] overflow-y-scroll top-0`}
             >
-              {allTokens.map((t) => (
+              <div className="flex justify-between p-3">
+                <input
+                  type="text"
+                  placeholder="Type a currency"
+                  onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                  className="text-black px-3 py-1 rounded-lg"
+                />
+                <button onClick={() => setToggle(false)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              {filterTokens.map((t) => (
                 <button
                   key={t.id}
-                  className={`flex items-center gap-2 px-3 py-2 min-w-max ${
+                  className={`flex items-center gap-2 px-3 py-2 min-w-max hover:bg-black/60 duration-200 ${
                     t.name === name ? "hidden" : ""
                   }`}
-                  onClick={() => handleClick(t)}
+                  onClick={() => changeToken(t)}
                 >
                   <img
                     src={t.image}
                     alt={`${t.name} Image`}
                     className="w-[30px]"
                   />
-                  <p className="text-xl font-medium">{t.name}</p>
+                  <p className="text-lg font-medium">{t.name}</p>
                 </button>
               ))}
             </div>
