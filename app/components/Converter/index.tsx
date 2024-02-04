@@ -57,7 +57,7 @@ const Converter = () => {
     };
 
     fetchTopTokens();
-  }, []);
+  }, [currentCurrency]);
 
   // const getQueryString = () => {
   //   config.days = daysMap[timePeriod];
@@ -98,6 +98,8 @@ const Converter = () => {
             price={sellToken ? sellToken.current_price : 0}
             currentTheme={currentTheme}
             bgColor="bg-chart-price"
+            handleClick={setSellToken}
+            allTokens={topTokens}
           />
           <TokenContainer
             title="You buy"
@@ -107,6 +109,8 @@ const Converter = () => {
             price={buyToken ? buyToken.current_price : 0}
             currentTheme={currentTheme}
             bgColor="bg-chart-volume"
+            handleClick={setBuyToken}
+            allTokens={topTokens}
           />
           <button className="bg-content-main p-3 w-[48px] h-[48px] absolute right-0 left-0 mx-auto top-1/2 -translate-y-1/2 rounded-full">
             {/* Does the converter btn serve a purpose? Or is just there for decoration? */}
