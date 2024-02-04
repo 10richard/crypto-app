@@ -42,12 +42,13 @@ const TokenContainer = ({
   const [search, setSearch] = useState("");
   const filterTokens = allTokens?.filter((t) => {
     const lowerCaseName = t.name.toLowerCase();
-    return lowerCaseName.startsWith(search);
+    return lowerCaseName.startsWith(search.toLowerCase());
   });
 
   const changeToken = (token: Token) => {
     setToggle(false);
     handleClick(token);
+    setSearch("");
   };
 
   return (
@@ -72,13 +73,14 @@ const TokenContainer = ({
             <div
               className={`flex flex-col bg-bkg-input rounded-lg ${
                 toggle ? "" : "hidden"
-              } absolute h-[200px] overflow-y-scroll top-0`}
+              } absolute h-[200px] overflow-y-scroll top-0 min-w-[300px]`}
             >
               <div className="flex justify-between p-3">
                 <input
                   type="text"
+                  value={search}
                   placeholder="Type a currency"
-                  onChange={(e) => setSearch(e.target.value.toLowerCase())}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="text-black px-3 py-1 rounded-lg"
                 />
                 <button onClick={() => setToggle(false)}>
