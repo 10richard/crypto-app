@@ -24,6 +24,29 @@ const ComparisonChart = () => {
   //   days: "1D",
   // };
 
+  // const getQueryString = () => {
+  //   config.days = daysMap[timePeriod];
+  //   config.vs_currency = currentCurrency.abbr;
+  //   let query = Object.entries(config).reduce(
+  //     (acc, [key, val]) => `${acc}&${key}=${val}`,
+  //     ""
+  //   );
+
+  //   query += timePeriod === "1D" ? "" : "&interval=daily";
+  //   return query;
+  // };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const leftToken = await getPastData(buyToken.id, getQueryString());
+  //     const rightToken = await getPastData(sellToken.id, getQueryString());
+
+  //     setBuyToken({ id: "bitcoin", prices: leftToken.prices });
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   //   const datasets = activeTokens
   //     .map((token, idx) => {
   //       const linearGradient = (context: {
