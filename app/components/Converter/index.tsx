@@ -75,10 +75,7 @@ const Converter = () => {
         <div className="flex gap-6 w-full relative">
           <TokenContainer
             title="You sell"
-            image={sellToken ? sellToken?.image : ""}
-            name={sellToken ? sellToken?.name : ""}
-            symbol={sellToken ? sellToken?.symbol : ""}
-            price={sellToken ? sellToken.current_price : 0}
+            token={sellToken || null}
             currentTheme={currentTheme}
             bgColor="bg-chart-price"
             handleClick={setSellToken}
@@ -86,10 +83,7 @@ const Converter = () => {
           />
           <TokenContainer
             title="You buy"
-            image={buyToken ? buyToken.image : ""}
-            name={buyToken ? buyToken.name : ""}
-            symbol={buyToken ? buyToken?.symbol : ""}
-            price={buyToken ? buyToken.current_price : 0}
+            token={buyToken || null}
             currentTheme={currentTheme}
             bgColor="bg-chart-volume"
             handleClick={setBuyToken}

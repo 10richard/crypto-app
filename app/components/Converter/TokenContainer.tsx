@@ -14,10 +14,7 @@ interface Token {
 
 interface TokenContainerProps {
   title: string;
-  image: string;
-  name: string;
-  symbol: string;
-  price: number;
+  token: Token | null;
   currentTheme: string;
   bgColor: string;
   handleClick: (val: Token) => void;
@@ -26,10 +23,7 @@ interface TokenContainerProps {
 
 const TokenContainer = ({
   title,
-  image,
-  name,
-  symbol,
-  price,
+  token,
   currentTheme,
   bgColor,
   handleClick,
@@ -61,8 +55,12 @@ const TokenContainer = ({
               className="flex items-center gap-2"
               onClick={() => setToggle(true)}
             >
-              <img src={image} alt={`${name} Image`} className="w-[30px]" />
-              <p className="text-xl font-medium">{name}</p>
+              <img
+                src={token?.image}
+                alt={`${token?.name} Image`}
+                className="w-[30px]"
+              />
+              <p className="text-xl font-medium">{token?.name}</p>
               <Image
                 src={`/images/navbar/${currentTheme}/chevron-down.svg`}
                 alt="Chevron down"
@@ -104,7 +102,7 @@ const TokenContainer = ({
                 <button
                   key={t.id}
                   className={`flex items-center gap-2 px-3 py-2 min-w-max hover:bg-black/60 duration-200 ${
-                    t.name === name ? "hidden" : ""
+                    t.name === token?.name ? "hidden" : ""
                   }`}
                   onClick={() => changeToken(t)}
                 >
@@ -128,10 +126,10 @@ const TokenContainer = ({
         <div className="p-2 border-t-[1px]">
           <p>
             <span className="text-content-main/80">
-              1 {symbol.toUpperCase()} =
+              1 {token?.symbol.toUpperCase()} =
             </span>{" "}
             {currentCurrency.symbol}
-            {price.toLocaleString()}
+            {token?.current_price.toLocaleString()}
           </p>
         </div>
       </div>
