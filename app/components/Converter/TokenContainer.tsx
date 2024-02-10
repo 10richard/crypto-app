@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import { useState } from "react";
+import { useTheme } from "@/app/contexts/themeContext";
 
 interface Token {
   id: string;
@@ -13,41 +14,38 @@ interface Token {
 }
 
 interface TokenContainerProps {
-  title: string;
-  token: Token | null;
-  currentTheme: string;
+  token: Token | undefined;
   bgColor: string;
-  handleClick: (val: Token) => void;
-  allTokens: Token[];
+  changeToken: (val: Token) => void;
+  topTokens: Token[];
 }
 
 const TokenContainer = ({
-  title,
   token,
-  currentTheme,
   bgColor,
-  handleClick,
-  allTokens,
+  changeToken,
+  topTokens,
 }: TokenContainerProps) => {
-  const { currentCurrency } = useCurrency();
   const [toggle, setToggle] = useState(false);
   const [value, setValue] = useState("1");
+  const { currentCurrency } = useCurrency();
+  const { currentTheme } = useTheme();
 
   const [search, setSearch] = useState("");
-  const filterTokens = allTokens?.filter((t) => {
+  const filterTokens = topTokens.filter((t) => {
     const lowerCaseName = t.name.toLowerCase();
     return lowerCaseName.startsWith(search.toLowerCase());
   });
 
-  const changeToken = (token: Token) => {
+  const handleTokenChange = (token: Token) => {
+    changeToken(token);
     setToggle(false);
-    handleClick(token);
     setSearch("");
   };
 
   return (
     <div className={`flex flex-col gap-10 p-6 w-1/2 rounded-2xl ${bgColor}`}>
-      <h3 className="text-sm text-content-main/80">{title}</h3>
+      <h3 className="text-sm text-content-main/80">{token?.name}</h3>
       <div className="flex flex-col gap-6">
         <div className="flex justify-between">
           <div className="relative">
@@ -104,7 +102,7 @@ const TokenContainer = ({
                   className={`flex items-center gap-2 px-3 py-2 min-w-max hover:bg-black/60 duration-200 ${
                     t.name === token?.name ? "hidden" : ""
                   }`}
-                  onClick={() => changeToken(t)}
+                  onClick={() => handleTokenChange(t)}
                 >
                   <img
                     src={t.image}
