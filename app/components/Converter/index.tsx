@@ -118,8 +118,6 @@ const Converter = () => {
     setSellToken(buyToken);
     setSellTokenValue("1");
     setBuyToken(sellTokenCopy);
-    console.log("sell token: ", sellToken);
-    console.log("buy token: ", buyToken);
     setBuyTokenValue(
       convert(1, buyToken.current_price, sellToken.current_price).toFixed(5)
     );
