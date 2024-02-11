@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import { getTopTokens } from "@/app/api/getTopTokens";
+import convert from "@/app/utils/convert";
 
 interface Token {
   id: string;
@@ -21,14 +22,21 @@ interface Token {
 const Converter = () => {
   const [sellToken, setSellToken] = useState<Token>();
   const [buyToken, setBuyToken] = useState<Token>();
+  const [sellTokenValue, setSellTokenValue] = useState("1");
+  const [buyTokenValue, setBuyTokenValue] = useState("1");
   const [topTokens, setTopTokens] = useState<Token[]>();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
 
-  const switchCoins = () => {
-    const sellTokenCopy = sellToken;
-    setSellToken(buyToken);
-    setBuyToken(sellTokenCopy);
+  // const setTokenValues = (sellPrice: number, buyPrice: number) => {
+  //   setBuyTokenValue(sellPrice / buyPrice);
+  // };
+
+  const mergePastPricesData = (
+    sellTokenPrices: Array<[number, number]>,
+    buyTokenPrices: Array<[number, number]>
+  ) => {
+    // find avg of each price point
   };
 
   useEffect(() => {
@@ -43,20 +51,79 @@ const Converter = () => {
             name: `${token.name} (${token.symbol.toUpperCase()})`,
             current_price: token.current_price,
           }));
+          const conversion = convert(
+            1,
+            formatTokens[0].current_price,
+            formatTokens[1].current_price
+          );
+
           setTopTokens(formatTokens);
           setSellToken(formatTokens[0]);
           setBuyToken(formatTokens[1]);
+          setBuyTokenValue(conversion.toFixed());
         } else {
           console.error("No tokens were returned from getTopTokens.");
           setTopTokens([]);
         }
       } catch (error) {
-        console.error("Failed to fetch top tokens:", error);
+        console.error("Failed to fetch tokens:", error);
       }
     };
 
     fetchTopTokens();
   }, [currentCurrency]);
+
+  // useEffect(() => {
+  //   const fetchPastData = async () => {
+  //     try {
+  //       if (true) {
+
+  //       } else {
+  //         console.error("No tokens were returned from getTopTokens.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch past data", error);
+  //     }
+  //   };
+
+  //   fetchPastData();
+  // }, [sellToken, buyToken]);
+
+  const handleValueChange = (value: string, type: string) => {
+    if (!sellToken || !buyToken || parseInt(value) < 0) return;
+
+    if (type === "sell") {
+      setSellTokenValue(value);
+      const newBuyValue = convert(
+        parseInt(value),
+        sellToken?.current_price,
+        buyToken?.current_price
+      );
+      setBuyTokenValue(newBuyValue.toFixed(5));
+    } else if (type === "buy") {
+      setBuyTokenValue(value);
+      const newSellValue = convert(
+        parseInt(value),
+        buyToken?.current_price,
+        sellToken?.current_price
+      );
+      setSellTokenValue(newSellValue.toFixed(5));
+    }
+  };
+
+  const switchCoins = () => {
+    if (!sellToken || !buyToken) return;
+
+    const sellTokenCopy = sellToken;
+    setSellToken(buyToken);
+    setSellTokenValue("1");
+    setBuyToken(sellTokenCopy);
+    console.log("sell token: ", sellToken);
+    console.log("buy token: ", buyToken);
+    setBuyTokenValue(
+      convert(1, buyToken.current_price, sellToken.current_price).toFixed(5)
+    );
+  };
 
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
@@ -70,12 +137,18 @@ const Converter = () => {
             token={sellToken}
             bgColor="bg-[#191934]"
             changeToken={setSellToken}
+            tokenValue={sellTokenValue}
+            handleValueChange={handleValueChange}
+            type="sell"
             topTokens={topTokens ?? []}
           />
           <TokenContainer
             token={buyToken}
             bgColor="bg-[#1f1934]"
             changeToken={setBuyToken}
+            tokenValue={buyTokenValue}
+            handleValueChange={handleValueChange}
+            type="buy"
             topTokens={topTokens ?? []}
           />
           <button
