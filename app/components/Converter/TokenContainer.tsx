@@ -17,6 +17,9 @@ interface TokenContainerProps {
   token: Token | undefined;
   bgColor: string;
   changeToken: (val: Token) => void;
+  tokenValue: string;
+  handleValueChange: (val: string, type: string) => void;
+  type: string;
   topTokens: Token[];
 }
 
@@ -24,6 +27,9 @@ const TokenContainer = ({
   token,
   bgColor,
   changeToken,
+  tokenValue,
+  handleValueChange,
+  type,
   topTokens,
 }: TokenContainerProps) => {
   const [toggle, setToggle] = useState(false);
@@ -44,7 +50,7 @@ const TokenContainer = ({
   };
 
   return (
-    <div className={`flex flex-col gap-10 p-6 w-1/2 rounded-2xl ${bgColor}`}>
+    <div className={`flex flex-col gap-10 p-6 w-full rounded-2xl ${bgColor}`}>
       <h3 className="text-sm text-content-main/80">{token?.name}</h3>
       <div className="flex flex-col gap-6">
         <div className="flex justify-between">
@@ -117,8 +123,8 @@ const TokenContainer = ({
           <input
             type="number"
             className="text-2xl font-bold bg-transparent text-right outline-none"
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
+            onChange={(e) => handleValueChange(e.target.value, type)}
+            value={tokenValue}
           />
         </div>
         <div className="p-2 border-t-[1px]">
