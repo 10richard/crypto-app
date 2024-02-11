@@ -28,15 +28,45 @@ const Converter = () => {
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
 
-  // const setTokenValues = (sellPrice: number, buyPrice: number) => {
-  //   setBuyTokenValue(sellPrice / buyPrice);
-  // };
-
   const mergePastPricesData = (
     sellTokenPrices: Array<[number, number]>,
     buyTokenPrices: Array<[number, number]>
   ) => {
     // find avg of each price point
+  };
+
+  const handleValueChange = (value: string, type: string) => {
+    if (!sellToken || !buyToken || parseInt(value) < 0) return;
+
+    if (type === "sell") {
+      setSellTokenValue(value);
+      const newBuyValue = convert(
+        parseInt(value),
+        sellToken?.current_price,
+        buyToken?.current_price
+      );
+      setBuyTokenValue(newBuyValue.toFixed(5));
+    } else if (type === "buy") {
+      setBuyTokenValue(value);
+      const newSellValue = convert(
+        parseInt(value),
+        buyToken?.current_price,
+        sellToken?.current_price
+      );
+      setSellTokenValue(newSellValue.toFixed(5));
+    }
+  };
+
+  const switchCoins = () => {
+    if (!sellToken || !buyToken) return;
+
+    const sellTokenCopy = sellToken;
+    setSellToken(buyToken);
+    setSellTokenValue("1");
+    setBuyToken(sellTokenCopy);
+    setBuyTokenValue(
+      convert(1, buyToken.current_price, sellToken.current_price).toFixed(5)
+    );
   };
 
   useEffect(() => {
@@ -88,40 +118,6 @@ const Converter = () => {
 
   //   fetchPastData();
   // }, [sellToken, buyToken]);
-
-  const handleValueChange = (value: string, type: string) => {
-    if (!sellToken || !buyToken || parseInt(value) < 0) return;
-
-    if (type === "sell") {
-      setSellTokenValue(value);
-      const newBuyValue = convert(
-        parseInt(value),
-        sellToken?.current_price,
-        buyToken?.current_price
-      );
-      setBuyTokenValue(newBuyValue.toFixed(5));
-    } else if (type === "buy") {
-      setBuyTokenValue(value);
-      const newSellValue = convert(
-        parseInt(value),
-        buyToken?.current_price,
-        sellToken?.current_price
-      );
-      setSellTokenValue(newSellValue.toFixed(5));
-    }
-  };
-
-  const switchCoins = () => {
-    if (!sellToken || !buyToken) return;
-
-    const sellTokenCopy = sellToken;
-    setSellToken(buyToken);
-    setSellTokenValue("1");
-    setBuyToken(sellTokenCopy);
-    setBuyTokenValue(
-      convert(1, buyToken.current_price, sellToken.current_price).toFixed(5)
-    );
-  };
 
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
