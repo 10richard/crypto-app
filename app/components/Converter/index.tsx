@@ -5,11 +5,13 @@ import TimePeriodSelector from "../DuoCharts/TimePeriodSelector";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 import TokenContainer from "./TokenContainer";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useCurrency } from "@/app/contexts/currencyContext";
 import { getTopTokens } from "@/app/api/getTopTokens";
 import convert from "@/app/utils/convert";
+import { getPastData } from "@/app/api/getPastData";
+import ComparisonChart from "./ComparisonChart";
 
 interface Token {
   id: string;
@@ -25,14 +27,48 @@ const Converter = () => {
   const [sellTokenValue, setSellTokenValue] = useState("1");
   const [buyTokenValue, setBuyTokenValue] = useState("1");
   const [topTokens, setTopTokens] = useState<Token[]>();
+  const [timePeriod, setTimePeriod] = useState("1D");
+  const [chartData, setChartData] = useState<number[][]>([]);
+  const prevSellToken = useRef<Token>();
+  const prevBuyToken = useRef<Token>();
   const { currentTheme } = useTheme();
   const { currentCurrency } = useCurrency();
+
+  const daysMap: Record<string, string> = {
+    "1D": "1",
+    "7D": "7",
+    "14D": "14",
+    "1M": "30",
+    "1Y": "365",
+    "5Y": "1825",
+  };
+
+  const config = {
+    vs_currency: currentCurrency.abbr,
+    days: "1D",
+  };
+
+  const getQueryString = () => {
+    config.days = daysMap[timePeriod];
+    config.vs_currency = currentCurrency.abbr;
+    let query = Object.entries(config).reduce(
+      (acc, [key, val]) => `${acc}&${key}=${val}`,
+      ""
+    );
+
+    query += timePeriod === "1D" ? "" : "&interval=daily";
+    return query;
+  };
 
   const mergePastPricesData = (
     sellTokenPrices: Array<[number, number]>,
     buyTokenPrices: Array<[number, number]>
   ) => {
-    // find avg of each price point
+    const mergedData = sellTokenPrices.map((pricePoint, i) => {
+      return [pricePoint[1] / buyTokenPrices[i][1], pricePoint[0]];
+    });
+
+    return mergedData;
   };
 
   const handleValueChange = (value: string, type: string) => {
@@ -67,6 +103,8 @@ const Converter = () => {
     setBuyTokenValue(
       convert(1, buyToken.current_price, sellToken.current_price).toFixed(5)
     );
+    prevSellToken.current = sellToken;
+    prevBuyToken.current = buyToken;
   };
 
   useEffect(() => {
@@ -91,6 +129,9 @@ const Converter = () => {
           setSellToken(formatTokens[0]);
           setBuyToken(formatTokens[1]);
           setBuyTokenValue(conversion.toFixed());
+
+          prevSellToken.current = sellToken;
+          prevBuyToken.current = buyToken;
         } else {
           console.error("No tokens were returned from getTopTokens.");
           setTopTokens([]);
@@ -103,21 +144,34 @@ const Converter = () => {
     fetchTopTokens();
   }, [currentCurrency]);
 
-  // useEffect(() => {
-  //   const fetchPastData = async () => {
-  //     try {
-  //       if (true) {
+  useEffect(() => {
+    const fetchPastData = async () => {
+      if (!sellToken || !buyToken) return;
+      const sellTokenData =
+        prevSellToken.current !== sellToken
+          ? await getPastData(sellToken?.id, getQueryString())
+          : sellToken;
+      const buyTokenData =
+        prevBuyToken.current !== buyToken
+          ? await getPastData(buyToken?.id, getQueryString())
+          : buyToken;
+      try {
+        if (sellTokenData || buyTokenData) {
+          const mergedData = mergePastPricesData(
+            sellTokenData.prices,
+            buyTokenData.prices
+          );
+          setChartData(mergedData);
+        } else {
+          console.error("No data was returned from getPastData.");
+        }
+      } catch (error) {
+        console.error("Failed to fetch past data", error);
+      }
+    };
 
-  //       } else {
-  //         console.error("No tokens were returned from getTopTokens.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch past data", error);
-  //     }
-  //   };
-
-  //   fetchPastData();
-  // }, [sellToken, buyToken]);
+    fetchPastData();
+  }, [sellToken, buyToken]);
 
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
@@ -158,15 +212,15 @@ const Converter = () => {
           </button>
         </div>
         <div className="flex flex-col w-full">
-          {/* <ComparisonChart
-            sellToken={sellToken?.id ?? "bitcoin"}
-            buyToken={buyToken?.id ?? "ethereum"}
-            timePeriod={timePeriod}
-          /> */}
-          {/* <TimePeriodSelector
+          <ComparisonChart
+            leftToken={sellToken?.symbol ?? "N/a"}
+            rightToken={buyToken?.symbol ?? "N/a"}
+            chartData={chartData}
+          />
+          <TimePeriodSelector
             currTimePeriod={timePeriod}
             handleClick={setTimePeriod}
-          /> */}
+          />
         </div>
       </div>
     </MaxWidthContainer>
