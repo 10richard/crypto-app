@@ -33,7 +33,6 @@ const TokenContainer = ({
   topTokens,
 }: TokenContainerProps) => {
   const [toggle, setToggle] = useState(false);
-  const [value, setValue] = useState("1");
   const { currentCurrency } = useCurrency();
   const { currentTheme } = useTheme();
 
