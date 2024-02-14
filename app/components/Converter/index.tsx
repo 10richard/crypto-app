@@ -110,35 +110,31 @@ const Converter = () => {
 
   useEffect(() => {
     const fetchTopTokens = async () => {
-      try {
-        const tokens = await getTopTokens(currentCurrency.abbr);
-        if (tokens) {
-          const formatTokens = tokens.map((token: Token) => ({
-            id: token.id,
-            image: token.image,
-            symbol: token.symbol,
-            name: `${token.name} (${token.symbol.toUpperCase()})`,
-            current_price: token.current_price,
-          }));
-          const conversion = convert(
-            1,
-            formatTokens[0].current_price,
-            formatTokens[1].current_price
-          );
+      const tokens = await getTopTokens(currentCurrency.abbr);
+      if (tokens) {
+        const formatTokens = tokens.map((token: Token) => ({
+          id: token.id,
+          image: token.image,
+          symbol: token.symbol,
+          name: `${token.name} (${token.symbol.toUpperCase()})`,
+          current_price: token.current_price,
+        }));
+        const conversion = convert(
+          1,
+          formatTokens[0].current_price,
+          formatTokens[1].current_price
+        );
 
-          setTopTokens(formatTokens);
-          setSellToken(formatTokens[0]);
-          setBuyToken(formatTokens[1]);
-          setBuyTokenValue(conversion.toFixed());
+        setTopTokens(formatTokens);
+        setSellToken(formatTokens[0]);
+        setBuyToken(formatTokens[1]);
+        setBuyTokenValue(conversion.toFixed());
 
-          prevSellToken.current = sellToken;
-          prevBuyToken.current = buyToken;
-        } else {
-          console.error("No tokens were returned from getTopTokens.");
-          setTopTokens([]);
-        }
-      } catch (error) {
-        console.error("Failed to fetch tokens:", error);
+        prevSellToken.current = sellToken;
+        prevBuyToken.current = buyToken;
+      } else {
+        console.error("No tokens were returned from getTopTokens.");
+        setTopTokens([]);
       }
     };
 
@@ -152,15 +148,11 @@ const Converter = () => {
         prevSellToken.current !== sellToken
           ? await getPastData(sellToken?.id, getQueryString())
           : sellToken;
-      try {
-        if (sellTokenData) {
-          const mergedData = mergePastPricesData(sellTokenData.prices);
-          setChartData(mergedData ?? []);
-        } else {
-          console.error("No data was returned from getPastData.");
-        }
-      } catch (error) {
-        console.error("Failed to fetch past data", error);
+      if (sellTokenData) {
+        const mergedData = mergePastPricesData(sellTokenData.prices);
+        setChartData(mergedData ?? []);
+      } else {
+        console.error("No data was returned from getPastData.");
       }
     };
 
