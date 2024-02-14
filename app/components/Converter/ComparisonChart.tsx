@@ -24,7 +24,6 @@ const ComparisonChart = ({
 }: ComparisonChartProps) => {
   const { isDarkTheme } = useTheme();
 
-  console.log(Array.from(chartData));
   const linearGradient = (context: {
     chart: { canvas: HTMLCanvasElement; height: number };
   }) => {
