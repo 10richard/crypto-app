@@ -1,7 +1,3 @@
-import { useCurrency } from "@/app/contexts/currencyContext";
-import { getPastData } from "@/app/api/getPastData";
-import { useEffect, useState } from "react";
-import getDataFrequency from "@/app/utils/getDataFrequency";
 import { useTheme } from "@/app/contexts/themeContext";
 import { purple, lightPurple } from "@/app/utils/chartColors";
 import { Line } from "react-chartjs-2";
@@ -26,10 +22,6 @@ const ComparisonChart = ({
   rightToken,
   chartData,
 }: ComparisonChartProps) => {
-  // Get prices for left and right token and fetch prices for each
-  // Get past data for left and right token
-  // Divide each price point of left by right
-  // Graph the result
   const { isDarkTheme } = useTheme();
 
   console.log(Array.from(chartData));
