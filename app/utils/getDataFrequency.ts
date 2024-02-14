@@ -1,5 +1,5 @@
 export default function getDataFrequency(
-  data: Array<[number, number]>,
+  data: Array<[number, number]> | number[][],
   timePeriod: string
 ) {
   if (timePeriod === "1D") {
