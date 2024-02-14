@@ -12,6 +12,7 @@ import { getTopTokens } from "@/app/api/getTopTokens";
 import convert from "@/app/utils/convert";
 import { getPastData } from "@/app/api/getPastData";
 import ComparisonChart from "./ComparisonChart";
+import getDataFrequency from "@/app/utils/getDataFrequency";
 
 interface Token {
   id: string;
@@ -60,15 +61,15 @@ const Converter = () => {
     return query;
   };
 
-  const mergePastPricesData = (
-    sellTokenPrices: Array<[number, number]>,
-    buyTokenPrices: Array<[number, number]>
-  ) => {
-    const mergedData = sellTokenPrices.map((pricePoint, i) => {
-      return [pricePoint[1] / buyTokenPrices[i][1], pricePoint[0]];
-    });
+  const mergePastPricesData = (sellTokenPrices: Array<[number, number]>) => {
+    if (!buyToken) return;
 
-    return mergedData;
+    const mergedData = sellTokenPrices.map((pricePoint) => {
+      return [pricePoint[0], pricePoint[1] / buyToken?.current_price];
+    });
+    const dataFrequency = getDataFrequency(mergedData, timePeriod);
+
+    return dataFrequency;
   };
 
   const handleValueChange = (value: string, type: string) => {
@@ -151,17 +152,10 @@ const Converter = () => {
         prevSellToken.current !== sellToken
           ? await getPastData(sellToken?.id, getQueryString())
           : sellToken;
-      const buyTokenData =
-        prevBuyToken.current !== buyToken
-          ? await getPastData(buyToken?.id, getQueryString())
-          : buyToken;
       try {
-        if (sellTokenData || buyTokenData) {
-          const mergedData = mergePastPricesData(
-            sellTokenData.prices,
-            buyTokenData.prices
-          );
-          setChartData(mergedData);
+        if (sellTokenData) {
+          const mergedData = mergePastPricesData(sellTokenData.prices);
+          setChartData(mergedData ?? []);
         } else {
           console.error("No data was returned from getPastData.");
         }
@@ -171,7 +165,7 @@ const Converter = () => {
     };
 
     fetchPastData();
-  }, [sellToken, buyToken]);
+  }, [sellToken, buyToken, timePeriod]);
 
   return (
     <MaxWidthContainer className="pt-11 pb-[70px]">
@@ -179,11 +173,11 @@ const Converter = () => {
         <h2 className="text-xl">Online currency convertor</h2>
         <p className="text-[#9E9E9E]">{getTodayDateTime()}</p>
       </div>
-      <div>
+      <div className="flex flex-col gap-20">
         <div className="flex gap-6 w-full relative">
           <TokenContainer
             token={sellToken}
-            bgColor="bg-[#191934]"
+            bgColor="bg-chart-price"
             changeToken={setSellToken}
             tokenValue={sellTokenValue}
             handleValueChange={handleValueChange}
@@ -192,7 +186,7 @@ const Converter = () => {
           />
           <TokenContainer
             token={buyToken}
-            bgColor="bg-[#1f1934]"
+            bgColor="bg-chart-volume"
             changeToken={setBuyToken}
             tokenValue={buyTokenValue}
             handleValueChange={handleValueChange}
@@ -213,8 +207,8 @@ const Converter = () => {
         </div>
         <div className="flex flex-col w-full">
           <ComparisonChart
-            leftToken={sellToken?.symbol ?? "N/a"}
-            rightToken={buyToken?.symbol ?? "N/a"}
+            leftToken={sellToken?.name ?? "N/a"}
+            rightToken={buyToken?.name ?? "N/a"}
             chartData={chartData}
           />
           <TimePeriodSelector
