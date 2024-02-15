@@ -37,7 +37,7 @@ interface TokenSlide {
   selected: boolean;
   chartData?: {
     volume_summation?: string;
-    prices: Array<[number, number]>;
+    prices: number[][];
     total_volumes: number[];
   };
 }
@@ -133,7 +133,7 @@ const DuoCharts = () => {
         );
         setTokenSlides((tokenSlides: TokenSlide[]) =>
           tokenSlides.map((t) =>
-            activeTokens.includes(t)
+            activeTokens.some((activeToken) => activeToken.id === t.id)
               ? updatedTokenSlides.find((ut) => ut.id === t.id) || t
               : t
           )

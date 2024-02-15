@@ -29,7 +29,7 @@ interface TokenSlide {
   selected: boolean;
   chartData?: {
     volume_summation?: string;
-    prices: Array<[number, number]>;
+    prices: number[][];
     total_volumes: number[];
   };
 }
