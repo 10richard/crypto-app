@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useState } from "react";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
+import { updateCurrency } from "@/app/lib/features/currency";
+import { useDispatch } from "react-redux";
 
 interface CurrencyChangerProps {
   currentTheme: string;
@@ -13,7 +15,9 @@ interface Currency {
 
 const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
   const [isActive, setIsActive] = useState(false);
-  const { currentCurrency, setCurrentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
+
+  const dispatch = useDispatch();
   const currencies = [
     { abbr: "usd", symbol: "$" },
     { abbr: "gbp", symbol: "£" },
@@ -23,7 +27,7 @@ const CurrencyChanger = ({ currentTheme }: CurrencyChangerProps) => {
   ];
 
   const handleCurrencyClick = (currency: Currency) => {
-    setCurrentCurrency(currency);
+    dispatch(updateCurrency(currency));
     setIsActive(false);
   };
 

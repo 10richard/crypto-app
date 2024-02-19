@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@/app/contexts/themeContext";
 import LinkContainer from "./LinkContainer";
 import AllTimeContainer from "./AllTimeContainer";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
 import MarketDataContainer from "./MarketDataContainer";
 import Image from "next/image";
 import formatNum from "@/app/utils/formatNum";
@@ -43,7 +43,7 @@ const TokenInfo = ({ token_id }: TokenInfoProps) => {
   const router = useRouter();
   const [tokenInfo, setTokenInfo] = useState<TokenInfo>();
   const { currentTheme } = useTheme();
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
 
   useEffect(() => {
     const fetchData = async () => {

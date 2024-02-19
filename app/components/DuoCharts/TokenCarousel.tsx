@@ -3,7 +3,7 @@ import roundToTenth from "@/app/utils/roundToTenth";
 import Image from "next/image";
 import { useTheme } from "@/app/contexts/themeContext";
 import { useState } from "react";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
 
 interface TokenSlide {
   id: string;
@@ -31,7 +31,7 @@ const TokenCarousel = ({
   const [slice, setSlice] = useState(0);
   const [toggleCompare, setToggleCompare] = useState(false);
   const { currentTheme } = useTheme();
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
 
   const handleCarouselClick = (sequence: string) => {
     const step = 5;

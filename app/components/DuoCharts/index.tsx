@@ -11,7 +11,7 @@ import { getTopTokens } from "@/app/api/getTopTokens";
 import VolumeChart from "./VolumeChart";
 import arraysAreEqual from "@/app/utils/arraysAreEqual";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
 
 interface TokenInfo {
   id: string;
@@ -45,7 +45,7 @@ interface TokenSlide {
 const DuoCharts = () => {
   const [tokenSlides, setTokenSlides] = useState<TokenSlide[]>([]);
   const [timePeriod, setTimePeriod] = useState("1D");
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
   const prevTokens = useRef<TokenSlide[]>([]);
   const prevTimePeriod = useRef("");
   const prevCurrency = useRef(currentCurrency.abbr);
