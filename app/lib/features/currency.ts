@@ -12,6 +12,6 @@ const currencyReducer = createReducer(
   }
 );
 
-const updateCurrency = createAction(UPDATE_CURRENCY);
+export const updateCurrency = createAction(UPDATE_CURRENCY);
 
 export default currencyReducer;
