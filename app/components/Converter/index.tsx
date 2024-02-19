@@ -7,12 +7,12 @@ import TokenContainer from "./TokenContainer";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "@/app/contexts/themeContext";
-import { useCurrency } from "@/app/contexts/currencyContext";
 import { getTopTokens } from "@/app/api/getTopTokens";
 import convert from "@/app/utils/convert";
 import { getPastData } from "@/app/api/getPastData";
 import ComparisonChart from "./ComparisonChart";
 import getDataFrequency from "@/app/utils/getDataFrequency";
+import { useAppSelector } from "@/app/lib/hooks";
 
 interface Token {
   id: string;
@@ -33,7 +33,7 @@ const Converter = () => {
   const prevSellToken = useRef<Token>();
   const prevBuyToken = useRef<Token>();
   const { currentTheme } = useTheme();
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
 
   const daysMap: Record<string, string> = {
     "1D": "1",

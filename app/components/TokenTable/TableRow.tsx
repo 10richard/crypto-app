@@ -4,7 +4,7 @@ import PriceChangeContainer from "../PriceChangeContainer";
 import roundToTenth from "@/app/utils/roundToTenth";
 import formatNum from "@/app/utils/formatNum";
 import { Line } from "react-chartjs-2";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
 import { useTheme } from "@/app/contexts/themeContext";
 import { Chart as ChartJS } from "chart.js/auto";
 import { CategoryScale, LinearScale, LineElement } from "chart.js";
@@ -62,7 +62,7 @@ const TableRow = ({ token }: TableRowProps) => {
   });
 
   const { isDarkTheme } = useTheme();
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
 
   const sparklineData = {
     labels: Array.from(Array(everyFourthPrice.length).keys()),

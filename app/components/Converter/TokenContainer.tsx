@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCurrency } from "@/app/contexts/currencyContext";
+import { useAppSelector } from "@/app/lib/hooks";
 import { useState } from "react";
 import { useTheme } from "@/app/contexts/themeContext";
 
@@ -33,7 +33,7 @@ const TokenContainer = ({
   topTokens,
 }: TokenContainerProps) => {
   const [toggle, setToggle] = useState(false);
-  const { currentCurrency } = useCurrency();
+  const currentCurrency = useAppSelector((state) => state.currency);
   const { currentTheme } = useTheme();
 
   const [search, setSearch] = useState("");
