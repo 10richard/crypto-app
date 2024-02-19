@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import colorThemeReducer from "./features/colorTheme";
 import currencyReducer from "./features/currency";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      colorTheme: colorThemeReducer,
       currency: currencyReducer,
     },
   });
