@@ -25,8 +25,8 @@ const AddAssetModal = ({ handleToggle }: AddAssetModalProps) => {
             <Image
               src={`/images/portfolio/${currentTheme}/x-circle.svg`}
               alt="Close modal"
-              width={15}
-              height={15}
+              width={30}
+              height={30}
             ></Image>
           </button>
         </div>
