@@ -8,7 +8,6 @@ interface AddAssetModalProps {
 const AddAssetModal = ({ handleToggle }: AddAssetModalProps) => {
   const { currentTheme } = useTheme();
   // Display this when user selects "Add asset"
-  console.log(`/images/portfolio/${currentTheme}/x-circle.svg`);
   return (
     <div
       onClick={() => handleToggle(false)}
