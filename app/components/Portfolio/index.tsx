@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { MaxWidthContainer } from "../styled/MaxWidthContainer";
 import { getTokenInfo } from "@/app/api/getTokenInfo";
-import AddAssetContainer from "./AddAssetContainer";
+import AddAssetModal from "./AddAssetModal";
 import AssetContainer from "./AssetContainer";
 import { getAllTokens } from "@/app/api/getAllTokens";
+import { useAppSelector } from "@/app/lib/hooks";
 
 // Have 2 different interfaces/states?
 interface AssetInfo {
@@ -22,11 +23,13 @@ const Portfolio = () => {
   // Change the state component to redux
   // Allow user to edit asset info (coin amt and purchase date)
   // Price change since purchase --> subtract current price by bought price (difference) then divide difference by current price and multiply by 100
-  const [assets, setAssets] = useState<AssetInfo[]>([]);
+  const assets = useAppSelector((state) => state.portfolio);
   const [toggleModal, setToggleModal] = useState(false);
   const [allTokens, setAllTokens] = useState([]);
   // Get unique assets (4 entries for bitcoin, no need to fetch 4 times) --> After you get unique entries, fetch current data
-  const [uniqueAssets, setUniqueAssets] = useState([]);
+  const [uniqueAssets, setUniqueAssets] = useState(
+    assets.filter((asset, i, arr) => arr.indexOf(asset) === i)
+  );
 
   const fetchTokenInfo = async (asset: AssetInfo) => {
     const data = await getTokenInfo(asset.id);
@@ -52,7 +55,7 @@ const Portfolio = () => {
   // Fetch coin info for all saved assets
 
   return (
-    <MaxWidthContainer className="pt-11 pb-[70px]">
+    <MaxWidthContainer className="h-screen pt-11 pb-[70px]">
       <div className="flex justify-between items-center w-full">
         <p className="text-2xl">Portfolio</p>
         <button
@@ -69,7 +72,7 @@ const Portfolio = () => {
         ))}
       </div>
       <div className={`${toggleModal ? "" : "hidden"}`}>
-        <AddAssetContainer handleToggle={setToggleModal} />
+        <AddAssetModal handleToggle={setToggleModal} />
       </div>
     </MaxWidthContainer>
   );

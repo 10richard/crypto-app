@@ -1,15 +1,15 @@
-interface AddAssetContainerProps {
+interface AddAssetModalProps {
   handleToggle: (val: boolean) => void;
 }
 
-const AddAssetContainer = ({ handleToggle }: AddAssetContainerProps) => {
+const AddAssetModal = ({ handleToggle }: AddAssetModalProps) => {
   // Display this when user selects "Add asset"
   return (
     <div className="absolute">
-      AddAssetContainer
+      AddAssetModal
       <button onClick={() => handleToggle(false)}>Close modal</button>
     </div>
   );
 };
 
-export default AddAssetContainer;
+export default AddAssetModal;
