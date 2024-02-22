@@ -11,6 +11,7 @@ interface AssetInfo {
 }
 
 const ADD_ASSET = "ADD_ASSET";
+const UPDATE_ASSET = "UPDATE_ASSET";
 const DELETE_ASSET = "DELETE_ASSET";
 const initial_state: AssetInfo[] = [];
 
@@ -20,12 +21,17 @@ const portfolioReducer = createReducer(initial_state, (builder) => {
     state = action.payload;
     return state;
   });
+  builder.addCase(UPDATE_ASSET, (state, action: any) => {
+    return state;
+  });
   builder.addCase(DELETE_ASSET, (state, action: any) => {
     // filter tokens and return new state
+    return state;
   });
 });
 
 export const addAsset = createAction<AssetInfo[]>(ADD_ASSET);
+export const updateAsset = createAction<AssetInfo[]>(UPDATE_ASSET);
 export const deleteAsset = createAction<AssetInfo[]>(DELETE_ASSET);
 
 export default portfolioReducer;
